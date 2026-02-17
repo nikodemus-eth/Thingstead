@@ -1,0 +1,55 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  color: var(--ink-900);
+}
+
+.gateBanner {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(12, 18, 30, 0.35);
+  color: #f8fafc;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--bg-panel);
+  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-soft);
+}
+
+.title {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+
+.description {
+  font-size: 15px;
+  color: var(--ink-500);
+  max-width: 70ch;
+  line-height: 1.6;
+}
+
+.gate {
+  margin-top: 6px;
+}
+
+.empty {
+  font-size: 13px;
+  color: var(--ink-500);
+}

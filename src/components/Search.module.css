@@ -1,0 +1,117 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 280px;
+  color: var(--ink-900);
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.input {
+  flex: 1;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  background: var(--bg-panel);
+  color: var(--ink-900);
+}
+
+.clearButton {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-panel);
+  color: var(--ink-700);
+  width: 36px;
+  height: 36px;
+  line-height: 1;
+}
+
+.clearButton:hover {
+  background: var(--bg-ghost-hover);
+}
+
+.panel {
+  position: absolute;
+  top: 46px;
+  left: 0;
+  right: 0;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  max-height: 320px;
+  overflow: auto;
+  padding: 10px;
+  z-index: 20;
+}
+
+.resultCount {
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.group {
+  margin-bottom: 10px;
+}
+
+.groupTitle {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--ink-700);
+  margin-bottom: 4px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.listItem {
+  display: flex;
+}
+
+.resultButton {
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-panel);
+  color: var(--ink-700);
+  padding: 8px 10px;
+}
+
+.resultButton:hover {
+  background: var(--bg-ghost-hover);
+  border-color: var(--line-strong);
+  color: var(--ink-900);
+}
+
+.resultLabel {
+  font-weight: 600;
+}
+
+.resultSnippet {
+  font-size: 12px;
+}
+
+.empty {
+  font-size: 12px;
+  color: var(--ink-500);
+}
+
+mark {
+  background: var(--warning-bg);
+  color: var(--ink-900);
+  border-radius: 4px;
+  padding: 0 3px;
+}

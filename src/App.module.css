@@ -1,0 +1,237 @@
+.app {
+  display: flex;
+  min-height: 100vh;
+  gap: 20px;
+  padding: 20px;
+  color: var(--ink-900);
+}
+
+.sidebar {
+  width: 320px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  background: var(--bg-panel);
+  box-shadow: var(--shadow-soft);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.navButton {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-panel);
+  color: var(--ink-700);
+  padding: 12px 14px;
+  text-align: left;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.navButtonContent {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navButton:hover {
+  background: var(--bg-ghost-hover);
+  border-color: var(--line-strong);
+  color: var(--ink-900);
+  transform: translateY(-1px);
+}
+
+.navButtonActive {
+  border: 1px solid var(--bg-brand-hover);
+  background: var(--bg-brand);
+  box-shadow: none;
+  color: var(--ink-900);
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  text-align: left;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.main {
+  flex: 1;
+  padding: 28px 30px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: var(--bg-shell);
+  box-shadow: var(--shadow-card);
+  color: var(--ink-900);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 26px;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.headerTitle {
+  font-size: 32px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+}
+
+.headerTitleWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modeBadge {
+  display: inline-flex;
+  width: fit-content;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--bg-panel-soft);
+  color: var(--ink-900);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 7px 12px;
+}
+
+.headerControls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.headerSearch {
+  flex: 1 1 320px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.headerSearchHidden {
+  display: none;
+}
+
+.undoRedo {
+  display: flex;
+  gap: 10px;
+}
+
+.actionButton {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-panel);
+  color: var(--ink-700);
+  padding: 9px 13px;
+  font-weight: 700;
+}
+
+.actionButton:hover:enabled {
+  background: var(--bg-ghost-hover);
+  color: var(--ink-900);
+  transform: translateY(-1px);
+}
+
+.actionButton:disabled {
+  background: var(--bg-panel-soft);
+  border-color: var(--line);
+  color: var(--ink-500);
+}
+
+.shortcuts {
+  font-size: 12px;
+  color: var(--ink-500);
+}
+
+.headerStatus {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: var(--ink-500);
+}
+
+.focusToggle {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg-panel);
+  color: var(--ink-800);
+  padding: 8px 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.focusToggle:hover {
+  background: var(--bg-ghost-hover);
+}
+
+.focusToggleActive {
+  border: 1px solid var(--bg-brand-hover);
+  border-radius: var(--radius-sm);
+  background: var(--bg-brand);
+  box-shadow: none;
+  color: var(--ink-900);
+  padding: 8px 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.warning {
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  color: var(--ink-900);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+
+.focusMode .sidebar {
+  display: none;
+}
+
+.focusMode .main {
+  width: 100%;
+}
+
+.focusMode .shortcuts {
+  display: none;
+}
+
+@media (max-width: 1180px) {
+  .app {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+
+  .main {
+    width: 100%;
+  }
+}
+
+@media (max-width: 760px) {
+  .app {
+    padding: 12px;
+  }
+
+  .main {
+    padding: 18px;
+  }
+
+  .headerTitle {
+    font-size: 24px;
+  }
+}

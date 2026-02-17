@@ -1,0 +1,75 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--ink-900);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.toolbarButton {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-panel);
+  color: var(--ink-700);
+  padding: 8px 10px;
+  font-weight: 600;
+}
+
+.toolbarButton:hover {
+  background: var(--bg-ghost-hover);
+  color: var(--ink-900);
+}
+
+.shortcutHint {
+  font-size: 12px;
+  color: var(--ink-500);
+}
+
+.splitView {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.editor {
+  min-height: 240px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  background: var(--bg-panel);
+  color: var(--ink-900);
+  resize: vertical;
+}
+
+.preview {
+  min-height: 240px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  background: var(--bg-panel-soft);
+  color: var(--ink-900);
+  overflow: auto;
+}
+
+.preview h1,
+.preview h2,
+.preview h3 {
+  margin-top: 0.6em;
+}
+
+.preview code {
+  background: rgba(232, 229, 220, 0.08);
+  padding: 0 4px;
+}
+
+.preview pre {
+  background: rgba(232, 229, 220, 0.08);
+  padding: 8px;
+  overflow: auto;
+}

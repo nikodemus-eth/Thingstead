@@ -1,0 +1,463 @@
+{
+  "phases": [
+    {
+      "id": 1,
+      "name": "Business Understanding",
+      "artifacts": [
+        {
+          "id": "b4a2fd50-966e-4ca0-9336-2e34524ef166",
+          "name": "Problem Definition Document",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "a68c1f1e-31aa-479e-ba48-7201eca0131b",
+          "name": "Stakeholder Analysis",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "5b4c85e7-9b69-4a48-ab5a-a678ef8102f4",
+          "name": "Success Criteria",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "93050a32-6b13-466d-9f42-489732d47b82",
+          "name": "Project Charter",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "262b81aa-1635-4a6c-8597-dedaa08336a1",
+          "name": "Risk Assessment",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "95a49426-f7d8-4959-9d76-4c088c9b4ea0",
+          "name": "Regulatory Requirements Analysis",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "985721d1-83dd-4826-b654-9e46bdde719b",
+          "name": "CPMAI Agent 0: Master Workbook",
+          "category": "supplemental",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "34773bed-c18a-4b5a-bf9e-e922ae408c17",
+          "name": "CPMAI Agent 0.1: Phase Transition Checklist",
+          "category": "supplemental",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "d691982d-8899-49db-b016-2e3db7b7e9bf",
+          "name": "CPMAI Agent 1: AI Go/No-Go Tracker",
+          "category": "supplemental",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "5378f84f-d9d1-4c7d-8cf9-f9f7b275083e",
+          "name": "CPMAI Agent 2: Cognitive Intent Document",
+          "category": "supplemental",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "06187c8b-cf09-4341-8385-cbdd74c7adb2",
+          "name": "Red Flag Diagnostic for AI Go/No-Go",
+          "category": "supplemental",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Data Understanding",
+      "artifacts": [
+        {
+          "id": "e61fefa3-6325-4452-b1fc-cd80b5235122",
+          "name": "Data Source Inventory",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "8565d711-9ef2-404c-b780-6c43716d0888",
+          "name": "Data Quality Report",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "b5b634ff-4131-495a-ad19-3950b87434b8",
+          "name": "Data Dictionary",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "11babe9a-3adc-4743-a5eb-8de05a1fd039",
+          "name": "Initial Data Exploration Report",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "9d189a54-59c3-496d-a4b3-754955585a91",
+          "name": "Data Lineage Documentation",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "2408e7f5-2258-4be3-baca-a7fe3ffdbe41",
+          "name": "Privacy Impact Assessment",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "b3144a7f-24fd-4d1c-89e6-217d2fbd459e",
+          "name": "CPMAI Agent 3: Data Source & Quality Ledger",
+          "category": "supplemental",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Data Preparation",
+      "artifacts": [
+        {
+          "id": "ca6f4b41-0581-4888-8dff-6b2f1bf6af37",
+          "name": "Data Cleaning Documentation",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "b487db20-e3d7-4e2d-95c9-856dcd8787a8",
+          "name": "Feature Engineering Documentation",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "598154d6-b0ee-4d73-95e7-f7ac6424e97b",
+          "name": "Data Transformation Pipeline",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "2ea61df9-9bed-488c-a527-771b824c337c",
+          "name": "Training/Validation/Test Split Documentation",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "6858f8e2-0607-4c1b-b3ce-8994179ab001",
+          "name": "Data Augmentation Strategy",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "9685bc98-6881-44aa-b8fb-5583c8d07cba",
+          "name": "Synthetic Data Generation Plan",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "8e359062-96e1-4934-b641-bb288b6c9a94",
+          "name": "CPMAI Agent 4: Data Pipeline & Annotation Log",
+          "category": "supplemental",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Model Building",
+      "artifacts": [
+        {
+          "id": "aafed7a6-83dc-461a-a02f-b2063d72bd2d",
+          "name": "Model Selection Rationale",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "a5ef1348-330c-47c9-8262-594aa4c3f252",
+          "name": "Hyperparameter Tuning Documentation",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "f8170c0c-f5c0-4564-a6b4-5024cddb94b7",
+          "name": "Model Architecture Documentation",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "5f508d8c-2edd-4421-8400-af54430c6718",
+          "name": "Training Procedure Documentation",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "e4a0c8d9-cd5c-482b-9efe-31bee52b3d4d",
+          "name": "Ensemble Strategy Documentation",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "eeefe027-6b63-431b-a99e-8f9c304da63a",
+          "name": "Transfer Learning Documentation",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "1c77d5ba-f3c3-48b9-b8b9-31a4395637d3",
+          "name": "CPMAI Agent 5: Model Technique & Training Log",
+          "category": "supplemental",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Model Evaluation",
+      "artifacts": [
+        {
+          "id": "d566c568-3bc4-487c-8076-45213253cc88",
+          "name": "Model Performance Metrics",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "3c7a5898-ad69-47c9-b225-e84b479043a3",
+          "name": "Validation Results",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "dc2f5d3c-425b-42cb-aedc-87a03a0914ef",
+          "name": "Error Analysis Report",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "0fdca37a-fe94-4d76-8c43-9e90d2b17843",
+          "name": "Comparison to Baseline",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "88ae6bf1-270b-423b-b47b-144cca1ec2cf",
+          "name": "Fairness and Bias Analysis",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "0a12aba7-5bb2-4e7d-9a31-59e939cfe3ad",
+          "name": "Robustness Testing Results",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "8a6b40bb-8e87-4d22-87f4-0d063c43c8da",
+          "name": "CPMAI Agent 6: Model Evaluation Scorecard",
+          "category": "supplemental",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Model Deployment",
+      "artifacts": [
+        {
+          "id": "d75e1492-cf6c-4609-a509-8c97c8551f79",
+          "name": "Deployment Plan",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "a5ed50d5-4145-429f-a2d7-97adce1d57e5",
+          "name": "Monitoring Strategy",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "d54c3f3a-9ef2-45d6-8264-9535e5bb29cc",
+          "name": "Rollback Procedure",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "11db6061-1e1d-4f80-9227-d3b40e6c2a51",
+          "name": "Documentation for End Users",
+          "category": "core",
+          "isGateBlocking": true,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "36d9da90-3a89-49f4-8275-1affba02433a",
+          "name": "A/B Testing Plan",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "b2b2af5a-47dd-49fb-9476-326007bd6f2e",
+          "name": "Model Governance Documentation",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "f70d4ae1-9394-4108-9597-c4efc2baed66",
+          "name": "CPMAI Agent 7: Operationalization & Governance Log",
+          "category": "supplemental",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        },
+        {
+          "id": "296a29ea-e9e4-4705-ba55-e707986c2cbb",
+          "name": "Executive Summary: Final Project Report",
+          "category": "supplemental",
+          "isGateBlocking": false,
+          "status": "not-started",
+          "rationale": "",
+          "notes": ""
+        }
+      ]
+    }
+  ]
+}

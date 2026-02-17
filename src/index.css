@@ -1,0 +1,123 @@
+/* Self-hosted Manrope (OFL) to keep portable builds fully offline. */
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/fonts/Manrope-wght.woff2") format("woff2");
+}
+
+:root {
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-sm: 10px;
+  font-family: "Manrope", "Segoe UI", "Helvetica Neue", sans-serif;
+  color: var(--ts-text);
+  background: var(--ts-bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--ts-bg);
+  color: var(--ts-text);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+/* Normalize WebKit control styling (notably iOS Safari) so our CSS wins consistently. */
+button,
+input,
+select,
+textarea {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Tap-target baseline for buttons/controls. */
+button,
+input,
+select,
+textarea {
+  min-height: var(--ts-tap-target);
+}
+
+/* Focus: keyboard-only ring via :focus-visible. */
+:focus {
+  outline: none;
+}
+
+:where(
+    button,
+    a,
+    input,
+    select,
+    textarea,
+    summary,
+    [tabindex],
+    [role="button"]
+  ):focus-visible {
+  outline: 2px solid var(--ts-focus-ring) !important;
+  outline-offset: 3px !important;
+}
+
+button {
+  cursor: pointer;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 1;
+  background-color: var(--ts-disabled-bg);
+  border-color: var(--ts-disabled-border);
+  color: var(--ts-disabled-text);
+}
+
+[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 1;
+  background-color: var(--ts-disabled-bg);
+  border-color: var(--ts-disabled-border);
+  color: var(--ts-disabled-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  button:hover,
+  [role="button"]:hover {
+    transform: none !important;
+  }
+}

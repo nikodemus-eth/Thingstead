@@ -1,0 +1,2697 @@
+{
+  "registryVersion": "1.0",
+  "registryStatus": "draft",
+  "lastUpdated": "2026-02-10",
+  "methodology": "PMI CPMAI v7",
+  "authoringPlaybookVersion": "1.0",
+  "description": "Structured field definitions for all CPMAI core and conditional artifact templates. Supplemental Agent artifacts use the markdown template system in docs/cpmai/agents/.",
+  "fieldTypes": {
+    "short_text": "Single factual answer, constrained length",
+    "long_text": "Structured narrative for irreducible analysis",
+    "selection": "Classification, tier, or single-choice decision",
+    "checklist": "Binary verification steps",
+    "table": "Inventory, matrix, or structured evidence collection",
+    "date": "Temporal decision point"
+  },
+  "templates": {
+    "problem-definition-document": {
+      "templateId": "problem-definition-document",
+      "name": "Problem Definition Document",
+      "phase": 1,
+      "phaseName": "Business Understanding",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 25,
+      "description": "Defines the business problem in terms suitable for AI/cognitive solution evaluation. Establishes whether the problem requires AI or if non-cognitive alternatives suffice.",
+      "fields": [
+        {
+          "fieldId": "business-problem-statement",
+          "label": "Business Problem Statement",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": true,
+          "validation": {
+            "minLength": 50,
+            "maxLength": 2000
+          },
+          "helpText": "State the specific business problem this AI initiative addresses. Include measurable impact of the current state (cost, time, error rate). This drives feasibility assessment and scopes all downstream work. Example: 'Customer support response time exceeds 24 hours for Level 1 inquiries, costing $2M annually with 62% satisfaction.'"
+        },
+        {
+          "fieldId": "current-heuristic-approach",
+          "label": "Current Non-AI Approach",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 30,
+            "maxLength": 1500
+          },
+          "helpText": "Describe the manual, rule-based, or deterministic method currently addressing this problem. CPMAI requires establishing this heuristic baseline to justify cognitive investment. If no current approach exists, state that explicitly."
+        },
+        {
+          "fieldId": "ai-justification",
+          "label": "Justification for AI Over Non-Cognitive Solution",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": true,
+          "validation": {
+            "minLength": 50,
+            "maxLength": 1500
+          },
+          "helpText": "Explain why a cognitive/AI approach is necessary. Address specifically why rule-based, statistical, or manual approaches are insufficient. If a non-AI approach is 'good enough,' the project should not proceed as an AI initiative."
+        },
+        {
+          "fieldId": "ai-pattern-classification",
+          "label": "AI Pattern Classification",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": true,
+          "options": [
+            "Hyperpersonalization",
+            "Autonomous Systems",
+            "Predictive Analytics & Decision Support",
+            "Conversational / Human Interaction",
+            "Patterns & Anomaly Detection",
+            "Recognition",
+            "Goal-Driven Systems",
+            "Multiple Patterns (specify in rationale)"
+          ],
+          "helpText": "Select which of the Seven Patterns of AI this project implements. Guides algorithm selection, data strategy, and team composition. If multiple patterns apply, select 'Multiple Patterns' and detail in the rationale."
+        },
+        {
+          "fieldId": "problem-scope",
+          "label": "Problem Scope",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Single process / narrow task",
+            "Multi-process / cross-functional",
+            "Enterprise-wide / platform",
+            "Exploratory / research"
+          ],
+          "helpText": "Classify scope. Narrow scope projects have higher success rates in initial CPMAI iterations. Start constrained and expand iteratively."
+        },
+        {
+          "fieldId": "dikuw-target-level",
+          "label": "DIKUW Target Level",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Data — Raw collection and storage",
+            "Information — Structured reporting",
+            "Knowledge — Pattern detection and prediction",
+            "Understanding — Contextual reasoning",
+            "Wisdom — Strategic decision augmentation"
+          ],
+          "helpText": "Projects targeting Data/Information levels may not require AI. Knowledge and above typically justify cognitive approaches. Affects model complexity and evaluation criteria."
+        },
+        {
+          "fieldId": "cognitive-objectives",
+          "label": "Cognitive Objectives",
+          "type": "table",
+          "required": true,
+          "gateBlocking": true,
+          "columns": [
+            {
+              "name": "Objective",
+              "type": "text"
+            },
+            {
+              "name": "Measurable Target",
+              "type": "text"
+            },
+            {
+              "name": "Current Baseline",
+              "type": "text"
+            },
+            {
+              "name": "Minimum Viable Threshold",
+              "type": "text"
+            }
+          ],
+          "helpText": "List each cognitive task the AI must perform with measurable target, baseline, and minimum threshold. Example: Objective='Classify tickets by intent', Target='85% accuracy', Baseline='Manual at 60%', Threshold='75%'."
+        }
+      ]
+    },
+    "stakeholder-analysis": {
+      "templateId": "stakeholder-analysis",
+      "name": "Stakeholder Analysis",
+      "phase": 1,
+      "phaseName": "Business Understanding",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 20,
+      "description": "Identifies all parties affected by the AI initiative, their roles, influence, and commitment levels.",
+      "fields": [
+        {
+          "fieldId": "project-sponsor",
+          "label": "Project Sponsor",
+          "type": "short_text",
+          "required": true,
+          "gateBlocking": true,
+          "validation": {
+            "minLength": 2,
+            "maxLength": 200
+          },
+          "helpText": "Name and role of the executive sponsor. CPMAI requires a committed sponsor who will deploy the solution into production. Without this, the project is a 'No-Go'."
+        },
+        {
+          "fieldId": "production-commitment",
+          "label": "Production Commitment Obtained",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": true,
+          "options": [
+            "Written commitment obtained",
+            "Verbal commitment obtained",
+            "Conditional commitment (conditions documented)",
+            "No commitment obtained"
+          ],
+          "helpText": "CPMAI requires explicit sponsor commitment to deploy. 'No commitment obtained' is a Go/No-Go red flag."
+        },
+        {
+          "fieldId": "stakeholder-registry",
+          "label": "Stakeholder Registry",
+          "type": "table",
+          "required": true,
+          "gateBlocking": false,
+          "columns": [
+            {
+              "name": "Stakeholder Name/Role",
+              "type": "text"
+            },
+            {
+              "name": "Interest Level",
+              "type": "selection",
+              "options": [
+                "High",
+                "Medium",
+                "Low"
+              ]
+            },
+            {
+              "name": "Influence Level",
+              "type": "selection",
+              "options": [
+                "High",
+                "Medium",
+                "Low"
+              ]
+            },
+            {
+              "name": "Disposition",
+              "type": "selection",
+              "options": [
+                "Champion",
+                "Supportive",
+                "Neutral",
+                "Resistant"
+              ]
+            }
+          ],
+          "helpText": "Map each stakeholder's interest, influence, and disposition. High-influence resisters require mitigation strategies."
+        },
+        {
+          "fieldId": "ai-team-composition",
+          "label": "AI Project Team Composition",
+          "type": "table",
+          "required": true,
+          "gateBlocking": false,
+          "columns": [
+            {
+              "name": "Role",
+              "type": "text"
+            },
+            {
+              "name": "Name/Assignment",
+              "type": "text"
+            },
+            {
+              "name": "Availability",
+              "type": "selection",
+              "options": [
+                "Full-time",
+                "Part-time",
+                "Advisory",
+                "Unassigned"
+              ]
+            }
+          ],
+          "helpText": "CPMAI recommends: data engineer, data scientist, SME, project manager, IT/ops at minimum. 'Unassigned' roles represent staffing risks."
+        }
+      ]
+    },
+    "success-criteria": {
+      "templateId": "success-criteria",
+      "name": "Success Criteria",
+      "phase": 1,
+      "phaseName": "Business Understanding",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 20,
+      "description": "Defines objective, measurable success and failure criteria. Establishes the superiority test vs. the heuristic baseline.",
+      "fields": [
+        {
+          "fieldId": "business-kpi-targets",
+          "label": "Business KPI Targets",
+          "type": "table",
+          "required": true,
+          "gateBlocking": true,
+          "columns": [
+            {
+              "name": "KPI",
+              "type": "text"
+            },
+            {
+              "name": "Current Value",
+              "type": "text"
+            },
+            {
+              "name": "Target Value",
+              "type": "text"
+            },
+            {
+              "name": "Measurement Method",
+              "type": "text"
+            },
+            {
+              "name": "Success/Fail Threshold",
+              "type": "text"
+            }
+          ],
+          "helpText": "List each business KPI with baseline, target, measurement method, and the threshold separating success from failure. Evaluated in Phase 5."
+        },
+        {
+          "fieldId": "technical-performance-targets",
+          "label": "Technical Performance Targets",
+          "type": "table",
+          "required": true,
+          "gateBlocking": false,
+          "columns": [
+            {
+              "name": "Metric",
+              "type": "text"
+            },
+            {
+              "name": "Target Value",
+              "type": "text"
+            },
+            {
+              "name": "Minimum Acceptable",
+              "type": "text"
+            }
+          ],
+          "helpText": "Define ML performance metrics (accuracy, precision, recall, F1, latency) that translate business KPIs into model-level acceptance criteria."
+        },
+        {
+          "fieldId": "superiority-test-definition",
+          "label": "AI Superiority Test",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": true,
+          "validation": {
+            "minLength": 50,
+            "maxLength": 1500
+          },
+          "helpText": "Define how the AI must perform better than the heuristic baseline. CPMAI requires probabilistic superiority — state what 'better' means quantitatively."
+        },
+        {
+          "fieldId": "roi-estimation",
+          "label": "ROI Estimation Approach",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Cost savings quantified",
+            "Revenue increase quantified",
+            "Risk reduction quantified",
+            "Operational efficiency quantified",
+            "Strategic/qualitative (not directly quantifiable)"
+          ],
+          "helpText": "Primary ROI justification. Implementation costs must be offset within 12-24 months. 'Strategic/qualitative' requires stronger rationale."
+        },
+        {
+          "fieldId": "estimated-time-to-roi",
+          "label": "Estimated Time-to-ROI",
+          "type": "short_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "helpText": "Projected time from deployment to positive ROI. Include best/base/worst case. Beyond 24 months is a CPMAI red flag."
+        },
+        {
+          "fieldId": "failure-criteria",
+          "label": "Explicit Failure Criteria",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 30,
+            "maxLength": 1000
+          },
+          "helpText": "Define what constitutes project failure. Prevents scope creep and moving goalposts. Evaluated at Phase 5 gate."
+        }
+      ]
+    },
+    "project-charter": {
+      "templateId": "project-charter",
+      "name": "Project Charter",
+      "phase": 1,
+      "phaseName": "Business Understanding",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 25,
+      "description": "Formalizes the AI project scope, authority, constraints, and timeline.",
+      "fields": [
+        {
+          "fieldId": "project-name",
+          "label": "Project Name",
+          "type": "short_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 3,
+            "maxLength": 200
+          },
+          "helpText": "Official project name used across all governance artifacts."
+        },
+        {
+          "fieldId": "project-description",
+          "label": "Project Description",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": true,
+          "validation": {
+            "minLength": 50,
+            "maxLength": 2000
+          },
+          "helpText": "What this AI project delivers, who it serves, and how it connects to organizational strategy. This is the authoritative scope statement."
+        },
+        {
+          "fieldId": "delivery-approach",
+          "label": "Delivery Approach",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "CPMAI + Agile (iterative sprints)",
+            "CPMAI + Lean (minimal viable model)",
+            "CPMAI + Hybrid (phased with agile execution)",
+            "CPMAI standalone"
+          ],
+          "helpText": "CPMAI is agnostic to orchestration layer and integrates with Scrum, SAFe, or stage-gates."
+        },
+        {
+          "fieldId": "constraints",
+          "label": "Constraints and Boundaries",
+          "type": "table",
+          "required": true,
+          "gateBlocking": false,
+          "columns": [
+            {
+              "name": "Constraint Type",
+              "type": "selection",
+              "options": [
+                "Budget",
+                "Timeline",
+                "Technology",
+                "Data Access",
+                "Regulatory",
+                "Staffing",
+                "Infrastructure"
+              ]
+            },
+            {
+              "name": "Description",
+              "type": "text"
+            },
+            {
+              "name": "Impact",
+              "type": "selection",
+              "options": [
+                "Blocking",
+                "Significant",
+                "Manageable"
+              ]
+            }
+          ],
+          "helpText": "'Blocking' constraints that cannot be resolved are Go/No-Go red flags."
+        },
+        {
+          "fieldId": "target-start-date",
+          "label": "Target Start Date",
+          "type": "date",
+          "required": true,
+          "gateBlocking": false,
+          "helpText": "Planned execution start date for Phase 2 activities."
+        },
+        {
+          "fieldId": "target-completion-date",
+          "label": "Target Completion Date",
+          "type": "date",
+          "required": true,
+          "gateBlocking": false,
+          "helpText": "Target date for first iteration deployment. CPMAI is iterative — not a fixed deadline."
+        },
+        {
+          "fieldId": "pilot-vs-poc",
+          "label": "Pilot vs. Proof-of-Concept Decision",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Pilot — production-intent with real data",
+            "Proof-of-Concept — feasibility validation only",
+            "MVP — minimal viable model for stakeholder evaluation"
+          ],
+          "helpText": "Pilots provide better ROI signals than PoCs. PoCs risk never transitioning to production."
+        }
+      ]
+    },
+    "risk-assessment": {
+      "templateId": "risk-assessment",
+      "name": "Risk Assessment",
+      "phase": 1,
+      "phaseName": "Business Understanding",
+      "category": "conditional",
+      "isGateBlocking": false,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 20,
+      "description": "Identifies and classifies risks specific to this AI initiative across business, data, and execution dimensions.",
+      "fields": [
+        {
+          "fieldId": "risk-registry",
+          "label": "AI Risk Registry",
+          "type": "table",
+          "required": true,
+          "gateBlocking": false,
+          "columns": [
+            {
+              "name": "Risk",
+              "type": "text"
+            },
+            {
+              "name": "Category",
+              "type": "selection",
+              "options": [
+                "Business Feasibility",
+                "Data Feasibility",
+                "Execution Feasibility",
+                "Ethical/Regulatory",
+                "Technical"
+              ]
+            },
+            {
+              "name": "Likelihood",
+              "type": "selection",
+              "options": [
+                "High",
+                "Medium",
+                "Low"
+              ]
+            },
+            {
+              "name": "Impact",
+              "type": "selection",
+              "options": [
+                "High",
+                "Medium",
+                "Low"
+              ]
+            },
+            {
+              "name": "Mitigation",
+              "type": "text"
+            },
+            {
+              "name": "Owner",
+              "type": "text"
+            }
+          ],
+          "helpText": "Use CPMAI three-pillar feasibility model: Business, Data, Execution. High/High risks without mitigation are Go/No-Go red flags."
+        },
+        {
+          "fieldId": "overall-risk-posture",
+          "label": "Overall Risk Posture",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Low — risks identified and mitigated",
+            "Medium — manageable with active monitoring",
+            "High — requires leadership attention",
+            "Critical — unmitigated risks may prevent success"
+          ],
+          "helpText": "'Critical' should trigger escalation to sponsor before Phase 1 gate."
+        }
+      ]
+    },
+    "regulatory-requirements-analysis": {
+      "templateId": "regulatory-requirements-analysis",
+      "name": "Regulatory Requirements Analysis",
+      "phase": 1,
+      "phaseName": "Business Understanding",
+      "category": "conditional",
+      "isGateBlocking": false,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 20,
+      "description": "Assesses regulatory and compliance obligations applicable to this AI initiative.",
+      "fields": [
+        {
+          "fieldId": "applicable-regulations",
+          "label": "Applicable Regulatory Frameworks",
+          "type": "checklist",
+          "required": true,
+          "gateBlocking": false,
+          "items": [
+            "NIST AI Risk Management Framework 1.0",
+            "ISO/IEC 42001:2023 AI Management System",
+            "EU AI Act",
+            "CCPA / CPRA (California Privacy)",
+            "GDPR (EU Data Protection)",
+            "HIPAA (Health Information)",
+            "FERPA (Education Records)",
+            "Section 508 / ADA (Accessibility)",
+            "State/Local AI Executive Orders",
+            "Agency-Specific AI Policies",
+            "None identified"
+          ],
+          "helpText": "Check all applicable frameworks. Drives data handling (Phase 2-3), evaluation criteria (Phase 5), and governance controls (Phase 6)."
+        },
+        {
+          "fieldId": "ai-risk-classification",
+          "label": "AI System Risk Classification",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Minimal risk — no additional obligations",
+            "Limited risk — transparency obligations",
+            "High risk — full compliance framework required",
+            "Unacceptable risk — prohibited use case",
+            "Not applicable"
+          ],
+          "helpText": "Classify per most stringent applicable framework. High-risk triggers additional governance artifacts."
+        },
+        {
+          "fieldId": "compliance-requirements-mapping",
+          "label": "Compliance Requirements by CPMAI Phase",
+          "type": "table",
+          "required": false,
+          "gateBlocking": false,
+          "columns": [
+            {
+              "name": "Requirement",
+              "type": "text"
+            },
+            {
+              "name": "Source Regulation",
+              "type": "text"
+            },
+            {
+              "name": "Applicable CPMAI Phase(s)",
+              "type": "text"
+            },
+            {
+              "name": "Evidence Required",
+              "type": "text"
+            }
+          ],
+          "helpText": "Map each requirement to where evidence must be produced. Prevents late discovery of compliance gaps."
+        }
+      ]
+    },
+    "data-source-inventory": {
+      "templateId": "data-source-inventory",
+      "name": "Data Source Inventory",
+      "phase": 2,
+      "phaseName": "Data Understanding",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 20,
+      "description": "Catalogs all data sources with classification, ownership, access, and sensitivity. One artifact per data source.",
+      "fields": [
+        {
+          "fieldId": "data-source-name",
+          "label": "Data Source Name",
+          "type": "short_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 2,
+            "maxLength": 200
+          },
+          "helpText": "Unique identifier for this data source. One inventory artifact per source."
+        },
+        {
+          "fieldId": "data-source-type",
+          "label": "Data Source Type",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Structured — Relational database",
+            "Structured — Spreadsheet/CSV",
+            "Semi-structured — JSON/XML",
+            "Semi-structured — Log files",
+            "Unstructured — Free text",
+            "Unstructured — Images",
+            "Unstructured — Audio/Video",
+            "API / Real-time stream",
+            "Third-party / External vendor"
+          ],
+          "helpText": "Determines Phase 3 preparation complexity and Phase 4 algorithm selection."
+        },
+        {
+          "fieldId": "data-owner-steward",
+          "label": "Data Owner / Steward",
+          "type": "short_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 2,
+            "maxLength": 200
+          },
+          "helpText": "Accountable data owner who authorizes access and is responsible for governance."
+        },
+        {
+          "fieldId": "data-sensitivity-level",
+          "label": "Data Sensitivity Level",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": true,
+          "options": [
+            "Public — No restrictions",
+            "Internal — Organization use only",
+            "Confidential — Need-to-know basis",
+            "Restricted — Regulatory controls required",
+            "Prohibited — Cannot be used for AI"
+          ],
+          "helpText": "'Restricted' and above trigger mandatory privacy controls in Phase 3. 'Prohibited' blocks use entirely."
+        },
+        {
+          "fieldId": "personal-data-present",
+          "label": "Personal Data Present",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": true,
+          "options": [
+            "No PII present",
+            "PII present — anonymization planned",
+            "PII present — required for model function",
+            "Unknown — assessment needed"
+          ],
+          "helpText": "Determines anonymization requirements in Phase 3 and whether PIA is needed. 'Unknown' must be resolved before Phase 2 gate."
+        },
+        {
+          "fieldId": "access-status",
+          "label": "Access Status",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Full access confirmed",
+            "Access pending — request submitted",
+            "Partial access — limitations documented",
+            "Access denied — escalation required",
+            "Not yet requested"
+          ],
+          "helpText": "'Access denied' without escalation path is a Go/No-Go red flag."
+        },
+        {
+          "fieldId": "volume-metrics",
+          "label": "Volume Metrics",
+          "type": "short_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 5,
+            "maxLength": 200
+          },
+          "helpText": "Record quantity: record count, fields per table, file size, date range. Volume determines sufficiency for train/val/test splits."
+        },
+        {
+          "fieldId": "data-retention-category",
+          "label": "Data Retention Category",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Indefinite — no expiration policy",
+            "Time-limited — retention period defined",
+            "Regulatory hold — retention mandated by law",
+            "Ephemeral — delete after model training",
+            "Unknown — policy not yet determined"
+          ],
+          "helpText": "Affects retraining feasibility in Phase 6 and audit requirements."
+        },
+        {
+          "fieldId": "data-quality-risks",
+          "label": "Identified Data Quality Risks",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 20,
+            "maxLength": 1500
+          },
+          "helpText": "Known quality issues: missing values, inconsistency, noise, bias, staleness, duplicates. Directly informs Phase 3 cleaning."
+        },
+        {
+          "fieldId": "quality-risk-mitigations",
+          "label": "Planned Quality Risk Mitigations",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 20,
+            "maxLength": 1500
+          },
+          "helpText": "For each quality risk, describe mitigation approach and the CPMAI phase where it will be addressed."
+        }
+      ]
+    },
+    "data-quality-report": {
+      "templateId": "data-quality-report",
+      "name": "Data Quality Report",
+      "phase": 2,
+      "phaseName": "Data Understanding",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 25,
+      "description": "Quantitative assessment of data quality across completeness, consistency, accuracy, and sufficiency.",
+      "fields": [
+        {
+          "fieldId": "completeness-assessment",
+          "label": "Completeness Assessment",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": true,
+          "validation": {
+            "minLength": 30,
+            "maxLength": 1500
+          },
+          "helpText": "Report missing value percentages by field. Distinguish random vs. systematic gaps — systematic gaps often cannot be fixed by Phase 3 cleaning."
+        },
+        {
+          "fieldId": "consistency-assessment",
+          "label": "Consistency Assessment",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 30,
+            "maxLength": 1500
+          },
+          "helpText": "Report format inconsistencies, conflicting values across sources, unit mismatches, and encoding issues."
+        },
+        {
+          "fieldId": "accuracy-verification",
+          "label": "Ground Truth / Accuracy Verification",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": true,
+          "validation": {
+            "minLength": 30,
+            "maxLength": 1500
+          },
+          "helpText": "How were ground truth labels verified? Label accuracy determines model ceiling. State verification method and estimated accuracy rate."
+        },
+        {
+          "fieldId": "sufficiency-verdict",
+          "label": "Data Sufficiency Verdict",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": true,
+          "options": [
+            "Sufficient — volume and coverage adequate",
+            "Marginal — augmentation likely needed",
+            "Insufficient — additional data required before Phase 3",
+            "Cannot determine — further exploration needed"
+          ],
+          "helpText": "'Insufficient' blocks Phase 2 gate without a documented acquisition plan."
+        },
+        {
+          "fieldId": "bias-indicators",
+          "label": "Bias Indicators Detected",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 20,
+            "maxLength": 1500
+          },
+          "helpText": "Class imbalances, demographic skews, temporal biases, sampling biases. Tracked from here through Phase 5 fairness evaluation."
+        },
+        {
+          "fieldId": "quality-score-summary",
+          "label": "Quality Score Summary",
+          "type": "table",
+          "required": true,
+          "gateBlocking": false,
+          "columns": [
+            {
+              "name": "Dimension",
+              "type": "text"
+            },
+            {
+              "name": "Score",
+              "type": "selection",
+              "options": [
+                "Good",
+                "Acceptable",
+                "Poor",
+                "Critical"
+              ]
+            },
+            {
+              "name": "Key Finding",
+              "type": "text"
+            }
+          ],
+          "helpText": "Summarize across: Completeness, Consistency, Accuracy, Timeliness, Sufficiency, Bias. 'Critical' requires remediation plan before gate."
+        }
+      ]
+    },
+    "data-dictionary": {
+      "templateId": "data-dictionary",
+      "name": "Data Dictionary",
+      "phase": 2,
+      "phaseName": "Data Understanding",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 25,
+      "description": "Defines each data field/feature with type, format, business meaning, and expected values.",
+      "fields": [
+        {
+          "fieldId": "data-field-registry",
+          "label": "Data Field Registry",
+          "type": "table",
+          "required": true,
+          "gateBlocking": true,
+          "columns": [
+            {
+              "name": "Field Name",
+              "type": "text"
+            },
+            {
+              "name": "Data Type",
+              "type": "selection",
+              "options": [
+                "Numeric",
+                "Categorical",
+                "Text",
+                "Date/Time",
+                "Boolean",
+                "Binary/Blob"
+              ]
+            },
+            {
+              "name": "Business Definition",
+              "type": "text"
+            },
+            {
+              "name": "Expected Range/Values",
+              "type": "text"
+            },
+            {
+              "name": "Source",
+              "type": "text"
+            }
+          ],
+          "helpText": "One row per field. Business definitions must be understandable by non-technical stakeholders."
+        },
+        {
+          "fieldId": "target-variable-definition",
+          "label": "Target Variable Definition",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": true,
+          "validation": {
+            "minLength": 30,
+            "maxLength": 1000
+          },
+          "helpText": "For supervised learning: define target variable, possible values, and ground truth determination method. For unsupervised: describe expected output structure."
+        },
+        {
+          "fieldId": "feature-relevance-assessment",
+          "label": "Feature Relevance Assessment",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "All features assessed for relevance",
+            "Initial assessment complete — pruning planned for Phase 3",
+            "Assessment deferred to Phase 3"
+          ],
+          "helpText": "Irrelevant features increase noise and cost. Early assessment improves Phase 3 efficiency."
+        }
+      ]
+    },
+    "initial-data-exploration-report": {
+      "templateId": "initial-data-exploration-report",
+      "name": "Initial Data Exploration Report",
+      "phase": 2,
+      "phaseName": "Data Understanding",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 20,
+      "description": "Documents EDA findings: distributions, correlations, outliers, and patterns relevant to the AI problem.",
+      "fields": [
+        {
+          "fieldId": "eda-summary",
+          "label": "EDA Summary",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": true,
+          "validation": {
+            "minLength": 50,
+            "maxLength": 3000
+          },
+          "helpText": "Key findings: distribution shapes, dominant patterns, unexpected correlations, outlier prevalence. Focus on findings that change decisions."
+        },
+        {
+          "fieldId": "requirement-mapping-verdict",
+          "label": "Data-to-Requirement Mapping Verdict",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": true,
+          "options": [
+            "Data contains essential elements for selected AI pattern",
+            "Data partially covers requirements — gaps identified",
+            "Data does not support selected AI pattern — iteration needed"
+          ],
+          "helpText": "'Does not support' should trigger iteration back to Phase 1 to reassess problem definition or pattern selection."
+        },
+        {
+          "fieldId": "key-risks-from-eda",
+          "label": "Key Risks Surfaced by EDA",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 20,
+            "maxLength": 1500
+          },
+          "helpText": "Risks not anticipated in Phase 1: unexpected distributions, data leakage indicators, label noise, temporal gaps."
+        }
+      ]
+    },
+    "data-lineage-documentation": {
+      "templateId": "data-lineage-documentation",
+      "name": "Data Lineage Documentation",
+      "phase": 2,
+      "phaseName": "Data Understanding",
+      "category": "conditional",
+      "isGateBlocking": false,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 15,
+      "description": "Traces data from origin through transformations. Required for regulated environments.",
+      "fields": [
+        {
+          "fieldId": "lineage-map",
+          "label": "Data Lineage Map",
+          "type": "table",
+          "required": true,
+          "gateBlocking": false,
+          "columns": [
+            {
+              "name": "Data Element",
+              "type": "text"
+            },
+            {
+              "name": "Origin System",
+              "type": "text"
+            },
+            {
+              "name": "Acquisition Method",
+              "type": "selection",
+              "options": [
+                "SQL Query",
+                "API Call",
+                "File Export",
+                "Manual Extract",
+                "Streaming",
+                "Third-party Feed"
+              ]
+            },
+            {
+              "name": "Transformations Applied",
+              "type": "text"
+            },
+            {
+              "name": "Final Location",
+              "type": "text"
+            }
+          ],
+          "helpText": "Acquisition method must be reproducible for Phase 6 retraining cycles."
+        }
+      ]
+    },
+    "privacy-impact-assessment": {
+      "templateId": "privacy-impact-assessment",
+      "name": "Privacy Impact Assessment",
+      "phase": 2,
+      "phaseName": "Data Understanding",
+      "category": "conditional",
+      "isGateBlocking": false,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 20,
+      "description": "Evaluates privacy risks and documents required controls for regulatory compliance.",
+      "fields": [
+        {
+          "fieldId": "pii-inventory",
+          "label": "PII Inventory",
+          "type": "table",
+          "required": true,
+          "gateBlocking": false,
+          "columns": [
+            {
+              "name": "PII Element",
+              "type": "text"
+            },
+            {
+              "name": "Data Source",
+              "type": "text"
+            },
+            {
+              "name": "Required for Model",
+              "type": "selection",
+              "options": [
+                "Yes — cannot anonymize",
+                "No — can be removed",
+                "No — can be anonymized"
+              ]
+            },
+            {
+              "name": "Planned Control",
+              "type": "text"
+            }
+          ],
+          "helpText": "Catalog every PII element. Determine whether the model requires it or it can be removed/anonymized in Phase 3."
+        },
+        {
+          "fieldId": "privacy-risk-level",
+          "label": "Overall Privacy Risk Level",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Low — no PII or fully anonymizable",
+            "Medium — PII with established controls",
+            "High — PII required for model function",
+            "Critical — sensitive PII without adequate controls"
+          ],
+          "helpText": "'Critical' requires escalation to privacy/legal counsel before Phase 3."
+        }
+      ]
+    },
+    "data-cleaning-documentation": {
+      "templateId": "data-cleaning-documentation",
+      "name": "Data Cleaning Documentation",
+      "phase": 3,
+      "phaseName": "Data Preparation",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 25,
+      "description": "Documents all cleaning operations: deduplication, error correction, missing value handling, normalization.",
+      "fields": [
+        {
+          "fieldId": "cleaning-operations-log",
+          "label": "Cleaning Operations Log",
+          "type": "table",
+          "required": true,
+          "gateBlocking": true,
+          "columns": [
+            {
+              "name": "Operation",
+              "type": "text"
+            },
+            {
+              "name": "Target",
+              "type": "text"
+            },
+            {
+              "name": "Method",
+              "type": "text"
+            },
+            {
+              "name": "Records Affected",
+              "type": "text"
+            },
+            {
+              "name": "Verified",
+              "type": "selection",
+              "options": [
+                "Yes",
+                "No",
+                "Partial"
+              ]
+            }
+          ],
+          "helpText": "Log each step. 'Verified=No' requires follow-up before Phase 3 gate."
+        },
+        {
+          "fieldId": "missing-value-strategy",
+          "label": "Missing Value Strategy",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Imputation — statistical methods",
+            "Removal — incomplete records dropped",
+            "Flag and model — missingness as feature",
+            "Mixed — varies by field",
+            "No missing values detected"
+          ],
+          "helpText": "Strategy affects model bias. Justify against Phase 2 quality findings."
+        },
+        {
+          "fieldId": "anonymization-verification",
+          "label": "Anonymization Verification",
+          "type": "checklist",
+          "required": false,
+          "gateBlocking": false,
+          "items": [
+            "All PII from Phase 2 PIA addressed",
+            "Anonymization preserves model-relevant features",
+            "Re-identification risk assessed",
+            "Anonymized dataset validated against original",
+            "Not applicable — no PII"
+          ],
+          "helpText": "Verify Phase 2 privacy controls are implemented. CPMAI requires confirmation anonymization doesn't harm performance."
+        },
+        {
+          "fieldId": "pre-vs-post-cleaning",
+          "label": "Pre vs. Post Cleaning Comparison",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 30,
+            "maxLength": 1500
+          },
+          "helpText": "Key metrics before/after: record count change, null rate, duplicate removal rate, features dropped. Supports audit trail."
+        }
+      ]
+    },
+    "feature-engineering-documentation": {
+      "templateId": "feature-engineering-documentation",
+      "name": "Feature Engineering Documentation",
+      "phase": 3,
+      "phaseName": "Data Preparation",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 20,
+      "description": "Documents derived features, transformations, and encoding strategies.",
+      "fields": [
+        {
+          "fieldId": "feature-transformations",
+          "label": "Feature Transformations",
+          "type": "table",
+          "required": true,
+          "gateBlocking": true,
+          "columns": [
+            {
+              "name": "Original Feature",
+              "type": "text"
+            },
+            {
+              "name": "Transformation",
+              "type": "text"
+            },
+            {
+              "name": "Derived Feature Name",
+              "type": "text"
+            },
+            {
+              "name": "Rationale",
+              "type": "text"
+            }
+          ],
+          "helpText": "Document each derived attribute with rationale connecting to model requirements."
+        },
+        {
+          "fieldId": "feature-selection-method",
+          "label": "Feature Selection Method",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Statistical correlation analysis",
+            "Domain expert selection",
+            "Automated feature importance",
+            "Dimensionality reduction (PCA, etc.)",
+            "All features retained",
+            "Multiple methods combined"
+          ],
+          "helpText": "'All features retained' acceptable for small datasets but increases noise for large feature sets."
+        },
+        {
+          "fieldId": "text-to-numeric-conversions",
+          "label": "Unstructured-to-Structured Conversions",
+          "type": "long_text",
+          "required": false,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 20,
+            "maxLength": 1500
+          },
+          "helpText": "Document tokenization, embeddings, vectorization, image preprocessing, etc. if applicable."
+        }
+      ]
+    },
+    "data-transformation-pipeline": {
+      "templateId": "data-transformation-pipeline",
+      "name": "Data Transformation Pipeline",
+      "phase": 3,
+      "phaseName": "Data Preparation",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 20,
+      "description": "Documents the reusable pipeline for data ingestion, cleaning, transformation for training and inference.",
+      "fields": [
+        {
+          "fieldId": "training-pipeline",
+          "label": "Training Data Pipeline",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": true,
+          "validation": {
+            "minLength": 50,
+            "maxLength": 2000
+          },
+          "helpText": "End-to-end reusable pipeline: steps, tools, dependencies, execution frequency. Must be reproducible for Phase 6 retraining."
+        },
+        {
+          "fieldId": "inference-pipeline",
+          "label": "Inference Data Pipeline",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 30,
+            "maxLength": 2000
+          },
+          "helpText": "How live data flows through the same transformations. Differences from training pipeline must be documented."
+        },
+        {
+          "fieldId": "pipeline-reproducibility",
+          "label": "Pipeline Reproducibility Status",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": true,
+          "options": [
+            "Fully automated and reproducible",
+            "Scripted but requires manual steps",
+            "Manual process documented",
+            "Not yet reproducible"
+          ],
+          "helpText": "'Not yet reproducible' blocks Phase 3 gate. Pipeline must be at minimum documented and scripted."
+        }
+      ]
+    },
+    "training-validation-test-split": {
+      "templateId": "training-validation-test-split",
+      "name": "Training/Validation/Test Split Documentation",
+      "phase": 3,
+      "phaseName": "Data Preparation",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 15,
+      "description": "Documents the data partitioning strategy for model training, validation, and testing.",
+      "fields": [
+        {
+          "fieldId": "split-ratios",
+          "label": "Split Ratios",
+          "type": "table",
+          "required": true,
+          "gateBlocking": true,
+          "columns": [
+            {
+              "name": "Partition",
+              "type": "selection",
+              "options": [
+                "Training",
+                "Validation",
+                "Test",
+                "Holdout"
+              ]
+            },
+            {
+              "name": "Percentage",
+              "type": "text"
+            },
+            {
+              "name": "Record Count",
+              "type": "text"
+            },
+            {
+              "name": "Stratification Applied",
+              "type": "selection",
+              "options": [
+                "Yes",
+                "No",
+                "N/A"
+              ]
+            }
+          ],
+          "helpText": "CPMAI standard: typically 70/15/15. Document actual ratios and stratification."
+        },
+        {
+          "fieldId": "split-method",
+          "label": "Split Method",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Random split",
+            "Stratified split",
+            "Temporal split",
+            "Group-based split (no data leakage)",
+            "K-fold cross-validation planned"
+          ],
+          "helpText": "Must prevent data leakage. Temporal splits required for time-series."
+        },
+        {
+          "fieldId": "data-leakage-check",
+          "label": "Data Leakage Verification",
+          "type": "checklist",
+          "required": true,
+          "gateBlocking": true,
+          "items": [
+            "No future information leaks into training data",
+            "No target variable derivatives in feature set",
+            "Same entity does not appear in multiple partitions",
+            "Temporal ordering preserved where applicable"
+          ],
+          "helpText": "Data leakage produces inflated metrics that collapse in production. Each item is a Phase 3 gate requirement."
+        }
+      ]
+    },
+    "data-augmentation-strategy": {
+      "templateId": "data-augmentation-strategy",
+      "name": "Data Augmentation Strategy",
+      "phase": 3,
+      "phaseName": "Data Preparation",
+      "category": "conditional",
+      "isGateBlocking": false,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 15,
+      "description": "Documents strategies for increasing training data volume and diversity.",
+      "fields": [
+        {
+          "fieldId": "augmentation-methods",
+          "label": "Augmentation Methods",
+          "type": "table",
+          "required": true,
+          "gateBlocking": false,
+          "columns": [
+            {
+              "name": "Method",
+              "type": "text"
+            },
+            {
+              "name": "Target",
+              "type": "text"
+            },
+            {
+              "name": "Expected Volume Increase",
+              "type": "text"
+            },
+            {
+              "name": "Quality Impact",
+              "type": "selection",
+              "options": [
+                "Neutral",
+                "Slight degradation",
+                "Verified positive",
+                "Unknown"
+              ]
+            }
+          ],
+          "helpText": "Document each technique: derived attributes, transformations, oversampling, paraphrasing."
+        },
+        {
+          "fieldId": "augmentation-validation",
+          "label": "Augmentation Validation Approach",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Validated against original distribution",
+            "Expert review of samples",
+            "Statistical tests applied",
+            "Validation deferred to model evaluation",
+            "No validation planned"
+          ],
+          "helpText": "Unvalidated augmented data can distort training distributions."
+        }
+      ]
+    },
+    "synthetic-data-generation-plan": {
+      "templateId": "synthetic-data-generation-plan",
+      "name": "Synthetic Data Generation Plan",
+      "phase": 3,
+      "phaseName": "Data Preparation",
+      "category": "conditional",
+      "isGateBlocking": false,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 15,
+      "description": "Documents synthetic data generation method, quality controls, and privacy considerations.",
+      "fields": [
+        {
+          "fieldId": "synthetic-justification",
+          "label": "Justification",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Insufficient real data volume",
+            "Class imbalance correction",
+            "Privacy constraints",
+            "Edge case coverage",
+            "Cost reduction vs. real data"
+          ],
+          "helpText": "Justification determines generation method and validation rigor."
+        },
+        {
+          "fieldId": "generation-method",
+          "label": "Generation Method",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 20,
+            "maxLength": 1500
+          },
+          "helpText": "Technical approach: generative AI, SMOTE, domain simulators. Include tools and parameters."
+        },
+        {
+          "fieldId": "quality-controls",
+          "label": "Quality Controls",
+          "type": "checklist",
+          "required": true,
+          "gateBlocking": false,
+          "items": [
+            "Distribution matches real data",
+            "No private data embedded in outputs",
+            "Domain expert reviewed samples",
+            "Synthetic-to-real ratio documented",
+            "Impact on model performance tested"
+          ],
+          "helpText": "Synthetic data without controls can introduce subtle biases."
+        }
+      ]
+    },
+    "model-selection-rationale": {
+      "templateId": "model-selection-rationale",
+      "name": "Model Selection Rationale",
+      "phase": 4,
+      "phaseName": "Model Building",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 20,
+      "description": "Documents algorithm and technique selection tied to AI pattern, data characteristics, and business constraints.",
+      "fields": [
+        {
+          "fieldId": "modeling-technique",
+          "label": "Modeling Technique",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": true,
+          "options": [
+            "Supervised Learning — Classification",
+            "Supervised Learning — Regression",
+            "Unsupervised Learning — Clustering",
+            "Unsupervised Learning — Dimensionality Reduction",
+            "Reinforcement Learning",
+            "Deep Learning — Neural Network",
+            "Foundation Model / LLM — Fine-tuned",
+            "Foundation Model / LLM — Prompt-based",
+            "Ensemble Methods",
+            "Hybrid Approach"
+          ],
+          "helpText": "Must align with AI pattern from Phase 1. Misalignment is a common failure mode."
+        },
+        {
+          "fieldId": "algorithm-selection",
+          "label": "Specific Algorithm(s)",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": true,
+          "validation": {
+            "minLength": 20,
+            "maxLength": 1500
+          },
+          "helpText": "Name algorithm(s) and justify. Include why alternatives were rejected."
+        },
+        {
+          "fieldId": "pretrained-model-usage",
+          "label": "Pre-trained Model Usage",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "No pre-trained models",
+            "Foundation model with fine-tuning",
+            "Foundation model with prompt engineering",
+            "Transfer learning from domain model",
+            "Hybrid — custom + pre-trained"
+          ],
+          "helpText": "Pre-trained models accelerate development but require vetting for domain compatibility and hallucination risk."
+        },
+        {
+          "fieldId": "modeling-assumptions",
+          "label": "Modeling Assumptions",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 20,
+            "maxLength": 1500
+          },
+          "helpText": "Assumptions about data (distributions, independence, stationarity) and environment (latency, compute). Violated assumptions cause production failures."
+        }
+      ]
+    },
+    "hyperparameter-tuning-documentation": {
+      "templateId": "hyperparameter-tuning-documentation",
+      "name": "Hyperparameter Tuning Documentation",
+      "phase": 4,
+      "phaseName": "Model Building",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 15,
+      "description": "Records hyperparameter search strategies, initial and optimized settings.",
+      "fields": [
+        {
+          "fieldId": "hyperparameter-settings",
+          "label": "Hyperparameter Settings",
+          "type": "table",
+          "required": true,
+          "gateBlocking": true,
+          "columns": [
+            {
+              "name": "Parameter",
+              "type": "text"
+            },
+            {
+              "name": "Initial Value",
+              "type": "text"
+            },
+            {
+              "name": "Final Value",
+              "type": "text"
+            },
+            {
+              "name": "Search Method",
+              "type": "selection",
+              "options": [
+                "Grid Search",
+                "Random Search",
+                "Bayesian Optimization",
+                "AutoML",
+                "Manual",
+                "Default"
+              ]
+            }
+          ],
+          "helpText": "Document each tunable parameter. 'Default' should be justified — defaults rarely produce optimal results."
+        },
+        {
+          "fieldId": "automl-usage",
+          "label": "AutoML Tool Usage",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "No AutoML",
+            "AutoML for initial exploration",
+            "AutoML for final model selection",
+            "AutoML end-to-end"
+          ],
+          "helpText": "CPMAI accepts AutoML but requires understanding what it selected and why."
+        },
+        {
+          "fieldId": "cross-validation-design",
+          "label": "Cross-Validation Design",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 20,
+            "maxLength": 1000
+          },
+          "helpText": "k-fold value, stratification, temporal considerations. Prevents overfitting."
+        }
+      ]
+    },
+    "model-architecture-documentation": {
+      "templateId": "model-architecture-documentation",
+      "name": "Model Architecture Documentation",
+      "phase": 4,
+      "phaseName": "Model Building",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 20,
+      "description": "Records technical architecture: layers, components, I/O specs, compute requirements.",
+      "fields": [
+        {
+          "fieldId": "architecture-description",
+          "label": "Architecture Description",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": true,
+          "validation": {
+            "minLength": 50,
+            "maxLength": 3000
+          },
+          "helpText": "Layers, dimensions, activation functions, input/output shapes. For LLMs: base model, prompt structure, RAG architecture."
+        },
+        {
+          "fieldId": "input-specification",
+          "label": "Model Input Specification",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 20,
+            "maxLength": 1000
+          },
+          "helpText": "Exact input format, dimensions, feature ordering. Contract between Phase 3 pipeline and model."
+        },
+        {
+          "fieldId": "output-specification",
+          "label": "Model Output Specification",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 20,
+            "maxLength": 1000
+          },
+          "helpText": "Output format: probabilities, values, generated text, confidence scores. Define downstream consumption."
+        },
+        {
+          "fieldId": "compute-requirements",
+          "label": "Compute Requirements",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 10,
+            "maxLength": 500
+          },
+          "helpText": "Training compute (GPU hours, memory) and inference compute (latency, throughput). Mismatches cause deployment failures."
+        }
+      ]
+    },
+    "training-procedure-documentation": {
+      "templateId": "training-procedure-documentation",
+      "name": "Training Procedure Documentation",
+      "phase": 4,
+      "phaseName": "Model Building",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 15,
+      "description": "Documents end-to-end training procedure: initialization, optimization, stopping criteria, reproducibility.",
+      "fields": [
+        {
+          "fieldId": "training-procedure",
+          "label": "Training Procedure",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": true,
+          "validation": {
+            "minLength": 50,
+            "maxLength": 3000
+          },
+          "helpText": "Step-by-step: initialization, optimizer, LR schedule, batch size, epochs, early stopping, regularization. Must be reproducible."
+        },
+        {
+          "fieldId": "training-reproducibility",
+          "label": "Reproducibility Controls",
+          "type": "checklist",
+          "required": true,
+          "gateBlocking": false,
+          "items": [
+            "Random seeds documented",
+            "Training environment specified",
+            "Data version pinned",
+            "Model checkpoints saved",
+            "Training logs archived"
+          ],
+          "helpText": "Critical for Phase 6 retraining and audit compliance."
+        },
+        {
+          "fieldId": "training-duration",
+          "label": "Training Duration and Cost",
+          "type": "short_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 5,
+            "maxLength": 200
+          },
+          "helpText": "Wall-clock time and compute cost. Informs Phase 6 retraining budgets."
+        }
+      ]
+    },
+    "ensemble-strategy-documentation": {
+      "templateId": "ensemble-strategy-documentation",
+      "name": "Ensemble Strategy Documentation",
+      "phase": 4,
+      "phaseName": "Model Building",
+      "category": "conditional",
+      "isGateBlocking": false,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 15,
+      "description": "Documents use of multiple combined models with combination method and evidence.",
+      "fields": [
+        {
+          "fieldId": "ensemble-method",
+          "label": "Ensemble Method",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Bagging (e.g., Random Forest)",
+            "Boosting (e.g., XGBoost)",
+            "Stacking",
+            "Voting / Averaging",
+            "Cascading",
+            "Custom ensemble"
+          ],
+          "helpText": "Justify ensemble over single-model — complexity and maintenance cost increase."
+        },
+        {
+          "fieldId": "component-models",
+          "label": "Component Models",
+          "type": "table",
+          "required": true,
+          "gateBlocking": false,
+          "columns": [
+            {
+              "name": "Model",
+              "type": "text"
+            },
+            {
+              "name": "Role",
+              "type": "text"
+            },
+            {
+              "name": "Individual Performance",
+              "type": "text"
+            },
+            {
+              "name": "Weight",
+              "type": "text"
+            }
+          ],
+          "helpText": "Ensemble must outperform best individual model to justify added complexity."
+        }
+      ]
+    },
+    "transfer-learning-documentation": {
+      "templateId": "transfer-learning-documentation",
+      "name": "Transfer Learning Documentation",
+      "phase": 4,
+      "phaseName": "Model Building",
+      "category": "conditional",
+      "isGateBlocking": false,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 15,
+      "description": "Documents pre-trained model usage, domain adaptation, and fine-tuning.",
+      "fields": [
+        {
+          "fieldId": "source-model",
+          "label": "Source Model Details",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 20,
+            "maxLength": 1500
+          },
+          "helpText": "Name, version, training domain, provider, license. CPMAI requires domain compatibility assessment."
+        },
+        {
+          "fieldId": "adaptation-method",
+          "label": "Adaptation Method",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Full fine-tuning",
+            "Partial fine-tuning (frozen layers)",
+            "LoRA / Parameter-efficient",
+            "Prompt tuning / In-context learning",
+            "Feature extraction only",
+            "Domain-adaptive pre-training"
+          ],
+          "helpText": "Affects compute cost, overfitting risk, and domain specialization achieved."
+        },
+        {
+          "fieldId": "domain-compatibility",
+          "label": "Domain Compatibility Assessment",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 20,
+            "maxLength": 1000
+          },
+          "helpText": "Mismatched domains produce subtle failures (hallucination, confident wrong answers) that are difficult to detect."
+        }
+      ]
+    },
+    "model-performance-metrics": {
+      "templateId": "model-performance-metrics",
+      "name": "Model Performance Metrics",
+      "phase": 5,
+      "phaseName": "Model Evaluation",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 20,
+      "description": "Records technical model performance against Phase 1 success criteria.",
+      "fields": [
+        {
+          "fieldId": "performance-metrics-table",
+          "label": "Performance Metrics",
+          "type": "table",
+          "required": true,
+          "gateBlocking": true,
+          "columns": [
+            {
+              "name": "Metric",
+              "type": "text"
+            },
+            {
+              "name": "Target (from Phase 1)",
+              "type": "text"
+            },
+            {
+              "name": "Achieved",
+              "type": "text"
+            },
+            {
+              "name": "Verdict",
+              "type": "selection",
+              "options": [
+                "Exceeds",
+                "Meets",
+                "Below — acceptable",
+                "Below — unacceptable"
+              ]
+            }
+          ],
+          "helpText": "Evaluate each metric from Phase 1 Success Criteria. 'Below — unacceptable' on critical metrics blocks Phase 5 gate."
+        },
+        {
+          "fieldId": "overfitting-assessment",
+          "label": "Overfitting Assessment",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": true,
+          "options": [
+            "No overfitting — train/test consistent",
+            "Minor overfitting — acceptable range",
+            "Significant overfitting — remediation required",
+            "Cannot determine"
+          ],
+          "helpText": "Significant gap between train/test indicates memorization, not generalization."
+        },
+        {
+          "fieldId": "confidence-score-analysis",
+          "label": "Confidence Score Analysis",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 20,
+            "maxLength": 1500
+          },
+          "helpText": "Analyze confidence distribution. High-confidence errors are most dangerous. Document production confidence threshold."
+        }
+      ]
+    },
+    "validation-results": {
+      "templateId": "validation-results",
+      "name": "Validation Results",
+      "phase": 5,
+      "phaseName": "Model Evaluation",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 20,
+      "description": "Documents validation against holdout test set and business KPIs from Phase 1.",
+      "fields": [
+        {
+          "fieldId": "business-kpi-evaluation",
+          "label": "Business KPI Evaluation",
+          "type": "table",
+          "required": true,
+          "gateBlocking": true,
+          "columns": [
+            {
+              "name": "KPI (from Phase 1)",
+              "type": "text"
+            },
+            {
+              "name": "Target Value",
+              "type": "text"
+            },
+            {
+              "name": "Actual Result",
+              "type": "text"
+            },
+            {
+              "name": "Verdict",
+              "type": "selection",
+              "options": [
+                "Success",
+                "Needs Improvement",
+                "Failure"
+              ]
+            }
+          ],
+          "helpText": "Phase 5 accountability table. 'Failure' on critical KPIs triggers iteration to earlier phases."
+        },
+        {
+          "fieldId": "stakeholder-acceptance",
+          "label": "Stakeholder Acceptance Status",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": true,
+          "options": [
+            "Accepted — meets/exceeds expectations",
+            "Conditionally accepted",
+            "Rejected — does not meet requirements",
+            "Pending stakeholder review"
+          ],
+          "helpText": "CPMAI acknowledges subjective judgment. Technically strong models may still be rejected."
+        },
+        {
+          "fieldId": "iteration-decision",
+          "label": "Iteration Decision",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Proceed to deployment (Phase 6)",
+            "Iterate — return to Phase 4",
+            "Iterate — return to Phase 3",
+            "Iterate — return to Phase 2",
+            "Terminate project"
+          ],
+          "helpText": "CPMAI phases are iterative. Unsatisfactory results should trigger return to appropriate earlier phase."
+        }
+      ]
+    },
+    "error-analysis-report": {
+      "templateId": "error-analysis-report",
+      "name": "Error Analysis Report",
+      "phase": 5,
+      "phaseName": "Model Evaluation",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 20,
+      "description": "Analyzes patterns in model errors to identify systematic failure modes.",
+      "fields": [
+        {
+          "fieldId": "error-pattern-analysis",
+          "label": "Error Pattern Analysis",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": true,
+          "validation": {
+            "minLength": 50,
+            "maxLength": 3000
+          },
+          "helpText": "Analyze false positives and negatives for systematic patterns: data segments, edge cases, ambiguous inputs, temporal patterns."
+        },
+        {
+          "fieldId": "false-positive-impact",
+          "label": "False Positive Impact Assessment",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 20,
+            "maxLength": 1000
+          },
+          "helpText": "Business impact of FP. Some domains tolerate high FP (screening); others cannot (fraud blocking)."
+        },
+        {
+          "fieldId": "false-negative-impact",
+          "label": "False Negative Impact Assessment",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 20,
+            "maxLength": 1000
+          },
+          "helpText": "Business impact of FN. Missed detections can be costlier than false alarms."
+        }
+      ]
+    },
+    "comparison-to-baseline": {
+      "templateId": "comparison-to-baseline",
+      "name": "Comparison to Baseline",
+      "phase": 5,
+      "phaseName": "Model Evaluation",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 15,
+      "description": "Compares model performance to the heuristic baseline from Phase 1.",
+      "fields": [
+        {
+          "fieldId": "baseline-comparison",
+          "label": "Baseline Comparison",
+          "type": "table",
+          "required": true,
+          "gateBlocking": true,
+          "columns": [
+            {
+              "name": "Metric",
+              "type": "text"
+            },
+            {
+              "name": "Heuristic Baseline",
+              "type": "text"
+            },
+            {
+              "name": "AI Model Result",
+              "type": "text"
+            },
+            {
+              "name": "Improvement",
+              "type": "text"
+            },
+            {
+              "name": "Statistically Significant",
+              "type": "selection",
+              "options": [
+                "Yes",
+                "No",
+                "Not tested"
+              ]
+            }
+          ],
+          "helpText": "CPMAI superiority test. AI must demonstrably outperform heuristic baseline."
+        },
+        {
+          "fieldId": "superiority-verdict",
+          "label": "Superiority Verdict",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": true,
+          "options": [
+            "AI clearly superior — proceed",
+            "AI marginally superior — proceed with monitoring",
+            "AI comparable to baseline — reconsider",
+            "AI inferior to baseline — iterate or terminate"
+          ],
+          "helpText": "'Inferior to baseline' should trigger serious project reconsideration."
+        }
+      ]
+    },
+    "fairness-and-bias-analysis": {
+      "templateId": "fairness-and-bias-analysis",
+      "name": "Fairness and Bias Analysis",
+      "phase": 5,
+      "phaseName": "Model Evaluation",
+      "category": "conditional",
+      "isGateBlocking": false,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 20,
+      "description": "Evaluates model outputs for fairness across protected groups.",
+      "fields": [
+        {
+          "fieldId": "bias-assessment",
+          "label": "Bias Assessment Results",
+          "type": "table",
+          "required": true,
+          "gateBlocking": false,
+          "columns": [
+            {
+              "name": "Protected Attribute",
+              "type": "text"
+            },
+            {
+              "name": "Metric",
+              "type": "text"
+            },
+            {
+              "name": "Disparity",
+              "type": "selection",
+              "options": [
+                "None",
+                "Minor",
+                "Significant",
+                "Not testable"
+              ]
+            },
+            {
+              "name": "Mitigation",
+              "type": "text"
+            }
+          ],
+          "helpText": "CPMAI Trustworthy AI requires bias detection. 'Significant' disparities require mitigation before deployment."
+        },
+        {
+          "fieldId": "fairness-standard",
+          "label": "Fairness Standard Applied",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Demographic parity",
+            "Equal opportunity",
+            "Predictive parity",
+            "Individual fairness",
+            "Multiple standards",
+            "Qualitative assessment only"
+          ],
+          "helpText": "Different standards can conflict. Choosing one accepts trade-offs with others."
+        }
+      ]
+    },
+    "robustness-testing-results": {
+      "templateId": "robustness-testing-results",
+      "name": "Robustness Testing Results",
+      "phase": 5,
+      "phaseName": "Model Evaluation",
+      "category": "conditional",
+      "isGateBlocking": false,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 15,
+      "description": "Tests model behavior under adversarial, edge-case, and distribution-shift conditions.",
+      "fields": [
+        {
+          "fieldId": "robustness-tests",
+          "label": "Robustness Test Results",
+          "type": "table",
+          "required": true,
+          "gateBlocking": false,
+          "columns": [
+            {
+              "name": "Test Scenario",
+              "type": "text"
+            },
+            {
+              "name": "Input Condition",
+              "type": "text"
+            },
+            {
+              "name": "Expected Behavior",
+              "type": "text"
+            },
+            {
+              "name": "Actual Behavior",
+              "type": "text"
+            },
+            {
+              "name": "Pass/Fail",
+              "type": "selection",
+              "options": [
+                "Pass",
+                "Fail",
+                "Degraded"
+              ]
+            }
+          ],
+          "helpText": "Test edge cases: missing inputs, adversarial examples, out-of-distribution data, extreme values."
+        }
+      ]
+    },
+    "deployment-plan": {
+      "templateId": "deployment-plan",
+      "name": "Deployment Plan",
+      "phase": 6,
+      "phaseName": "Model Deployment",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 25,
+      "description": "Defines deployment strategy, infrastructure, integration, and CI/CD pipeline.",
+      "fields": [
+        {
+          "fieldId": "deployment-strategy",
+          "label": "Deployment Strategy",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": true,
+          "options": [
+            "Batch processing",
+            "Real-time microservice / API",
+            "Streaming / event-driven",
+            "Embedded / edge deployment",
+            "Hybrid (batch + real-time)",
+            "Human-in-the-loop augmentation"
+          ],
+          "helpText": "Determines infrastructure, latency, and monitoring. Must align with Phase 1 business requirements."
+        },
+        {
+          "fieldId": "infrastructure-configuration",
+          "label": "Infrastructure Configuration",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": true,
+          "validation": {
+            "minLength": 50,
+            "maxLength": 2000
+          },
+          "helpText": "Cloud/on-premise, auto-scaling, database integration, encryption, network security. Include model scaffolding: non-AI components needed (API gateway, auth, UI integration)."
+        },
+        {
+          "fieldId": "cicd-pipeline-status",
+          "label": "CI/CD Pipeline Status",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Automated CI/CD operational",
+            "Pipeline defined, not automated",
+            "Manual deployment documented",
+            "No deployment process defined"
+          ],
+          "helpText": "CPMAI recommends CI/CD for reproducible updates. Manual is acceptable initially but represents ongoing risk."
+        },
+        {
+          "fieldId": "integration-points",
+          "label": "Integration Points",
+          "type": "table",
+          "required": true,
+          "gateBlocking": false,
+          "columns": [
+            {
+              "name": "System",
+              "type": "text"
+            },
+            {
+              "name": "Integration Type",
+              "type": "selection",
+              "options": [
+                "API",
+                "Database",
+                "Message Queue",
+                "File Transfer",
+                "UI Embed",
+                "Webhook"
+              ]
+            },
+            {
+              "name": "Status",
+              "type": "selection",
+              "options": [
+                "Implemented",
+                "In progress",
+                "Planned",
+                "Blocked"
+              ]
+            }
+          ],
+          "helpText": "Document each system the model connects to and integration readiness."
+        }
+      ]
+    },
+    "monitoring-strategy": {
+      "templateId": "monitoring-strategy",
+      "name": "Monitoring Strategy",
+      "phase": 6,
+      "phaseName": "Model Deployment",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 20,
+      "description": "Defines monitoring, drift detection, retraining triggers, and alerting for the deployed model.",
+      "fields": [
+        {
+          "fieldId": "monitoring-metrics",
+          "label": "Monitoring Metrics",
+          "type": "table",
+          "required": true,
+          "gateBlocking": true,
+          "columns": [
+            {
+              "name": "Metric",
+              "type": "text"
+            },
+            {
+              "name": "Threshold",
+              "type": "text"
+            },
+            {
+              "name": "Check Frequency",
+              "type": "selection",
+              "options": [
+                "Real-time",
+                "Hourly",
+                "Daily",
+                "Weekly",
+                "Monthly"
+              ]
+            },
+            {
+              "name": "Alert Action",
+              "type": "text"
+            }
+          ],
+          "helpText": "System health, uptime, latency, prediction confidence, business KPIs. Each metric needs a threshold and action plan."
+        },
+        {
+          "fieldId": "drift-detection-method",
+          "label": "Drift Detection Method",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": true,
+          "options": [
+            "Statistical tests on input distributions",
+            "Performance metric degradation monitoring",
+            "Feature distribution comparison",
+            "Automated drift detection tools",
+            "Manual periodic review",
+            "Multiple methods combined"
+          ],
+          "helpText": "Data drift and model drift are primary causes of production degradation. Both must be monitored."
+        },
+        {
+          "fieldId": "retraining-schedule",
+          "label": "Retraining Schedule",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Trigger-based (performance drop)",
+            "Scheduled periodic (weekly/monthly/quarterly)",
+            "Continuous learning",
+            "Manual on-demand",
+            "No retraining planned"
+          ],
+          "helpText": "CPMAI requires planned retraining. 'No retraining planned' is an operational risk that should be justified."
+        },
+        {
+          "fieldId": "low-confidence-handling",
+          "label": "Low Confidence Response Handling",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 20,
+            "maxLength": 1000
+          },
+          "helpText": "What happens when the model produces low-confidence predictions? CPMAI recommends fallback to heuristic or human escalation."
+        }
+      ]
+    },
+    "rollback-procedure": {
+      "templateId": "rollback-procedure",
+      "name": "Rollback Procedure",
+      "phase": 6,
+      "phaseName": "Model Deployment",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 15,
+      "description": "Documents the process for reverting to previous model version or heuristic fallback.",
+      "fields": [
+        {
+          "fieldId": "rollback-trigger-criteria",
+          "label": "Rollback Trigger Criteria",
+          "type": "table",
+          "required": true,
+          "gateBlocking": true,
+          "columns": [
+            {
+              "name": "Condition",
+              "type": "text"
+            },
+            {
+              "name": "Threshold",
+              "type": "text"
+            },
+            {
+              "name": "Detection Method",
+              "type": "text"
+            },
+            {
+              "name": "Auto/Manual",
+              "type": "selection",
+              "options": [
+                "Automatic",
+                "Manual approval required"
+              ]
+            }
+          ],
+          "helpText": "Define specific conditions that trigger rollback. Each condition needs a measurable threshold and detection method."
+        },
+        {
+          "fieldId": "rollback-procedure",
+          "label": "Rollback Procedure",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": true,
+          "validation": {
+            "minLength": 50,
+            "maxLength": 2000
+          },
+          "helpText": "Step-by-step rollback process: who initiates, how the previous version is restored, what systems are affected, expected downtime, and communication plan."
+        },
+        {
+          "fieldId": "heuristic-fallback",
+          "label": "Heuristic Fallback Available",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Yes — non-AI fallback operational",
+            "Yes — previous model version available",
+            "Partial — degraded service only",
+            "No — full outage on model failure"
+          ],
+          "helpText": "CPMAI recommends maintaining the heuristic baseline as operational fallback. 'No fallback' is a significant operational risk."
+        }
+      ]
+    },
+    "documentation-for-end-users": {
+      "templateId": "documentation-for-end-users",
+      "name": "Documentation for End Users",
+      "phase": 6,
+      "phaseName": "Model Deployment",
+      "category": "core",
+      "isGateBlocking": true,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 15,
+      "description": "Documents how end users interact with the AI system, limitations, and escalation paths.",
+      "fields": [
+        {
+          "fieldId": "user-interaction-model",
+          "label": "User Interaction Model",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": true,
+          "options": [
+            "Fully automated — no user interaction",
+            "Augmented — AI assists human decisions",
+            "Supervised — human approves AI outputs",
+            "Advisory — AI provides recommendations only",
+            "Transparent — users unaware of AI"
+          ],
+          "helpText": "Defines the human-AI interaction mode. This affects training requirements, trust expectations, and error handling."
+        },
+        {
+          "fieldId": "known-limitations",
+          "label": "Known Limitations",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": true,
+          "validation": {
+            "minLength": 30,
+            "maxLength": 2000
+          },
+          "helpText": "Document what the AI cannot do, known failure modes, and conditions where accuracy degrades. Transparency builds trust and prevents misuse."
+        },
+        {
+          "fieldId": "escalation-paths",
+          "label": "Escalation Paths",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 20,
+            "maxLength": 1000
+          },
+          "helpText": "How users escalate when the AI produces unexpected, incorrect, or low-confidence results. Must include human contact path."
+        }
+      ]
+    },
+    "ab-testing-plan": {
+      "templateId": "ab-testing-plan",
+      "name": "A/B Testing Plan",
+      "phase": 6,
+      "phaseName": "Model Deployment",
+      "category": "conditional",
+      "isGateBlocking": false,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 15,
+      "description": "Documents A/B or shadow testing approach for validating model performance in production.",
+      "fields": [
+        {
+          "fieldId": "test-design",
+          "label": "Test Design",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 30,
+            "maxLength": 1500
+          },
+          "helpText": "Define test groups, traffic split, duration, success metrics, and statistical power requirements."
+        },
+        {
+          "fieldId": "test-type",
+          "label": "Test Type",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "A/B test (random traffic split)",
+            "Shadow mode (parallel with no user impact)",
+            "Canary deployment (gradual rollout)",
+            "Champion/Challenger (current vs. new model)"
+          ],
+          "helpText": "Shadow mode is lowest risk for initial deployment. A/B testing provides strongest causal evidence."
+        },
+        {
+          "fieldId": "success-criteria-for-test",
+          "label": "Test Success Criteria",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 20,
+            "maxLength": 1000
+          },
+          "helpText": "What must the test demonstrate before full rollout? Include statistical significance requirements and minimum test duration."
+        }
+      ]
+    },
+    "model-governance-documentation": {
+      "templateId": "model-governance-documentation",
+      "name": "Model Governance Documentation",
+      "phase": 6,
+      "phaseName": "Model Deployment",
+      "category": "conditional",
+      "isGateBlocking": false,
+      "version": "1.0",
+      "status": "draft",
+      "estimatedCompletionMinutes": 20,
+      "description": "Establishes governance framework for ongoing model management, modification authority, and compliance.",
+      "fields": [
+        {
+          "fieldId": "governance-structure",
+          "label": "Governance Structure",
+          "type": "long_text",
+          "required": true,
+          "gateBlocking": false,
+          "validation": {
+            "minLength": 30,
+            "maxLength": 2000
+          },
+          "helpText": "Define who has authority to approve model updates, retrain decisions, and retirement. Include escalation hierarchy and decision-making process."
+        },
+        {
+          "fieldId": "model-modification-policy",
+          "label": "Model Modification Policy",
+          "type": "selection",
+          "required": true,
+          "gateBlocking": false,
+          "options": [
+            "Any change requires governance board approval",
+            "Minor tuning allowed, major changes need approval",
+            "Automated retraining within guardrails permitted",
+            "No formal modification policy"
+          ],
+          "helpText": "CPMAI recommends formal change control for production models. 'No formal policy' is a governance gap."
+        },
+        {
+          "fieldId": "audit-compliance-readiness",
+          "label": "Audit Compliance Readiness",
+          "type": "checklist",
+          "required": true,
+          "gateBlocking": false,
+          "items": [
+            "All CPMAI phase artifacts complete and traceable",
+            "Decision rationales documented at each gate",
+            "Data lineage and transformation history preserved",
+            "Model version history maintained",
+            "Regulatory evidence mapped to applicable frameworks"
+          ],
+          "helpText": "CPMAI production models must survive audit without oral explanation. Each unchecked item is an audit risk."
+        }
+      ]
+    }
+  }
+}

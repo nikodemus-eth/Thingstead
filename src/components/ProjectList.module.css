@@ -1,0 +1,258 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: var(--ink-900);
+}
+
+.header {
+  font-size: 18px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.withIcon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.actions button {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-panel);
+  color: var(--ink-700);
+  padding: 11px 13px;
+  font-weight: 700;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.actions button:hover {
+  background: var(--bg-ghost-hover);
+  border-color: var(--line-strong);
+  transform: translateY(-1px);
+}
+
+.syncAction {
+  border-color: var(--bg-brand-hover);
+  background: var(--bg-brand);
+  color: var(--ink-900);
+  box-shadow: none;
+}
+
+.syncAction:hover {
+  border-color: var(--bg-brand-hover);
+  background: var(--bg-brand-hover);
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.listItem {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+}
+
+.selectButton {
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-panel);
+  color: var(--ink-700);
+  padding: 11px 13px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.selectButton:hover {
+  background: var(--bg-ghost-hover);
+  transform: translateY(-1px);
+}
+
+.activeButton {
+  width: 100%;
+  text-align: left;
+  font-weight: 700;
+  border: 1px solid var(--bg-brand-hover);
+  border-radius: var(--radius-sm);
+  background: var(--bg-brand);
+  color: var(--ink-900);
+  padding: 11px 13px;
+  box-shadow: none;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.deleteButton {
+  color: var(--ink-900);
+  background: var(--danger);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-sm);
+  padding: 11px 13px;
+  font-weight: 700;
+  width: 100%;
+  justify-content: center;
+}
+
+.deleteButton:hover {
+  background: rgba(142, 63, 63, 0.92);
+}
+
+.exportButton {
+  border: 1px solid var(--bg-brand-hover);
+  background: var(--bg-brand);
+  color: var(--ink-900);
+  border-radius: var(--radius-sm);
+  padding: 11px 13px;
+  font-weight: 700;
+  box-shadow: none;
+  width: 100%;
+  justify-content: center;
+}
+
+.exportButton:hover {
+  background: var(--bg-brand-hover);
+  transform: translateY(-1px);
+}
+
+
+.hiddenInput {
+  display: none;
+}
+
+.empty {
+  font-size: 13px;
+  color: var(--ink-500);
+}
+
+.noticeSuccess {
+  border: 1px solid #4f9b74;
+  border-radius: var(--radius-sm);
+  background: var(--success-bg);
+  color: #bbf7d0;
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.noticeError {
+  border: 1px solid #da7b7b;
+  border-radius: var(--radius-sm);
+  background: var(--danger-bg);
+  color: var(--danger);
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: pre-line;
+}
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 15, 29, 0.68);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal {
+  background: var(--bg-panel);
+  color: var(--ink-900);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 18px;
+  width: min(420px, 90vw);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modalTitle {
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.modalBody {
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modalBody input {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  background: var(--bg-panel);
+  color: var(--ink-900);
+}
+
+.modalActions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modalPrimary {
+  border: 1px solid var(--bg-brand-hover);
+  border-radius: var(--radius-sm);
+  background: var(--bg-brand);
+  color: var(--ink-900);
+  padding: 10px 12px;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+.modalPrimary:hover {
+  background: var(--bg-brand-hover);
+}
+
+.modalSecondary {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-panel);
+  color: var(--ink-700);
+  padding: 10px 12px;
+  font-weight: 600;
+}
+
+.modalSecondary:hover {
+  background: var(--bg-ghost-hover);
+}
+
+.modalCancel {
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-sm);
+  background: var(--bg-panel);
+  color: var(--ink-900);
+  padding: 10px 12px;
+  font-weight: 700;
+}
+
+.modalCancel:hover {
+  background: var(--danger-bg);
+}

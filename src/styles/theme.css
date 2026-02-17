@@ -1,0 +1,64 @@
+:root {
+  /* Thingstead (Nordic Minimal) theme tokens */
+  --ts-bg: #0f0f0f;
+  --ts-surface-1: #1c1c1c;
+  --ts-surface-2: #242424;
+  --ts-text: #e8e5dc;
+  --ts-text-muted: #b8b3a7;
+  /* Borders: slightly higher contrast for long-session readability. */
+  --ts-border: #3a3f44;
+  --ts-border-strong: #4b545c;
+  --ts-accent: #3a4a59;
+  --ts-accent-hover: #465b6d;
+  --ts-accent-pressed: #2f3d49;
+
+  /* Badge/background-safe colors (bone text on these passes contrast). */
+  --ts-success: #4d6b4a; /* muted moss */
+  --ts-warning: #7a5c24; /* muted ochre */
+  --ts-danger: #8e3f3f;
+
+  /* Tinted surfaces for notices/highlights (flat fills, no gradients). */
+  --ts-success-bg: rgba(77, 107, 74, 0.26);
+  --ts-warning-bg: rgba(122, 92, 36, 0.28);
+  --ts-danger-bg: rgba(142, 63, 63, 0.26);
+
+  --ts-focus-ring: #e8e5dc;
+
+  /* Disabled (>= 3:1 contrast for text on disabled surface). */
+  --ts-disabled-text: #9a9a9a;
+  --ts-disabled-bg: #1a1a1a;
+  --ts-disabled-border: var(--ts-border);
+
+  /* Keep shadows subtle; no glows. */
+  --ts-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+  --ts-shadow-card: 0 16px 36px rgba(0, 0, 0, 0.45);
+
+  --ts-tap-target: 40px;
+
+  /* Legacy aliases (minimize diffs across existing CSS modules). */
+  --bg-canvas: var(--ts-bg);
+  --bg-shell: var(--ts-surface-1);
+  --bg-panel: var(--ts-surface-1);
+  --bg-panel-soft: var(--ts-surface-2);
+  --bg-brand: var(--ts-accent);
+  --bg-brand-hover: var(--ts-accent-hover);
+  --bg-ghost-hover: var(--ts-surface-2);
+  --ink-900: var(--ts-text);
+  --ink-800: var(--ts-text);
+  --ink-700: var(--ts-text);
+  --ink-500: var(--ts-text-muted);
+  --line: var(--ts-border);
+  --line-strong: var(--ts-border-strong);
+  --danger: var(--ts-danger);
+  --danger-bg: var(--ts-danger-bg);
+  --success: var(--ts-success);
+  --success-bg: var(--ts-success-bg);
+  --warning: var(--ts-warning);
+  --warning-bg: var(--ts-warning-bg);
+  --shadow-soft: var(--ts-shadow);
+  --shadow-card: var(--ts-shadow-card);
+  --active-top-highlight: none;
+
+  color: var(--ts-text);
+  background: var(--ts-bg);
+}

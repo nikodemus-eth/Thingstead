@@ -1,0 +1,25 @@
+.glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  color: inherit;
+}
+
+.glyph :global(svg) {
+  width: var(--glyph-size, 16px);
+  height: var(--glyph-size, 16px);
+  display: block;
+  /*
+    WebKit/Safari can mis-handle SVG presentation attributes (e.g. fill="none")
+    when SVG is injected via innerHTML. Force the intended defaults via CSS:
+    - Most glyphs are stroke-only.
+    - A few include explicit filled elements (those keep their fill attribute).
+  */
+  color: inherit;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
