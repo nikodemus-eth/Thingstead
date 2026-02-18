@@ -79,6 +79,68 @@ async function getOrCreateSigningKeyPair() {
   return { privateKey: keyPair.privateKey, publicKey: keyPair.publicKey, publicJwk };
 }
 
+export function verifyProjectIntegrity(project) {
+  const errors = [];
+  const warnings = [];
+
+  if (!project || typeof project !== "object") {
+    return { ok: false, errors: ["Project is not an object."], warnings };
+  }
+
+  // 1. Hash verification
+  if (project.integrity?.hash) {
+    const recomputed = computeProjectIntegrity(project);
+    if (recomputed.hash !== project.integrity.hash) {
+      errors.push(`Integrity hash mismatch: expected ${project.integrity.hash}, got ${recomputed.hash}. Project may have been modified outside Thingstead.`);
+    }
+  } else {
+    warnings.push("No integrity hash found. Cannot verify project authenticity.");
+  }
+
+  // 2. Phase ID uniqueness
+  const phaseIds = new Set();
+  for (const phase of project.phases || []) {
+    if (phaseIds.has(phase.id)) {
+      errors.push(`Duplicate phase ID: ${phase.id}`);
+    }
+    phaseIds.add(phase.id);
+  }
+
+  // 3. Artifact ID uniqueness across project
+  const artifactIds = new Set();
+  for (const phase of project.phases || []) {
+    for (const artifact of phase.artifacts || []) {
+      if (artifactIds.has(artifact.id)) {
+        errors.push(`Duplicate artifact ID across phases: ${artifact.id}`);
+      }
+      artifactIds.add(artifact.id);
+    }
+  }
+
+  // 4. Gate decision validity
+  for (const phase of project.phases || []) {
+    const decision = phase.goNoGoDecision;
+    if (decision && (decision.status === "go" || decision.status === "no-go")) {
+      if (!decision.decidedAt) {
+        errors.push(`Phase ${phase.id} has ${decision.status} decision without decidedAt timestamp.`);
+      }
+    }
+  }
+
+  // 5. Waiver rationale length
+  for (const phase of project.phases || []) {
+    for (const artifact of phase.artifacts || []) {
+      if (artifact.waiver?.waived && typeof artifact.waiver.rationale === "string") {
+        if (artifact.waiver.rationale.replace(/\s+/g, "").length < 20) {
+          warnings.push(`Artifact "${artifact.name || artifact.id}" has a short waiver rationale (< 20 non-whitespace chars).`);
+        }
+      }
+    }
+  }
+
+  return { ok: errors.length === 0, errors, warnings };
+}
+
 export async function signProject(project) {
   const kp = await getOrCreateSigningKeyPair();
   if (!kp) return null;
