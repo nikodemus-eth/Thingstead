@@ -1,0 +1,15 @@
+{
+  "id": "openclaws-agent-lifecycle",
+  "version": "1.0.0",
+  "label": "OpenClaws Agent Lifecycle",
+  "description": "Five-phase governance lifecycle for sovereign OpenClaw AI agents — from spawn through decommission.",
+  "phaseCount": 5,
+  "gateModel": "advisory",
+  "phases": [
+    { "id": 1, "phaseNumber": 1, "name": "Agent Spawn", "description": "Agent initialization, identity assignment, and capability declaration." },
+    { "id": 2, "phaseNumber": 2, "name": "Task Intake", "description": "Agent receives and validates task backlog items." },
+    { "id": 3, "phaseNumber": 3, "name": "Active Execution", "description": "Agent executes assigned tasks, emitting heartbeats and advisory drafts." },
+    { "id": 4, "phaseNumber": 4, "name": "Gate Review", "description": "Human-in-the-loop review of agent output before phase advancement." },
+    { "id": 5, "phaseNumber": 5, "name": "Decommission", "description": "Agent wind-down, final audit log entry, and unlink from project." }
+  ]
+}

@@ -1,4 +1,5 @@
 import { normalizeProject } from "./normalizeProject.js";
+import { migrateProject } from "../migrations/index.js";
 import { validateImportedProject } from "./validation/validateImportedProject.js";
 import { computeProjectIntegrity, signProject } from "./projectIntegrity.js";
 import {
@@ -81,7 +82,7 @@ export function validateImport(jsonString) {
     valid: out.ok,
     errors: out.errors,
     warnings: out.warnings,
-    project: out.project ? normalizeProject(out.project) : null,
+    project: out.project ? migrateProject(out.project) : null,
   };
 }
 
@@ -121,7 +122,7 @@ export function importProject(jsonString, existingProjects, opts = {}) {
     return { status: "invalid", project: null, errors: validation.errors, warnings: validation.warnings };
   }
 
-  const project = validation.project;
+  const project = validation.project ? migrateProject(validation.project) : validation.project;
   const collision =
     project &&
     existingProjects &&

@@ -1,3 +1,5 @@
+import { migrateProject } from "../migrations/index.js";
+
 const PROJECT_INDEX_KEY = "cpmai-project-index";
 const SETTINGS_KEY = "cpmai-settings";
 const TX_KEY = "cpmai-storage-tx-v1";
@@ -113,7 +115,13 @@ export function saveProject(projectId, projectData) {
 
 export function loadProject(projectId) {
   const key = `cpmai-project-${projectId}`;
-  return safeGetItem(key);
+  const data = safeGetItem(key);
+  if (!data || !data.current) return data;
+  const migrated = migrateProject(data.current);
+  if (migrated) {
+    return { ...data, current: migrated };
+  }
+  return data;
 }
 
 export function saveSettings(settings) {

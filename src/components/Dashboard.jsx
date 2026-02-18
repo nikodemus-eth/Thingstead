@@ -10,6 +10,7 @@ import PhaseStatus from "./widgets/PhaseStatus.jsx";
 import RecentActivity from "./widgets/RecentActivity.jsx";
 import GateOverview from "./widgets/GateOverview.jsx";
 import BlockedArtifacts from "./widgets/BlockedArtifacts.jsx";
+import OpenClawAgentsWidget from "./widgets/OpenClawAgentsWidget.jsx";
 import GlyphIcon from "./GlyphIcon.jsx";
 import styles from "./Dashboard.module.css";
 
@@ -39,6 +40,11 @@ const WIDGETS = {
     icon: "warning",
     component: BlockedArtifacts,
   },
+  OpenClawAgents: {
+    title: "OpenClaw Agents",
+    icon: "audit",
+    component: OpenClawAgentsWidget,
+  },
 };
 
 const DEFAULT_LAYOUT = [
@@ -47,6 +53,7 @@ const DEFAULT_LAYOUT = [
   { i: "RecentActivity", x: 0, y: 4, w: 4, h: 6 },
   { i: "GateOverview", x: 4, y: 6, w: 4, h: 5 },
   { i: "BlockedArtifacts", x: 8, y: 6, w: 4, h: 5 },
+  { i: "OpenClawAgents", x: 0, y: 11, w: 6, h: 6 },
 ];
 
 function sanitizeLayout(layout) {

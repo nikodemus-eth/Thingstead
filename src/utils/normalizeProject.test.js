@@ -66,3 +66,47 @@ describe("normalizeProject template_set_profile normalization", () => {
   });
 });
 
+describe("normalizeProject – openclaw block", () => {
+  it("adds openclaw scaffold when project has no openclaw key", () => {
+    const p = baseProject();
+    const n = normalizeProject(p);
+    expect(n.openclaw).toEqual({
+      linkedAgentIds: [],
+      lastAgentHeartbeat: null,
+      advisoryDrafts: {},
+    });
+  });
+
+  it("preserves existing linkedAgentIds after normalization (does not reset)", () => {
+    const p = baseProject({ openclaw: { linkedAgentIds: ["agent-42"], lastAgentHeartbeat: null, advisoryDrafts: {} } });
+    const n = normalizeProject(p);
+    expect(n.openclaw.linkedAgentIds).toEqual(["agent-42"]);
+  });
+
+  it("preserves existing advisoryDrafts after normalization", () => {
+    const p = baseProject({ openclaw: { linkedAgentIds: [], lastAgentHeartbeat: null, advisoryDrafts: { "d1": { content: "hello" } } } });
+    const n = normalizeProject(p);
+    expect(n.openclaw.advisoryDrafts).toEqual({ "d1": { content: "hello" } });
+  });
+
+  it("fills in missing fields when openclaw is partial", () => {
+    const p = baseProject({ openclaw: { linkedAgentIds: ["x"] } });
+    const n = normalizeProject(p);
+    expect(n.openclaw.linkedAgentIds).toEqual(["x"]);
+    expect(n.openclaw.lastAgentHeartbeat).toBeNull();
+    expect(n.openclaw.advisoryDrafts).toEqual({});
+  });
+
+  it("replaces non-object openclaw values with the safe default scaffold", () => {
+    for (const bad of [null, "bad", 42, true, []]) {
+      const p = baseProject({ openclaw: bad });
+      const n = normalizeProject(p);
+      expect(n.openclaw).toEqual({
+        linkedAgentIds: [],
+        lastAgentHeartbeat: null,
+        advisoryDrafts: {},
+      });
+    }
+  });
+});
+

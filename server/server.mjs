@@ -3,6 +3,7 @@ import { promises as fsp } from "node:fs";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { randomUUID } from "node:crypto";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -116,6 +117,175 @@ async function listProjectsIndex() {
   return { currentProjectId: null, projects };
 }
 
+function buildOpenClawMeta(project) {
+  const oc = project?.openclaw && typeof project.openclaw === "object" && !Array.isArray(project.openclaw)
+    ? project.openclaw
+    : {};
+  return {
+    linkedAgentIds: Array.isArray(oc.linkedAgentIds) ? oc.linkedAgentIds : [],
+    lastAgentHeartbeat: typeof oc.lastAgentHeartbeat === "string" ? oc.lastAgentHeartbeat : null,
+    advisoryDrafts: oc.advisoryDrafts && typeof oc.advisoryDrafts === "object" && !Array.isArray(oc.advisoryDrafts)
+      ? oc.advisoryDrafts
+      : {},
+  };
+}
+
+async function handleOpenClawApi(req, res, url) {
+  const now = new Date().toISOString();
+
+  // GET /api/openclaw/health
+  if (req.method === "GET" && url.pathname === "/api/openclaw/health") {
+    return send(
+      res,
+      200,
+      { "Content-Type": "application/json; charset=utf-8", "X-Thingstead-Deterministic": "true" },
+      JSON.stringify({ ok: true, integration: "openclaw-thingstead-v1.0" })
+    );
+  }
+
+  // GET /api/openclaw/projects
+  if (req.method === "GET" && url.pathname === "/api/openclaw/projects") {
+    await ensureDirs();
+    const files = await fsp.readdir(PROJECTS_DIR).catch(() => []);
+    const projects = {};
+    for (const file of files) {
+      if (!file.endsWith(".json")) continue;
+      const id = file.slice(0, -5);
+      try {
+        const raw = await fsp.readFile(projectPath(id), "utf8");
+        const project = JSON.parse(raw);
+        const name = typeof project?.name === "string" ? project.name : id;
+        const lastModified = typeof project?.lastModified === "string" ? project.lastModified : null;
+        projects[id] = { id, name, lastModified, openclaw: buildOpenClawMeta(project) };
+      } catch {
+        // ignore corrupt files
+      }
+    }
+    return sendJson(res, 200, { projects });
+  }
+
+  // POST /api/openclaw/projects
+  if (req.method === "POST" && url.pathname === "/api/openclaw/projects") {
+    let body;
+    try {
+      body = await readJsonBody(req);
+    } catch {
+      return sendJson(res, 400, { error: "BAD_JSON" });
+    }
+    const name = typeof body?.name === "string" ? body.name.trim() : "";
+    const planId = typeof body?.planId === "string" ? body.planId.trim() : "";
+    if (!name || !planId) {
+      return sendJson(res, 400, { error: "INVALID_BODY", detail: "name and planId are required" });
+    }
+    const linkedAgentIds = Array.isArray(body.linkedAgentIds) ? body.linkedAgentIds : [];
+    const id = randomUUID();
+    const project = {
+      id,
+      name,
+      plan: { id: planId },
+      plan_id: planId,
+      created: now,
+      lastModified: now,
+      phases: [],
+      openclaw: { linkedAgentIds, lastAgentHeartbeat: null, advisoryDrafts: {} },
+    };
+    await ensureDirs();
+    await atomicWriteJson(projectPath(id), project);
+    return sendJson(res, 201, { ok: true, project });
+  }
+
+  // GET /api/openclaw/projects/:id
+  const projectGetMatch = url.pathname.match(/^\/api\/openclaw\/projects\/([^/]+)$/);
+  if (req.method === "GET" && projectGetMatch) {
+    const id = safeProjectId(projectGetMatch[1]);
+    if (!id) return sendJson(res, 400, { error: "INVALID_ID" });
+    try {
+      const raw = await fsp.readFile(projectPath(id), "utf8");
+      const project = JSON.parse(raw);
+      return sendJson(res, 200, { project: { ...project, openclaw: buildOpenClawMeta(project) } });
+    } catch {
+      return sendJson(res, 404, { error: "NOT_FOUND" });
+    }
+  }
+
+  // POST /api/openclaw/proposals
+  if (req.method === "POST" && url.pathname === "/api/openclaw/proposals") {
+    let body;
+    try {
+      body = await readJsonBody(req);
+    } catch {
+      return sendJson(res, 400, { error: "BAD_JSON" });
+    }
+    const projectId = safeProjectId(body?.projectId);
+    const draftId = typeof body?.draftId === "string" && body.draftId.trim().length > 0 ? body.draftId.trim() : null;
+    if (!projectId || !draftId) {
+      return sendJson(res, 400, { error: "INVALID_BODY", detail: "projectId and draftId are required" });
+    }
+    let project;
+    try {
+      const raw = await fsp.readFile(projectPath(projectId), "utf8");
+      project = JSON.parse(raw);
+    } catch {
+      return sendJson(res, 404, { error: "NOT_FOUND" });
+    }
+    const oc = buildOpenClawMeta(project);
+    oc.advisoryDrafts[draftId] = {
+      content: body.content ?? null,
+      createdAt: now,
+    };
+    // CRITICAL: only write openclaw namespace — never touch project.phases or artifacts
+    const updated = { ...project, openclaw: oc };
+    await atomicWriteJson(projectPath(projectId), updated);
+    return sendJson(res, 200, { ok: true, draftId });
+  }
+
+  // POST /api/openclaw/heartbeat
+  if (req.method === "POST" && url.pathname === "/api/openclaw/heartbeat") {
+    let body;
+    try {
+      body = await readJsonBody(req);
+    } catch {
+      return sendJson(res, 400, { error: "BAD_JSON" });
+    }
+    const projectId = safeProjectId(body?.projectId);
+    const agentId = typeof body?.agentId === "string" && body.agentId.trim().length > 0 ? body.agentId.trim() : null;
+    if (!projectId || !agentId) {
+      return sendJson(res, 400, { error: "INVALID_BODY", detail: "projectId and agentId are required" });
+    }
+    let project;
+    try {
+      const raw = await fsp.readFile(projectPath(projectId), "utf8");
+      project = JSON.parse(raw);
+    } catch {
+      return sendJson(res, 404, { error: "NOT_FOUND" });
+    }
+    const oc = buildOpenClawMeta(project);
+    if (!oc.linkedAgentIds.includes(agentId)) {
+      oc.linkedAgentIds = [...oc.linkedAgentIds, agentId];
+    }
+    oc.lastAgentHeartbeat = now;
+    const updated = { ...project, openclaw: oc };
+    await atomicWriteJson(projectPath(projectId), updated);
+    return sendJson(res, 200, { ok: true, agentId, linkedAgentIds: oc.linkedAgentIds, lastAgentHeartbeat: oc.lastAgentHeartbeat });
+  }
+
+  // GET /api/openclaw/gate/:projectId/:phaseNumber
+  const gateMatch = url.pathname.match(/^\/api\/openclaw\/gate\/([^/]+)\/(\d+)$/);
+  if (req.method === "GET" && gateMatch) {
+    const projectId = safeProjectId(gateMatch[1]);
+    const phaseNumber = parseInt(gateMatch[2], 10);
+    if (!projectId || !(phaseNumber >= 1)) return sendJson(res, 400, { error: "INVALID_PARAMS" });
+    try {
+      await fsp.access(projectPath(projectId));
+    } catch {
+      return sendJson(res, 404, { error: "NOT_FOUND" });
+    }
+    return sendJson(res, 200, { ready: true, projectId, phaseNumber, advisory: true });
+  }
+
+  return sendJson(res, 404, { error: "NOT_FOUND" });
+}
+
 async function handleApi(req, res, url) {
   if (req.method === "GET" && url.pathname === "/api/health") {
     return sendJson(res, 200, { ok: true });
@@ -174,6 +344,10 @@ async function handleApi(req, res, url) {
       const index = await listProjectsIndex();
       return sendJson(res, 200, { ok: true, index });
     }
+  }
+
+  if (url.pathname.startsWith("/api/openclaw/")) {
+    return await handleOpenClawApi(req, res, url);
   }
 
   return sendJson(res, 404, { error: "NOT_FOUND" });

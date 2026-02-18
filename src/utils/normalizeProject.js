@@ -234,5 +234,13 @@ export function normalizeProject(project) {
     },
     audit_log: Array.isArray(project.audit_log) ? project.audit_log : [],
     phases: normalizedPhases,
+    // OpenClaw integration namespace — advisory only, never touches phases/artifacts.
+    // Defaults first; existing data spreads on top so re-normalization never resets agent registrations.
+    openclaw: {
+      linkedAgentIds: [],
+      lastAgentHeartbeat: null,
+      advisoryDrafts: {},
+      ...(project.openclaw && typeof project.openclaw === "object" ? project.openclaw : {}),
+    },
   };
 }

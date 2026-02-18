@@ -1,0 +1,36 @@
+{
+  "skill": "thingstead",
+  "version": "1.0.0",
+  "description": "OpenClaw skill for governing AI projects with Thingstead — CPMAI governance engine.",
+  "integration": "openclaw-thingstead-v1.0",
+  "capabilities": [
+    "project.create",
+    "project.read",
+    "project.list",
+    "agent.heartbeat",
+    "proposal.submit",
+    "gate.query"
+  ],
+  "endpoints": {
+    "health":        "GET  /api/openclaw/health",
+    "listProjects":  "GET  /api/openclaw/projects",
+    "getProject":    "GET  /api/openclaw/projects/:id",
+    "createProject": "POST /api/openclaw/projects",
+    "proposal":      "POST /api/openclaw/proposals",
+    "heartbeat":     "POST /api/openclaw/heartbeat",
+    "gate":          "GET  /api/openclaw/gate/:projectId/:phaseNumber"
+  },
+  "dlc": {
+    "signingAlgorithm": "ECDSA_P256_SHA256",
+    "canonicalEncoding": "stable-json-v1",
+    "signerScript":   "tools/sign-dlc.mjs",
+    "verifierScript": "openclaws/dlc-verifier.mjs"
+  },
+  "constraints": {
+    "advisoryOnly": true,
+    "neverMutatePhases": true,
+    "neverMutateArtifacts": true,
+    "openclawNamespaceOnly": true,
+    "deterministicCoreUntouched": true
+  }
+}
