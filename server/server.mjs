@@ -4,6 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { randomUUID } from "node:crypto";
+import { shouldAcceptWrite } from "./conflict.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -321,6 +322,23 @@ async function handleApi(req, res, url) {
         // Ensure stored object id matches URL id if provided.
         if (typeof project.id === "string" && project.id !== id) {
           return sendJson(res, 400, { error: "ID_MISMATCH" });
+        }
+        // Conflict detection: reject stale writes based on lastModified timestamp.
+        let existingProject = null;
+        try {
+          const existingRaw = await fsp.readFile(projectPath(id), "utf8");
+          existingProject = JSON.parse(existingRaw);
+        } catch {
+          // File doesn't exist yet — first write, always accepted.
+        }
+        if (existingProject) {
+          const accepted = shouldAcceptWrite(
+            existingProject.lastModified ?? null,
+            project.lastModified ?? null
+          );
+          if (!accepted) {
+            return sendJson(res, 409, { error: "CONFLICT", serverProject: existingProject });
+          }
         }
         const toStore = { ...project, id };
         await ensureDirs();
