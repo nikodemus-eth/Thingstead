@@ -7,6 +7,7 @@ import PhaseDetail from "./components/PhaseDetail.jsx";
 import Search from "./components/Search.jsx";
 import Dashboard from "./components/Dashboard.jsx";
 import GlyphIcon from "./components/GlyphIcon.jsx";
+import LanStatus from "./components/LanStatus.jsx";
 import styles from "./App.module.css";
 
 function AppShell() {
@@ -199,6 +200,7 @@ function AppSession({ state, autoSave, dispatch }) {
             </div>
             <div className={styles.headerStatus}>
               <span>{autoSaveLabel}</span>
+              <LanStatus />
             </div>
             {state.currentProject && currentView === "project" && (
               <button

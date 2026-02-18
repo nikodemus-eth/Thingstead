@@ -42,11 +42,25 @@ export function ProjectProvider({ children }) {
       fetchRemoteIndex()
         .then(async (remoteIndex) => {
         if (!remoteIndex?.projects) return;
-        saveProjectIndex(remoteIndex);
-        dispatch({ type: "LOAD_PROJECT_INDEX", payload: remoteIndex });
 
-        const remoteCurrentId = remoteIndex.currentProjectId;
-        if (remoteCurrentId) {
+        // Self-healing: drop index entries that exist neither locally nor remotely.
+        // Prevents orphaned entries from accumulating across device restarts or migrations.
+        const healedProjects = { ...remoteIndex.projects };
+        for (const id of Object.keys(healedProjects)) {
+          if (!loadProject(id)) {
+            const remote = await fetchRemoteProject(id);
+            if (!remote) {
+              delete healedProjects[id];
+            }
+          }
+        }
+        const healedIndex = { ...remoteIndex, projects: healedProjects };
+
+        saveProjectIndex(healedIndex);
+        dispatch({ type: "LOAD_PROJECT_INDEX", payload: healedIndex });
+
+        const remoteCurrentId = healedIndex.currentProjectId;
+        if (remoteCurrentId && healedProjects[remoteCurrentId]) {
           const existing = loadProject(remoteCurrentId);
           if (!existing) {
             const remoteProject = await fetchRemoteProject(remoteCurrentId);
