@@ -146,6 +146,19 @@
   color: var(--ink-500);
 }
 
+/* Visually hidden live region — announced by screen readers, invisible when empty. */
+.noticeSrOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .noticeSuccess {
   border: 1px solid #4f9b74;
   border-radius: var(--radius-sm);
@@ -160,7 +173,7 @@
   border: 1px solid #da7b7b;
   border-radius: var(--radius-sm);
   background: var(--danger-bg);
-  color: var(--danger);
+  color: #f5b8b8; /* light rose — sufficient contrast on dark danger-bg */
   padding: 10px 12px;
   font-size: 12px;
   font-weight: 700;

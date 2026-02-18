@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion as Motion } from "framer-motion";
+import { AnimatePresence, motion as Motion, useReducedMotion } from "framer-motion";
 import { ProjectProvider, useProject } from "./contexts/ProjectContext.jsx";
 import ProjectList from "./components/ProjectList.jsx";
 import PhaseNav from "./components/PhaseNav.jsx";
@@ -8,6 +8,7 @@ import Search from "./components/Search.jsx";
 import Dashboard from "./components/Dashboard.jsx";
 import GlyphIcon from "./components/GlyphIcon.jsx";
 import LanStatus from "./components/LanStatus.jsx";
+import KeyboardHelpModal from "./components/modals/KeyboardHelpModal.jsx";
 import styles from "./App.module.css";
 
 function AppShell() {
@@ -37,6 +38,7 @@ function AppSession({ state, autoSave, dispatch }) {
   const [highlightedArtifactId, setHighlightedArtifactId] = useState(null);
   const [currentView, setCurrentView] = useState("project");
   const [focusModeEnabled, setFocusModeEnabled] = useState(false);
+  const [showKeyboardHelp, setShowKeyboardHelp] = useState(false);
 
   const projectPhaseIds = (state.currentProject?.phases || []).map((p) => p.id);
   const effectivePhaseId =
@@ -68,6 +70,13 @@ function AppSession({ state, autoSave, dispatch }) {
           target.tagName === "TEXTAREA" ||
           target.isContentEditable);
       if (isInput) return;
+
+      // Toggle keyboard shortcut help on "?".
+      if (event.key === "?") {
+        event.preventDefault();
+        setShowKeyboardHelp((v) => !v);
+        return;
+      }
 
       // Global modal escape: close the topmost app modal without requiring each component
       // to wire its own Escape handler (useful for e2e stability and accessibility).
@@ -109,11 +118,15 @@ function AppSession({ state, autoSave, dispatch }) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [canUndo, canRedo, dispatch]);
 
-  const fadeUp = {
-    initial: { opacity: 0, y: 14 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.35, ease: "easeOut" },
-  };
+  const prefersReducedMotion = useReducedMotion();
+
+  const fadeUp = prefersReducedMotion
+    ? { initial: false, animate: {}, transition: { duration: 0 } }
+    : {
+        initial: { opacity: 0, y: 14 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.35, ease: "easeOut" },
+      };
 
   return (
     <div
@@ -171,7 +184,7 @@ function AppSession({ state, autoSave, dispatch }) {
           transition={{ duration: 0.28, ease: "easeOut", delay: 0.1 }}
         >
           <div className={styles.headerTitleWrap}>
-            <div className={styles.headerTitle}>Thingstead</div>
+            <h1 className={styles.headerTitle}>Thingstead</h1>
             {state.currentProject && (
               <div className={styles.modeBadge}>
                 {state.currentProject.governance_mode === "solo"
@@ -270,6 +283,10 @@ function AppSession({ state, autoSave, dispatch }) {
           )}
         </AnimatePresence>
       </Motion.main>
+
+      {showKeyboardHelp && (
+        <KeyboardHelpModal onClose={() => setShowKeyboardHelp(false)} />
+      )}
     </div>
   );
 }

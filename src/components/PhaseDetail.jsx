@@ -89,9 +89,9 @@ export default function PhaseDetail({ currentPhaseId, highlightedArtifactId }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.24, ease: "easeOut", delay: 0.04 }}
       >
-        <div className={styles.title}>
+        <h2 className={styles.title}>
           Phase {phase.id}: {phase.name}
-        </div>
+        </h2>
         <div className={styles.description}>
           {PHASE_DESCRIPTIONS[phase.id] || "Description pending."}
         </div>

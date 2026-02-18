@@ -362,15 +362,19 @@ export default function ProjectList() {
         />
       </div>
 
-      {notice && (
-        <div
-          className={
-            notice.type === "error" ? styles.noticeError : styles.noticeSuccess
-          }
-        >
-          {notice.message}
-        </div>
-      )}
+      <div
+        aria-live={notice?.type === "error" ? "assertive" : "polite"}
+        aria-atomic="true"
+        className={
+          notice
+            ? notice.type === "error"
+              ? styles.noticeError
+              : styles.noticeSuccess
+            : styles.noticeSrOnly
+        }
+      >
+        {notice?.message ?? ""}
+      </div>
 
       {projectList.length === 0 ? (
         <div className={styles.empty}>No projects yet.</div>
