@@ -1,6 +1,6 @@
 # Thingstead (CPMAI Tracker)
 
-Local-first CPMAI tracking app with an optional LAN-capable server.
+Sovereign local-first governance OS for AI agent fleets. Deterministic phases, formal gates, native multi-agent execution, and signed advisory DLC extensions — fully portable.
 
 ## License
 
