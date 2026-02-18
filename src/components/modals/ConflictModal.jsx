@@ -1,10 +1,21 @@
+import { useRef } from "react";
 import GlyphIcon from "../GlyphIcon.jsx";
 import styles from "../ProjectList.module.css";
+import { useFocusTrap } from "../../hooks/useFocusTrap.js";
 
 export default function ConflictModal({ projectName, onResolve }) {
+  const modalRef = useRef(null);
+  useFocusTrap(modalRef, true);
+
   return (
-    <div className={styles.modalBackdrop} role="dialog" aria-modal="true" aria-label="Sync conflict">
-      <div className={styles.modal}>
+    <div className={styles.modalBackdrop}>
+      <div
+        className={styles.modal}
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Sync conflict"
+      >
         <div className={styles.modalTitle}>
           <GlyphIcon name="conflict" size={14} />
           Sync Conflict

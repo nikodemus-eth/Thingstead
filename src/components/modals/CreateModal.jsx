@@ -1,13 +1,24 @@
+import { useRef } from "react";
 import GlyphIcon from "../GlyphIcon.jsx";
 import styles from "../ProjectList.module.css";
+import { useFocusTrap } from "../../hooks/useFocusTrap.js";
 
 export default function CreateModal({ createModal, setCreateModal, onSubmitName, onSubmitGovernance }) {
+  const modalRef = useRef(null);
+  useFocusTrap(modalRef, !!createModal);
+
   if (!createModal) return null;
 
   if (createModal.step === "name") {
     return (
       <div className={styles.modalBackdrop}>
-        <div className={styles.modal}>
+        <div
+          className={styles.modal}
+          ref={modalRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="New project"
+        >
           <div className={styles.modalTitle}>New Project</div>
           <div className={styles.modalBody}>
             <label htmlFor="create-project-name">Project name</label>
@@ -21,7 +32,6 @@ export default function CreateModal({ createModal, setCreateModal, onSubmitName,
               onKeyDown={(event) => {
                 if (event.key === "Enter") onSubmitName();
               }}
-              autoFocus
             />
           </div>
           <div className={styles.modalActions}>
@@ -49,7 +59,13 @@ export default function CreateModal({ createModal, setCreateModal, onSubmitName,
   if (createModal.step === "governance") {
     return (
       <div className={styles.modalBackdrop}>
-        <div className={styles.modal}>
+        <div
+          className={styles.modal}
+          ref={modalRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Choose governance mode"
+        >
           <div className={styles.modalTitle}>Governance Mode</div>
           <div className={styles.modalBody}>
             Choose a governance mode for <strong>{createModal.name}</strong>.

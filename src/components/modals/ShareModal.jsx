@@ -1,6 +1,7 @@
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useRef } from "react";
 import GlyphIcon from "../GlyphIcon.jsx";
 import styles from "../ProjectList.module.css";
+import { useFocusTrap } from "../../hooks/useFocusTrap.js";
 
 export default function ShareModal({
   shareModal,
@@ -10,6 +11,9 @@ export default function ShareModal({
   downloadJsonTransport,
   clipboardJsonTransport,
 }) {
+  const modalRef = useRef(null);
+  useFocusTrap(modalRef, !!shareModal);
+
   useLayoutEffect(() => {
     if (!shareModal) return;
     const onKey = (e) => {
@@ -45,6 +49,7 @@ export default function ShareModal({
     >
       <div
         className={styles.modal}
+        ref={modalRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="share-project-title"

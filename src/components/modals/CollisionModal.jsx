@@ -1,10 +1,21 @@
+import { useRef } from "react";
 import GlyphIcon from "../GlyphIcon.jsx";
 import styles from "../ProjectList.module.css";
+import { useFocusTrap } from "../../hooks/useFocusTrap.js";
 
 export default function CollisionModal({ onResolve }) {
+  const modalRef = useRef(null);
+  useFocusTrap(modalRef, true);
+
   return (
     <div className={styles.modalBackdrop}>
-      <div className={styles.modal}>
+      <div
+        className={styles.modal}
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Import collision"
+      >
         <div className={styles.modalTitle}>Import Collision</div>
         <div className={styles.modalBody}>
           A project with this ID already exists. Choose how to proceed.

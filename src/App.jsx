@@ -121,6 +121,9 @@ function AppSession({ state, autoSave, dispatch }) {
         focusModeEnabled && currentView === "project" ? styles.focusMode : ""
       }`}
     >
+      <a href="#main-content" className={styles.skipLink}>
+        Skip to main content
+      </a>
       <Motion.aside className={styles.sidebar} {...fadeUp}>
         <div className={styles.nav}>
           <button
@@ -155,6 +158,7 @@ function AppSession({ state, autoSave, dispatch }) {
         <ProjectList />
       </Motion.aside>
       <Motion.main
+        id="main-content"
         className={styles.main}
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
