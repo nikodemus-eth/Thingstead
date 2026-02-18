@@ -19,6 +19,8 @@ function getSchemaVersionString(project) {
   // Legacy: schemaVersion number.
   if (typeof project?.schemaVersion === "number") return String(project.schemaVersion);
   if (typeof project?.schema_version === "string") return project.schema_version;
+  // Normalized projects store version in meta.schema_version.
+  if (typeof project?.meta?.schema_version === "string") return project.meta.schema_version;
   return "";
 }
 

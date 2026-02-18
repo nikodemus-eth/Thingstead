@@ -1,3 +1,5 @@
+import { CURRENT_SCHEMA_VERSION } from "../migrations/index.js";
+
 export const EXPORT_BUNDLE_SCHEMA_VERSION = 1;
 
 function slugify(value) {
@@ -17,6 +19,7 @@ export function wrapProjectInBundle(project, { createdAt, appVersion } = {}) {
   const iso = createdAt || new Date().toISOString();
   return {
     schemaVersion: EXPORT_BUNDLE_SCHEMA_VERSION,
+    minReaderVersion: CURRENT_SCHEMA_VERSION,
     createdAt: iso,
     ...(appVersion ? { appVersion } : {}),
     project,
@@ -59,4 +62,3 @@ export function buildBundleFilename(bundle) {
     : new Date().toISOString().slice(0, 10);
   return `thingstead-project_${projectSlug}_${date}.json`;
 }
-
