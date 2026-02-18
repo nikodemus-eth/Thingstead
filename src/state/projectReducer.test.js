@@ -567,3 +567,26 @@ describe("projectReducer", () => {
     });
   });
 });
+
+describe("createSnapshot with integrity guard", () => {
+  it("skips snapshot if project has duplicate artifact IDs", () => {
+    const corruptProject = {
+      id: "corrupt",
+      name: "Bad",
+      phases: [
+        { id: 1, artifacts: [{ id: "dup" }, { id: "dup" }] },
+      ],
+    };
+    const state = makeState({ history: [], historyIndex: -1 });
+    const result = createSnapshot(state, corruptProject);
+    // Should return clamped history unchanged (no snapshot created)
+    expect(result.history.length).toBe(0);
+  });
+
+  it("creates snapshot for valid project", () => {
+    const project = makeProject();
+    const state = makeState({ history: [], historyIndex: -1 });
+    const result = createSnapshot(state, project);
+    expect(result.history.length).toBe(1);
+  });
+});

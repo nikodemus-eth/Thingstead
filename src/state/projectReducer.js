@@ -1,5 +1,6 @@
 import { normalizeProject } from "../utils/normalizeProject.js";
 import { randomUUID } from "../utils/uuid.js";
+import { verifyProjectIntegrity } from "../utils/projectIntegrity.js";
 
 export const initialState = {
   projects: {},
@@ -102,6 +103,12 @@ export function clampHistory(history, historyIndex, maxSnapshots = 5) {
 }
 
 export function createSnapshot(state, project) {
+  // Guard: don't snapshot corrupt state (duplicate IDs, etc.)
+  const integrity = verifyProjectIntegrity(project);
+  if (!integrity.ok) {
+    console.warn("[Thingstead] Skipping snapshot: project failed integrity check", integrity.errors);
+    return clampHistory(state.history, state.historyIndex);
+  }
   const snapshot = cloneProject(project);
   const baseHistory = state.history.slice(0, state.historyIndex + 1);
   const nextHistory = baseHistory.concat(snapshot);
