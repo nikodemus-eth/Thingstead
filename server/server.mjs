@@ -79,11 +79,11 @@ async function atomicWriteJson(filePath, obj) {
   const dir = path.dirname(filePath);
   const tmpPath = path.join(dir, `.${path.basename(filePath)}.${process.pid}.tmp`);
   const data = JSON.stringify(obj, null, 2);
-  // Open a file handle to allow fdatasync before rename for write durability.
+  // Open a file handle to allow fsync before rename for write durability.
   const fh = await fsp.open(tmpPath, "w");
   try {
     await fh.writeFile(data, "utf8");
-    await fh.datasync();
+    await fh.sync();
   } finally {
     await fh.close();
   }
@@ -103,26 +103,7 @@ function projectPath(id) {
 
 async function listProjectsIndex() {
   await ensureDirs();
-  const files = await fsp.readdir(PROJECTS_DIR).catch(() => []);
-  const projects = {};
-  for (const file of files) {
-    if (!file.endsWith(".json")) continue;
-    const id = file.slice(0, -5);
-    const fp = projectPath(id);
-    try {
-      const raw = await fsp.readFile(fp, "utf8");
-      const project = JSON.parse(raw);
-      const name = typeof project?.name === "string" ? project.name : id;
-      const lastModified =
-        typeof project?.lastModified === "string" ? project.lastModified : null;
-      const lastSavedFrom =
-        typeof project?.lastSavedFrom === "string" ? project.lastSavedFrom : null;
-      projects[id] = { id, name, lastModified, lastSavedFrom };
-    } catch {
-      // ignore corrupt files; keep server robust
-    }
-  }
-  return { currentProjectId: null, projects };
+  return rebuildIndex(PROJECTS_DIR);
 }
 
 function buildOpenClawMeta(project) {

@@ -91,8 +91,14 @@ export default function ProjectList() {
       payload: { projectId: project.id, projectSummary: summary, projectData },
     });
 
-    // Best-effort LAN sync (fire-and-forget).
-    upsertRemoteProject(project).catch(() => {});
+    // Best-effort LAN sync — show conflict modal if the server has a newer version.
+    upsertRemoteProject(project)
+      .then((result) => {
+        if (result?.status === "conflict") {
+          setConflictState({ project, serverProject: result.serverProject });
+        }
+      })
+      .catch(() => {});
     fetchRemoteIndex()
       .then((index) => index && saveProjectIndex(index))
       .catch(() => {});
@@ -198,16 +204,32 @@ export default function ProjectList() {
   const resolveConflict = async (mode) => {
     if (!conflictState) return;
     const { project, serverProject } = conflictState;
-    setConflictState(null);
+
+    if (mode === "cancel") {
+      setConflictState(null);
+      return;
+    }
 
     if (mode === "mine") {
-      // Force-push local version by sending a PUT with server's lastModified timestamp
-      // (bumped slightly) so shouldAcceptWrite passes.
+      // Force-push local version with a fresh timestamp so shouldAcceptWrite passes.
       const forced = { ...project, lastModified: new Date().toISOString() };
-      await upsertRemoteProject(forced).catch(() => {});
+      const result = await upsertRemoteProject(forced);
+      if (result?.status !== "ok" && result?.status !== "unavailable") {
+        setNotice({ type: "error", message: "Failed to push local version to server. Try again." });
+        return; // leave modal open for retry
+      }
     } else if (mode === "theirs" && serverProject) {
-      // Replace local with server version.
-      addProjectToIndex(serverProject);
+      // Apply the server version locally only — do NOT re-upload it.
+      const projectData = { current: serverProject, history: [], historyIndex: -1 };
+      const summary = {
+        id: serverProject.id,
+        name: serverProject.name,
+        lastModified: serverProject.lastModified,
+        lastSavedFrom: serverProject.lastSavedFrom,
+      };
+      const nextProjects = { ...projects, [serverProject.id]: summary };
+      saveProjectAndIndex(serverProject.id, projectData, buildIndex(nextProjects, serverProject.id));
+      dispatch({ type: "CREATE_PROJECT", payload: { projectId: serverProject.id, projectSummary: summary, projectData } });
     } else if (mode === "both" && serverProject) {
       // Clone server version with a new ID.
       addProjectToIndex({
@@ -216,7 +238,8 @@ export default function ProjectList() {
         name: `${serverProject.name} (Server Copy)`,
       });
     }
-    // "cancel" — do nothing
+
+    setConflictState(null); // only reached on success
   };
 
   const handleImportFile = async (event) => {
