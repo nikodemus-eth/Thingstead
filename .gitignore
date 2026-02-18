@@ -29,6 +29,10 @@ tools/launchd
 # Firebase
 firebase-debug.log
 
+# Release artifacts — track the zip, not the unpacked folder
+releases/*/
+.thingstead-data
+
 # macOS resource forks
 ._*
 *.suo
