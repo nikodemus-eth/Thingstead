@@ -4,7 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { randomUUID } from "node:crypto";
-import { shouldAcceptWrite } from "./conflict.mjs";
+import { shouldAcceptWrite, rebuildIndex } from "./conflict.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -79,7 +79,14 @@ async function atomicWriteJson(filePath, obj) {
   const dir = path.dirname(filePath);
   const tmpPath = path.join(dir, `.${path.basename(filePath)}.${process.pid}.tmp`);
   const data = JSON.stringify(obj, null, 2);
-  await fsp.writeFile(tmpPath, data, "utf8");
+  // Open a file handle to allow fdatasync before rename for write durability.
+  const fh = await fsp.open(tmpPath, "w");
+  try {
+    await fh.writeFile(data, "utf8");
+    await fh.datasync();
+  } finally {
+    await fh.close();
+  }
   await fsp.rename(tmpPath, filePath);
 }
 
@@ -362,6 +369,13 @@ async function handleApi(req, res, url) {
       const index = await listProjectsIndex();
       return sendJson(res, 200, { ok: true, index });
     }
+  }
+
+  // GET /api/index/rebuild — scans PROJECTS_DIR and returns a fresh index
+  if (req.method === "GET" && url.pathname === "/api/index/rebuild") {
+    await ensureDirs();
+    const rebuilt = await rebuildIndex(PROJECTS_DIR);
+    return sendJson(res, 200, rebuilt);
   }
 
   if (url.pathname.startsWith("/api/openclaw/")) {
