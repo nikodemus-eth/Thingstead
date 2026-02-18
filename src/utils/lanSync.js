@@ -63,19 +63,23 @@ export async function fetchRemoteProject(projectId) {
 
 export async function upsertRemoteProject(project) {
   const ok = await checkAvailable();
-  if (!ok) return null;
+  if (!ok) return { status: "unavailable" };
   const id = project?.id;
-  if (typeof id !== "string" || id.length === 0) return null;
+  if (typeof id !== "string" || id.length === 0) return { status: "invalid" };
   try {
     const res = await fetch(`/api/projects/${encodeURIComponent(id)}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ project }),
     });
-    if (!res.ok) return null;
-    return await res.json();
+    if (res.status === 409) {
+      const data = await res.json();
+      return { status: "conflict", serverProject: data.serverProject };
+    }
+    if (!res.ok) return { status: "error" };
+    return { status: "ok", data: await res.json() };
   } catch {
-    return null;
+    return { status: "error" };
   }
 }
 

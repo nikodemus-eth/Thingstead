@@ -28,6 +28,7 @@ import GlyphIcon from "./GlyphIcon.jsx";
 import CreateModal from "./modals/CreateModal.jsx";
 import DeleteModal from "./modals/DeleteModal.jsx";
 import CollisionModal from "./modals/CollisionModal.jsx";
+import ConflictModal from "./modals/ConflictModal.jsx";
 import ShareModal from "./modals/ShareModal.jsx";
 import styles from "./ProjectList.module.css";
 
@@ -43,6 +44,7 @@ export default function ProjectList() {
   const fileInputRef = useRef(null);
   const [notice, setNotice] = useState(null);
   const [collisionProject, setCollisionProject] = useState(null);
+  const [conflictState, setConflictState] = useState(null); // { project, serverProject }
   const [createModal, setCreateModal] = useState(null);
   const [deleteModal, setDeleteModal] = useState(null);
   const [shareModal, setShareModal] = useState(null);
@@ -158,7 +160,13 @@ export default function ProjectList() {
       payload: { projectId: project.id, projectSummary: summary, projectData },
     });
 
-    upsertRemoteProject(project).catch(() => {});
+    upsertRemoteProject(project)
+      .then((result) => {
+        if (result?.status === "conflict") {
+          setConflictState({ project, serverProject: result.serverProject });
+        }
+      })
+      .catch(() => {});
     fetchRemoteIndex()
       .then((index) => index && saveProjectIndex(index))
       .catch(() => {});
@@ -185,6 +193,30 @@ export default function ProjectList() {
     }
 
     setCollisionProject(null);
+  };
+
+  const resolveConflict = async (mode) => {
+    if (!conflictState) return;
+    const { project, serverProject } = conflictState;
+    setConflictState(null);
+
+    if (mode === "mine") {
+      // Force-push local version by sending a PUT with server's lastModified timestamp
+      // (bumped slightly) so shouldAcceptWrite passes.
+      const forced = { ...project, lastModified: new Date().toISOString() };
+      await upsertRemoteProject(forced).catch(() => {});
+    } else if (mode === "theirs" && serverProject) {
+      // Replace local with server version.
+      addProjectToIndex(serverProject);
+    } else if (mode === "both" && serverProject) {
+      // Clone server version with a new ID.
+      addProjectToIndex({
+        ...serverProject,
+        id: randomUUID(),
+        name: `${serverProject.name} (Server Copy)`,
+      });
+    }
+    // "cancel" — do nothing
   };
 
   const handleImportFile = async (event) => {
@@ -392,6 +424,13 @@ export default function ProjectList() {
 
       {collisionProject && (
         <CollisionModal onResolve={resolveCollision} />
+      )}
+
+      {conflictState && (
+        <ConflictModal
+          projectName={conflictState.project?.name || conflictState.project?.id || "Unknown"}
+          onResolve={resolveConflict}
+        />
       )}
 
       <ShareModal
