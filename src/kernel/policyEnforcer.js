@@ -37,17 +37,25 @@ export const PolicyAction = Object.freeze({
  * @returns {{ allowed: boolean, reason: string|null }}
  */
 export function enforcePolicy(action, policy) {
+  // Fail-closed: missing or malformed action is denied.
   if (!action || !action.type) {
-    return { allowed: true, reason: null };
+    return { allowed: false, reason: "Action is missing or has no type. Policy enforcement is fail-closed." };
   }
 
   switch (action.type) {
     case PolicyAction.APPLY_WAIVER:
       return enforceWaiver(action, policy);
+    case PolicyAction.REMOVE_WAIVER:
+      // Removal is allowed (no policy constraints currently defined for removal).
+      return { allowed: true, reason: null };
     case PolicyAction.DECIDE_GATE:
       return enforceGateDecision(action, policy);
-    default:
+    case PolicyAction.COMPLETE_ARTIFACT:
+      // Completion is allowed (constraints are structural, not policy-based).
       return { allowed: true, reason: null };
+    default:
+      // Fail-closed: unknown action types are denied.
+      return { allowed: false, reason: `Unknown policy action type "${action.type}". Policy enforcement is fail-closed.` };
   }
 }
 

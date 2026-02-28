@@ -206,12 +206,27 @@ describe("revisePolicy", () => {
 // ---------------------------------------------------------------------------
 
 describe("enforcePolicy", () => {
-  it("allows actions with no type", () => {
-    expect(enforcePolicy({}, null).allowed).toBe(true);
+  it("denies actions with no type (fail-closed)", () => {
+    const result = enforcePolicy({}, null);
+    expect(result.allowed).toBe(false);
+    expect(result.reason).toContain("fail-closed");
   });
 
-  it("allows unknown action types", () => {
-    expect(enforcePolicy({ type: "UNKNOWN" }, null).allowed).toBe(true);
+  it("denies null actions (fail-closed)", () => {
+    const result = enforcePolicy(null, null);
+    expect(result.allowed).toBe(false);
+    expect(result.reason).toContain("fail-closed");
+  });
+
+  it("denies unknown action types (fail-closed)", () => {
+    const result = enforcePolicy({ type: "UNKNOWN" }, null);
+    expect(result.allowed).toBe(false);
+    expect(result.reason).toContain("Unknown policy action type");
+  });
+
+  it("allows known non-restricted actions (REMOVE_WAIVER, COMPLETE_ARTIFACT)", () => {
+    expect(enforcePolicy({ type: PolicyAction.REMOVE_WAIVER }, null).allowed).toBe(true);
+    expect(enforcePolicy({ type: PolicyAction.COMPLETE_ARTIFACT }, null).allowed).toBe(true);
   });
 
   describe("waiver enforcement", () => {

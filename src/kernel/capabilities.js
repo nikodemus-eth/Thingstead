@@ -34,6 +34,9 @@ export const Capability = Object.freeze({
   // Ledger capabilities
   LEDGER_READ: "ledger.read",
   LEDGER_EXPORT: "ledger.export",
+
+  // Sentinel — fail-closed for unknown actions. No actor profile grants this.
+  UNKNOWN_ACTION: "system.unknown_action",
 });
 
 // ---------------------------------------------------------------------------
@@ -102,7 +105,8 @@ export function hasCapability(capabilities, capability) {
 
 /**
  * Maps a governance action type to the capability required to perform it.
- * Returns null if no specific capability is required (the action is unrestricted).
+ * Returns null only for explicitly unrestricted actions (HEARTBEAT).
+ * Unknown action types return UNKNOWN_ACTION (fail-closed — no actor has this capability).
  *
  * @param {string} actionType - The action type (from PolicyAction or queue action types).
  * @returns {string|null} The required capability, or null if unrestricted.
@@ -122,8 +126,9 @@ export function requiredCapability(actionType) {
     case "POLICY_CHANGE":
       return Capability.GOVERNANCE_POLICY_CHANGE;
     case "HEARTBEAT":
-      return null; // Unrestricted.
+      return null; // Explicitly unrestricted.
     default:
-      return null;
+      // Fail-closed: unknown actions require a capability nobody has.
+      return Capability.UNKNOWN_ACTION;
   }
 }

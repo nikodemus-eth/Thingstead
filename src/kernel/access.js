@@ -47,17 +47,30 @@ export function checkAccess({ actorType, capabilities, actionType }) {
 
 /**
  * Determines the actor type from an actor ID or explicit type.
- * Convention: agent IDs are prefixed with "agent:" or "openclaw:".
- * Everything else is treated as human.
+ *
+ * Fail-closed: unknown or unrecognized actors default to AGENT (lowest privilege).
+ * Human privilege must be explicitly claimed via:
+ * - explicitType = ActorType.HUMAN, or
+ * - actorId prefixed with "human:" (convention)
+ *
+ * Agent IDs are prefixed with "agent:" or "openclaw:".
  *
  * @param {string} actorId - The actor identifier.
  * @param {string} [explicitType] - Explicit actor type override.
  * @returns {string} ActorType value.
  */
 export function resolveActorType(actorId, explicitType) {
-  if (explicitType) return explicitType;
+  if (explicitType === ActorType.HUMAN || explicitType === ActorType.AGENT) {
+    return explicitType;
+  }
+  // Explicit human prefix
+  if (typeof actorId === "string" && actorId.startsWith("human:")) {
+    return ActorType.HUMAN;
+  }
+  // Explicit agent prefixes
   if (typeof actorId === "string" && (actorId.startsWith("agent:") || actorId.startsWith("openclaw:"))) {
     return ActorType.AGENT;
   }
-  return ActorType.HUMAN;
+  // Fail-closed: unknown actor type defaults to lowest privilege (agent).
+  return ActorType.AGENT;
 }

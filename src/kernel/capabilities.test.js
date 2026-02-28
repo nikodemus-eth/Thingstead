@@ -162,9 +162,14 @@ describe("resolveActorType", () => {
     expect(resolveActorType("openclaw:drafter")).toBe(ActorType.AGENT);
   });
 
-  it("resolves plain IDs as human", () => {
-    expect(resolveActorType("user-123")).toBe(ActorType.HUMAN);
-    expect(resolveActorType("nikodemus")).toBe(ActorType.HUMAN);
+  it("resolves human: prefix as human", () => {
+    expect(resolveActorType("human:user-123")).toBe(ActorType.HUMAN);
+    expect(resolveActorType("human:nikodemus")).toBe(ActorType.HUMAN);
+  });
+
+  it("defaults unknown prefixes to agent (fail-closed, lowest privilege)", () => {
+    expect(resolveActorType("user-123")).toBe(ActorType.AGENT);
+    expect(resolveActorType("unknown")).toBe(ActorType.AGENT);
   });
 
   it("respects explicit type override", () => {
@@ -193,7 +198,7 @@ describe("scheduler capability enforcement", () => {
   it("allows human gate decision through the pipeline", () => {
     const action = {
       type: "DECIDE_GATE",
-      agentId: "user-1",
+      agentId: "human:user-1",
       policyAction: { type: "DECIDE_GATE", decision: "go", notes: "This gate is ready, I have reviewed all artifacts thoroughly", governanceMode: "solo" },
       payload: { phase_id: 1, decision: "go" },
     };
