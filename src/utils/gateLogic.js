@@ -1,14 +1,10 @@
 /**
- * Shared gate-readiness logic.
+ * Shared gate-readiness logic — thin wrapper around the governance kernel.
  * Used by GoNoGoDecision, GateOverview, and PhaseNav.
  */
-import { isArtifactComplete, isArtifactWaived } from "./artifactState.js";
+import { getTemplateForArtifact } from "./templateHelpers.js";
+import { isGateReady as kernelIsGateReady } from "../kernel/index.js";
 
 export function isGateReady(phase) {
-  const artifacts = phase?.artifacts || [];
-  const blocking = artifacts.filter((artifact) => artifact.isGateBlocking);
-  return blocking.every((artifact) => {
-    if (isArtifactWaived(artifact)) return true;
-    return isArtifactComplete(artifact, phase?.id);
-  });
+  return kernelIsGateReady(phase, getTemplateForArtifact);
 }

@@ -1,38 +1,14 @@
+/**
+ * Canonical JSON utilities — delegates to the governance kernel.
+ *
+ * stableStringify is now owned by the kernel.
+ * diffJson remains here (it's a utility, not governance logic).
+ */
+
+export { stableStringify } from "../kernel/hash.js";
+
 function isPlainObject(value) {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
-}
-
-// Deterministic JSON encoding with sorted object keys.
-export function stableStringify(value) {
-  const seen = new WeakSet();
-
-  const encode = (v) => {
-    if (v === null) return "null";
-    const t = typeof v;
-    if (t === "number") return Number.isFinite(v) ? String(v) : "null";
-    if (t === "boolean") return v ? "true" : "false";
-    if (t === "string") return JSON.stringify(v);
-    if (t !== "object") return "null";
-
-    if (seen.has(v)) return "\"[Circular]\"";
-    seen.add(v);
-
-    if (Array.isArray(v)) {
-      const items = v.map((item) => encode(item));
-      return `[${items.join(",")}]`;
-    }
-
-    const keys = Object.keys(v).sort();
-    const parts = [];
-    for (const k of keys) {
-      const vv = v[k];
-      if (vv === undefined) continue;
-      parts.push(`${JSON.stringify(k)}:${encode(vv)}`);
-    }
-    return `{${parts.join(",")}}`;
-  };
-
-  return encode(value);
 }
 
 export function diffJson(a, b, opts = {}) {
@@ -79,11 +55,9 @@ export function diffJson(a, b, opts = {}) {
       return;
     }
 
-    // Fallback scalar mismatch.
     diffs.push(path || "$");
   };
 
   walk(a, b, "");
   return diffs;
 }
-

@@ -57,7 +57,7 @@ export function validateImport(jsonString) {
       Object.prototype.hasOwnProperty.call(parsed, "schemaVersion") &&
       Object.prototype.hasOwnProperty.call(parsed, "project")
     ) {
-      if (parsed.schemaVersion !== 1) {
+      if (parsed.schemaVersion !== 1 && parsed.schemaVersion !== 2) {
         return {
           valid: false,
           errors: [`Unsupported export bundle schemaVersion: ${parsed.schemaVersion}`],
@@ -100,7 +100,7 @@ export function importProject(jsonString, existingProjects, opts = {}) {
     unwrapped.kind === "bundle" &&
     parsed &&
     typeof parsed === "object" &&
-    parsed.schemaVersion !== 1
+    parsed.schemaVersion !== 1 && parsed.schemaVersion !== 2
   ) {
     return {
       status: "invalid",

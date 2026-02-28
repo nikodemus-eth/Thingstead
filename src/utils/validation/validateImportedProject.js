@@ -70,7 +70,7 @@ export function validateCoreProject(project, ctx = {}) {
   const schemaVersion = getSchemaVersionString(project);
   if (!schemaVersion) {
     addError("Project.schema_version (or schemaVersion) is missing.");
-  } else if (!["1"].includes(schemaVersion)) {
+  } else if (!["1", "2"].includes(schemaVersion)) {
     addError(`Unsupported schema_version: ${schemaVersion}.`);
   }
 

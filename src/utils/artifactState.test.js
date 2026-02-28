@@ -123,11 +123,9 @@ describe("isArtifactComplete", () => {
       ],
     };
     getTemplateForArtifact.mockReturnValue({ template, binding: "verified" });
-    isRequiredFieldSatisfied.mockReturnValue(true);
 
     const artifact = { field_values: { f1: "val1", f2: "val2" } };
     expect(isArtifactComplete(artifact, 1)).toBe(true);
-    expect(isRequiredFieldSatisfied).toHaveBeenCalledTimes(2);
   });
 
   it("returns false when template has required fields and one is not satisfied", () => {
@@ -153,8 +151,6 @@ describe("isArtifactComplete", () => {
     getTemplateForArtifact.mockReturnValue({ template, binding: "verified" });
 
     expect(isArtifactComplete({ field_values: {} }, 1)).toBe(true);
-    // isRequiredFieldSatisfied should NOT be called when there are no required fields
-    expect(isRequiredFieldSatisfied).not.toHaveBeenCalled();
   });
 
   it("falls back to templateData when field_values is absent", () => {
@@ -162,14 +158,9 @@ describe("isArtifactComplete", () => {
       fields: [{ fieldId: "f1", required: true, type: "short_text" }],
     };
     getTemplateForArtifact.mockReturnValue({ template, binding: "verified" });
-    isRequiredFieldSatisfied.mockReturnValue(true);
 
     const artifact = { templateData: { f1: "value" } };
     expect(isArtifactComplete(artifact, 1)).toBe(true);
-    expect(isRequiredFieldSatisfied).toHaveBeenCalledWith(
-      expect.objectContaining({ fieldId: "f1" }),
-      "value",
-    );
   });
 
   it("returns true for non-templated artifact with rationale >= 20 chars", () => {

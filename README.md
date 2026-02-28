@@ -4,7 +4,14 @@ Sovereign local-first governance OS for AI agent fleets. Deterministic phases, f
 
 ## License
 
-GNU Affero General Public License v3.0 (AGPL-3.0-only). See `../LICENSE`.
+Thingstead is dual-licensed:
+
+- **Open Source**: [GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0-only)
+- **Commercial**: Available for organizations that cannot comply with the AGPL. See [COMMERCIAL_LICENSE.md](COMMERCIAL_LICENSE.md).
+
+The AGPL ensures that anyone deploying Thingstead — including over a network — must share their modifications under the same license. If your use case requires proprietary modifications, the commercial license removes this obligation.
+
+The governance kernel (`src/kernel/`) is architecturally isolated and may be independently licensed in the future.
 
 ## Build & Test
 

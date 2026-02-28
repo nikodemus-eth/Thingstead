@@ -28,6 +28,7 @@ function makeProject(overrides = {}) {
       },
     ],
     audit_log: [],
+    ledger: [],
     ...overrides,
   };
 }

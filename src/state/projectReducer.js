@@ -1,6 +1,7 @@
 import { normalizeProject } from "../utils/normalizeProject.js";
 import { randomUUID } from "../utils/uuid.js";
 import { verifyProjectIntegrity } from "../utils/projectIntegrity.js";
+import { appendEntry, LedgerEventType } from "../kernel/ledger.js";
 
 export const initialState = {
   projects: {},
@@ -72,15 +73,30 @@ export function updateArtifactWaiverInProject(project, phaseId, artifactId, waiv
   };
 
   const audit_log = Array.isArray(project.audit_log) ? project.audit_log.slice() : [];
+  let ledger = Array.isArray(project.ledger) ? project.ledger : [];
+
   // Only record when waiver state changes or rationale changes meaningfully.
   if (previousWaived !== nextWaived || (nextWaived && previousArtifact?.waiver?.rationale !== waiver?.rationale)) {
     audit_log.push(auditEvent);
+
+    // Append to cryptographic ledger.
+    try {
+      const result = appendEntry(
+        ledger,
+        nextWaived ? LedgerEventType.WAIVER_APPLIED : LedgerEventType.WAIVER_REMOVED,
+        { phase_id: phaseId, artifact_id: artifactId, rationale: nextWaived ? waiver?.rationale || "" : "" },
+        actorId || "unknown"
+      );
+      ledger = result.ledger;
+    } catch {
+      // Non-fatal: ledger append failure should not block governance operations.
+    }
   }
 
-  return { ...project, phases: updatedPhases, audit_log };
+  return { ...project, phases: updatedPhases, audit_log, ledger };
 }
 
-export function updateGateDecisionInProject(project, phaseId, decision) {
+export function updateGateDecisionInProject(project, phaseId, decision, actorId) {
   const phases = project?.phases || [];
   const phaseIndex = phases.findIndex((p) => p.id === phaseId);
   if (phaseIndex === -1) return project;
@@ -90,7 +106,29 @@ export function updateGateDecisionInProject(project, phaseId, decision) {
   const updatedPhases = phases.slice();
   updatedPhases[phaseIndex] = updatedPhase;
 
-  return { ...project, phases: updatedPhases };
+  let ledger = Array.isArray(project.ledger) ? project.ledger : [];
+
+  // Log gate decisions to the cryptographic ledger.
+  if (decision?.status === "go" || decision?.status === "no-go") {
+    try {
+      const result = appendEntry(
+        ledger,
+        LedgerEventType.GATE_DECIDED,
+        {
+          phase_id: phaseId,
+          decision: decision.status,
+          notes: decision.notes || "",
+          attestation_type: decision.attestation_type || null,
+        },
+        actorId || "unknown"
+      );
+      ledger = result.ledger;
+    } catch {
+      // Non-fatal: ledger append failure should not block governance operations.
+    }
+  }
+
+  return { ...project, phases: updatedPhases, ledger };
 }
 
 export function clampHistory(history, historyIndex, maxSnapshots = 5) {
@@ -182,12 +220,13 @@ export function reducer(state, action) {
       };
     }
     case "SET_GATE_DECISION": {
-      const { phaseId, decision } = action.payload || {};
+      const { phaseId, decision, actorId } = action.payload || {};
       if (!state.currentProject) return state;
       const updatedProject = updateGateDecisionInProject(
         state.currentProject,
         phaseId,
-        decision || {}
+        decision || {},
+        actorId
       );
       const snapshot = createSnapshot(state, updatedProject);
       return {
@@ -214,9 +253,12 @@ export function reducer(state, action) {
     case "UNDO": {
       if (state.historyIndex <= 0) return state;
       const nextIndex = state.historyIndex - 1;
+      const restored = cloneProject(state.history[nextIndex]);
+      // Preserve the current ledger — it is append-only and must not revert.
+      restored.ledger = state.currentProject?.ledger || [];
       return {
         ...state,
-        currentProject: cloneProject(state.history[nextIndex]),
+        currentProject: restored,
         historyIndex: nextIndex,
         isDirty: false,
       };
@@ -224,9 +266,12 @@ export function reducer(state, action) {
     case "REDO": {
       if (state.historyIndex >= state.history.length - 1) return state;
       const nextIndex = state.historyIndex + 1;
+      const restored = cloneProject(state.history[nextIndex]);
+      // Preserve the current ledger — it is append-only and must not revert.
+      restored.ledger = state.currentProject?.ledger || [];
       return {
         ...state,
-        currentProject: cloneProject(state.history[nextIndex]),
+        currentProject: restored,
         historyIndex: nextIndex,
         isDirty: false,
       };
@@ -236,12 +281,29 @@ export function reducer(state, action) {
     case "MARK_DIRTY":
       return { ...state, isDirty: true };
     case "CREATE_PROJECT": {
-      const { projectId, projectSummary, projectData } = action.payload || {};
+      const { projectId, projectSummary, projectData, actorId } = action.payload || {};
       if (!projectId) return state;
       const normalizedCurrent = normalizeProject(projectData?.current || null);
       const normalizedHistory = (projectData?.history || []).map((snapshot) =>
         normalizeProject(snapshot)
       );
+
+      // Append PROJECT_CREATED genesis entry to the ledger.
+      let currentWithLedger = normalizedCurrent;
+      if (currentWithLedger) {
+        try {
+          const result = appendEntry(
+            currentWithLedger.ledger || [],
+            LedgerEventType.PROJECT_CREATED,
+            { project_id: projectId },
+            actorId || "unknown"
+          );
+          currentWithLedger = { ...currentWithLedger, ledger: result.ledger };
+        } catch {
+          // Non-fatal: ledger append failure should not block project creation.
+        }
+      }
+
       return {
         ...state,
         projects: {
@@ -249,7 +311,7 @@ export function reducer(state, action) {
           [projectId]: projectSummary || { id: projectId },
         },
         currentProjectId: projectId,
-        currentProject: normalizedCurrent,
+        currentProject: currentWithLedger,
         history: normalizedHistory,
         historyIndex:
           typeof projectData?.historyIndex === "number"

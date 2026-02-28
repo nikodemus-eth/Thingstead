@@ -6,6 +6,7 @@
 import { randomUUID } from "./uuid.js";
 import { findTemplateLegacyByPhaseAndName } from "../modules/templateRegistry/index.js";
 import { RULE_ENGINE_VERSION } from "../engine/version.js";
+import { DEFAULT_POLICY } from "../kernel/policySchema.js";
 
 export function isIso8601(value) {
   if (typeof value !== "string") return false;
@@ -233,6 +234,10 @@ export function normalizeProject(project) {
           : nowIso,
     },
     audit_log: Array.isArray(project.audit_log) ? project.audit_log : [],
+    ledger: Array.isArray(project.ledger) ? project.ledger : [],
+    policy: project.policy && typeof project.policy === "object" && !Array.isArray(project.policy)
+      ? project.policy
+      : { ...DEFAULT_POLICY },
     phases: normalizedPhases,
     // OpenClaw integration namespace — advisory only, never touches phases/artifacts.
     // Defaults first; existing data spreads on top so re-normalization never resets agent registrations.

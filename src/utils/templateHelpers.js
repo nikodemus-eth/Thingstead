@@ -1,10 +1,16 @@
 /**
  * Shared template utility functions extracted from ArtifactList.
+ *
+ * isRequiredFieldSatisfied is now owned by the governance kernel.
+ * This module re-exports it for backward compatibility.
  */
 import {
   getTemplateVersion,
   findTemplateLegacyByPhaseAndName,
 } from "../modules/templateRegistry/index.js";
+import { isRequiredFieldSatisfied } from "../kernel/artifactEvaluator.js";
+
+export { isRequiredFieldSatisfied };
 
 export function defaultCellValue(column) {
   if (column?.type === "selection") return column.options?.[0] || "";
@@ -38,32 +44,4 @@ export function getTemplateForArtifact(phase, artifact) {
 
 export function hasText(value) {
   return typeof value === "string" && value.trim().length > 0;
-}
-
-export function isRequiredFieldSatisfied(field, value) {
-  if (!field?.required) return true;
-
-  if (field.type === "short_text" || field.type === "long_text") {
-    if (!hasText(value)) return false;
-    const minLength = Number(field?.validation?.minLength || 0);
-    return value.trim().length >= minLength;
-  }
-
-  if (field.type === "selection" || field.type === "date") {
-    return hasText(value);
-  }
-
-  if (field.type === "checklist") {
-    return Array.isArray(value) && value.length > 0;
-  }
-
-  if (field.type === "table") {
-    if (!Array.isArray(value) || value.length === 0) return false;
-    const columns = field.columns || [];
-    return value.some((row) =>
-      columns.every((column) => hasText(row?.[column.name]))
-    );
-  }
-
-  return true;
 }
