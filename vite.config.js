@@ -4,6 +4,20 @@ import process from "node:process";
 
 export default defineConfig({
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules/react-dom") || id.includes("node_modules/react/")) {
+            return "vendor";
+          }
+          if (id.includes("node_modules/framer-motion")) {
+            return "motion";
+          }
+        },
+      },
+    },
+  },
   server: process.env.OPENCLAW_API_PROXY
     ? {
         proxy: {
