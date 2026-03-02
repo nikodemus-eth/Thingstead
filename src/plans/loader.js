@@ -6,10 +6,12 @@
 
 import cpmaiDef from "./cpmai/definition.json";
 import agentLifecycleDef from "./openclaws-agent-lifecycle/definition.json";
+import aipoGovernanceDef from "./aipo-governance/definition.json";
 
 const PLAN_DEFINITIONS = {
   cpmai: cpmaiDef,
   "openclaws-agent-lifecycle": agentLifecycleDef,
+  "aipo-governance": aipoGovernanceDef,
 };
 
 /**

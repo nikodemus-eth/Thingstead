@@ -17,10 +17,12 @@ export async function openNewProjectModal(page) {
   return nameInput;
 }
 
-export async function createProject(page, name = "E2E Project", governance = "team") {
+export async function createProject(page, name = "E2E Project", governance = "team", planLabel = /cpmai/i) {
   const nameInput = await openNewProjectModal(page);
   await nameInput.fill(name);
   await page.getByRole("button", { name: /^next$/i }).click();
+  // Plan selection step
+  await page.getByRole("button", { name: planLabel }).click();
   await page.getByRole("button", { name: new RegExp(`${governance}\\s+governance`, "i") }).click();
   // Avoid strict-mode violations if multiple projects share the same name, and ensure the
   // project is actually selected before proceeding.

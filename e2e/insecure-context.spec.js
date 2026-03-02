@@ -48,6 +48,8 @@ test("New Project Works Without crypto.randomUUID", async ({ page }) => {
   await page.getByRole("button", { name: /new project/i }).click();
   await page.getByLabel(/project name/i).fill("Insecure UUID");
   await page.getByRole("button", { name: /^next$/i }).click();
+  // Plan selection step
+  await page.getByRole("button", { name: /cpmai/i }).click();
   await page.getByRole("button", { name: /team governance/i }).click();
 
   if (pageErrors.length > 0) {

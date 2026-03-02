@@ -23,7 +23,7 @@ import {
   deleteRemoteProject,
 } from "../utils/lanSync.js";
 import { randomUUID } from "../utils/uuid.js";
-import { buildNewCpmaiProject } from "../plans/cpmai/index.js";
+import { getPlan, loadAllPlans } from "../plans/registry.js";
 import GlyphIcon from "./GlyphIcon.jsx";
 import CreateModal from "./modals/CreateModal.jsx";
 import DeleteModal from "./modals/DeleteModal.jsx";
@@ -60,21 +60,30 @@ export default function ProjectList() {
   const projectList = Object.values(projects);
 
   const handleCreateClick = () => {
-    setCreateModal({ name: "", step: "name" });
+    setCreateModal({ name: "", step: "name", planId: null });
   };
 
   const handleCreateSubmitName = () => {
     const name = createModal?.name?.trim();
     if (!name) return;
-    setCreateModal({ ...createModal, name, step: "governance" });
+    setCreateModal({ ...createModal, name, step: "plan" });
+  };
+
+  const handleCreateSubmitPlan = (planId) => {
+    if (!planId) return;
+    setCreateModal({ ...createModal, planId, step: "governance" });
   };
 
   const handleCreateSubmitGovernance = (governanceMode) => {
     const name = createModal?.name?.trim();
-    if (!name) return;
+    const planId = createModal?.planId;
+    if (!name || !planId) return;
     setCreateModal(null);
 
-    const project = buildNewCpmaiProject(name, state.settings?.deviceId, governanceMode);
+    const plan = getPlan(planId);
+    if (!plan) return;
+
+    const project = plan.buildNewProject(name, state.settings?.deviceId, governanceMode);
     const projectData = { current: project, history: [], historyIndex: -1 };
 
     const summary = {
@@ -439,6 +448,7 @@ export default function ProjectList() {
         createModal={createModal}
         setCreateModal={setCreateModal}
         onSubmitName={handleCreateSubmitName}
+        onSubmitPlan={handleCreateSubmitPlan}
         onSubmitGovernance={handleCreateSubmitGovernance}
       />
 

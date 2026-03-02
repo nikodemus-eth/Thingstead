@@ -1,0 +1,333 @@
+{
+  "phases": [
+    {
+      "id": 1,
+      "name": "Strategic Initiation",
+      "code": "P0",
+      "color": { "bg": "#B0B0B0", "text": "#1A1A1A", "riskColor": "White" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Strategic Initiation",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": "ai-gov-p0-gate-record"
+        },
+        {
+          "name": "Initiative Charter",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p0-initiative-charter"
+        },
+        {
+          "name": "Governance Model Declaration",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p0-governance-model-declaration"
+        },
+        {
+          "name": "Preliminary Risk Posture",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p0-preliminary-risk-posture"
+        },
+        {
+          "name": "AI Governance Lifecycle Overview",
+          "category": "supplemental",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-lifecycle-overview"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Problem Definition",
+      "code": "P1",
+      "color": { "bg": "#8B0000", "text": "#FFFFFF", "riskColor": "Red" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Problem Definition",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": "ai-gov-p1-gate-record"
+        },
+        {
+          "name": "Problem Definition Document",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p1-problem-definition"
+        },
+        {
+          "name": "Stakeholder Ownership Register",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p1-stakeholder-ownership-register"
+        },
+        {
+          "name": "Use Case Impact Statement",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p1-use-case-impact-statement"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Data Understanding",
+      "code": "P2",
+      "color": { "bg": "#C65D00", "text": "#FFFFFF", "riskColor": "Orange" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Data Understanding",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": "ai-gov-p2-gate-record"
+        },
+        {
+          "name": "Data Inventory & Classification",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p2-data-inventory-classification"
+        },
+        {
+          "name": "Data Lineage Flow Summary",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p2-data-lineage-flow-summary"
+        },
+        {
+          "name": "Data Quality & Sensitivity Assessment",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p2-data-quality-sensitivity-assessment"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Data Preparation",
+      "code": "P3",
+      "color": { "bg": "#D4AF37", "text": "#1A1A1A", "riskColor": "Yellow" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Data Preparation",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": "ai-gov-p3-gate-record"
+        },
+        {
+          "name": "Data Preparation Summary",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p3-data-preparation-summary"
+        },
+        {
+          "name": "Bias & Representativeness Assessment",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p3-bias-representativeness-assessment"
+        },
+        {
+          "name": "Data Minimization & Retention Justification",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p3-data-minimization-retention-justification"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Modeling",
+      "code": "P4",
+      "color": { "bg": "#0B6623", "text": "#FFFFFF", "riskColor": "Green" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Modeling",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": "ai-gov-p4-gate-record"
+        },
+        {
+          "name": "Model Architecture & Version Record",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p4-model-architecture-version-record"
+        },
+        {
+          "name": "Training Configuration Log",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p4-training-configuration-log"
+        },
+        {
+          "name": "AI Threat Model",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p4-ai-threat-model"
+        },
+        {
+          "name": "Explainability & Transparency Summary",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p4-explainability-transparency-summary"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Evaluation",
+      "code": "P5",
+      "color": { "bg": "#003366", "text": "#FFFFFF", "riskColor": "Blue" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Evaluation",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": "ai-gov-p5-gate-record"
+        },
+        {
+          "name": "Performance Validation Report",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p5-performance-validation-report"
+        },
+        {
+          "name": "Bias & Fairness Assessment",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p5-bias-fairness-assessment"
+        },
+        {
+          "name": "Residual Risk Declaration",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p5-residual-risk-declaration"
+        },
+        {
+          "name": "Security Control Verification Memo",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p5-security-control-verification-memo"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Deployment & Monitoring",
+      "code": "P6",
+      "color": { "bg": "#4B0082", "text": "#FFFFFF", "riskColor": "Purple" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Deployment & Monitoring",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": "ai-gov-p6-gate-record"
+        },
+        {
+          "name": "Deployment Plan",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p6-deployment-plan"
+        },
+        {
+          "name": "Operational RACI",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p6-operational-raci"
+        },
+        {
+          "name": "Drift Monitoring Plan",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p6-drift-monitoring-plan"
+        },
+        {
+          "name": "Logging & Monitoring Plan",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p6-logging-monitoring-plan"
+        },
+        {
+          "name": "AI Incident Response Plan",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p6-ai-incident-response-plan"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Controlled Closure & Stewardship",
+      "code": "P7",
+      "color": { "bg": "#333333", "text": "#FFFFFF", "riskColor": "Black" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Controlled Closure & Stewardship",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": "ai-gov-p7-gate-record"
+        },
+        {
+          "name": "Operational Validation Summary",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p7-operational-validation-summary"
+        },
+        {
+          "name": "Decommission Plan",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p7-decommission-plan"
+        },
+        {
+          "name": "Governance Transition Record",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p7-governance-transition-record"
+        },
+        {
+          "name": "Lessons Learned Report",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p7-lessons-learned-report"
+        },
+        {
+          "name": "Artifact Archive Index",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p7-artifact-archive-index"
+        },
+        {
+          "name": "Residual Risk Acceptance Statement",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": "ai-gov-p7-residual-risk-acceptance-statement"
+        }
+      ]
+    }
+  ],
+  "classificationLevels": [
+    { "code": "PUBLIC", "name": "Public", "description": "Information approved for public release" },
+    { "code": "INTERNAL", "name": "Internal", "description": "Internal use only, not for public distribution" },
+    { "code": "CONFIDENTIAL", "name": "Confidential", "description": "Sensitive business information" },
+    { "code": "CUI", "name": "Controlled Unclassified Information", "description": "Government-designated controlled information" },
+    { "code": "RESTRICTED", "name": "Restricted", "description": "Highly restricted access" }
+  ],
+  "approvalRoles": [
+    { "code": "EXEC_SPONSOR", "name": "Executive Sponsor" },
+    { "code": "SYS_OWNER", "name": "System Owner" },
+    { "code": "DATA_OWNER", "name": "Data Owner" },
+    { "code": "MODEL_OWNER", "name": "Model Owner" },
+    { "code": "SEC_AUTHORITY", "name": "Security Authority" },
+    { "code": "GOV_AUTHORITY", "name": "Governance Authority" },
+    { "code": "DATA_STEWARD", "name": "Data Steward" },
+    { "code": "VENDOR_REP", "name": "Vendor Representative" },
+    { "code": "PROJECT_MGR", "name": "Project Manager" },
+    { "code": "TECH_LEAD", "name": "Technical Lead" }
+  ],
+  "docStatuses": [
+    { "code": "DRAFT", "name": "Draft", "transitions": ["IN_REVIEW"] },
+    { "code": "IN_REVIEW", "name": "In Review", "transitions": ["DRAFT", "APPROVED"] },
+    { "code": "APPROVED", "name": "Approved", "transitions": ["HISTORICAL"] },
+    { "code": "HISTORICAL", "name": "Historical", "transitions": [] }
+  ]
+}

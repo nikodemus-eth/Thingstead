@@ -1,7 +1,10 @@
 import { useMemo, useState } from "react";
+import { useProject } from "../contexts/ProjectContext.jsx";
 import MarkdownEditor from "./MarkdownEditor.jsx";
 import TemplateFields from "./TemplateFields.jsx";
 import WaiverPanel from "./WaiverPanel.jsx";
+import ApprovalPanel from "./ApprovalPanel.jsx";
+import DocVersionHistory from "./DocVersionHistory.jsx";
 import GlyphIcon from "./GlyphIcon.jsx";
 import styles from "./ArtifactList.module.css";
 import {
@@ -11,6 +14,7 @@ import {
 import { computeArtifactStatus, isArtifactComplete, isArtifactWaived } from "../utils/artifactState.js";
 import { statusLabel } from "../utils/statusHelpers.js";
 import { guidanceForTemplateField } from "../utils/fieldGuidance.js";
+import { AIPO_PLAN_ID } from "../plans/aipo-governance/index.js";
 
 const EMPTY_TEMPLATE_DATA = {};
 
@@ -43,8 +47,12 @@ export default function ArtifactEditor({
   onWaiverChange,
   actorId,
 }) {
+  const { state } = useProject();
   const [mode, setMode] = useState("guided"); // guided | direct
   const [stepIndex, setStepIndex] = useState(0);
+
+  const planId = state.currentProject?.plan_id || state.currentProject?.plan?.id;
+  const isAipoPlan = planId === AIPO_PLAN_ID;
 
   const artifactName = artifact?.name || null;
   const phaseRef = useMemo(() => ({ id: currentPhaseId, phase_number: currentPhaseId }), [currentPhaseId]);
@@ -324,6 +332,43 @@ export default function ArtifactEditor({
       </div>
 
       <WaiverPanel artifact={artifact} actorId={actorId} onWaiverChange={onWaiverChange} />
+
+      {isAipoPlan && artifact.doc_status && (
+        <DocVersionHistory
+          docStatus={artifact.doc_status}
+          docVersions={artifact.doc_versions}
+          onStatusChange={(nextStatus) => {
+            onArtifactChange({ doc_status: nextStatus });
+          }}
+          onCreateVersion={() => {
+            const versions = artifact.doc_versions || [];
+            const lastVersion = versions[versions.length - 1];
+            const nextNum = lastVersion
+              ? (parseFloat(lastVersion.version) + 0.1).toFixed(1)
+              : "1.0";
+            onArtifactChange({
+              doc_status: "DRAFT",
+              doc_versions: [
+                ...versions,
+                {
+                  version: nextNum,
+                  createdAt: new Date().toISOString(),
+                  notes: `New version from v${lastVersion?.version || "1.0"}`,
+                },
+              ],
+            });
+          }}
+        />
+      )}
+
+      {isAipoPlan && artifact.approvals && (
+        <ApprovalPanel
+          approvals={artifact.approvals}
+          onUpdateApprovals={(updated) => {
+            onArtifactChange({ approvals: updated });
+          }}
+        />
+      )}
 
       {mode === "direct" ? (
         <>

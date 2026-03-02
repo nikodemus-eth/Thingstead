@@ -53,7 +53,7 @@ test("Copy JSON to clipboard shows success notice and copies a bundle", async ({
   const copied = await page.evaluate(() => window.__thingstead_copied || "");
   expect(typeof copied).toBe("string");
   const parsed = JSON.parse(copied);
-  expect(parsed).toMatchObject({ schemaVersion: 1 });
+  expect(parsed).toMatchObject({ schemaVersion: 2 });
   expect(parsed.project?.name).toBe("Clipboard Share Project");
 });
 
@@ -73,7 +73,7 @@ test("Download JSON triggers a download with parseable export bundle", async ({ 
 
   const fileText = await fs.readFile(outPath, "utf-8");
   const parsed = JSON.parse(fileText);
-  expect(parsed).toMatchObject({ schemaVersion: 1 });
+  expect(parsed).toMatchObject({ schemaVersion: 2 });
   expect(parsed.project?.name).toBe("Download Share Project");
 });
 

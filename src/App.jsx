@@ -9,6 +9,8 @@ import Dashboard from "./components/Dashboard.jsx";
 import GlyphIcon from "./components/GlyphIcon.jsx";
 import LanStatus from "./components/LanStatus.jsx";
 import KeyboardHelpModal from "./components/modals/KeyboardHelpModal.jsx";
+import ClassificationBadge from "./components/ClassificationBadge.jsx";
+import { AIPO_PLAN_ID } from "./plans/aipo-governance/index.js";
 import styles from "./App.module.css";
 
 function AppShell() {
@@ -191,6 +193,17 @@ function AppSession({ state, autoSave, dispatch }) {
                   ? "Single-Actor Governance"
                   : "Team Governance"}
               </div>
+            )}
+            {state.currentProject?.classification_level && (
+              <ClassificationBadge
+                level={state.currentProject.classification_level}
+                onChange={(level) =>
+                  dispatch({
+                    type: "UPDATE_PROJECT_META",
+                    payload: { changes: { classification_level: level } },
+                  })
+                }
+              />
             )}
           </div>
           <div className={styles.headerControls}>

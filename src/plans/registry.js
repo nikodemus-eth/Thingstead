@@ -1,5 +1,7 @@
 import { CPMAI_PLAN_ID, CPMAI_PLAN_VERSION, buildNewCpmaiProject } from "./cpmai/index.js";
 import { validateCpmaiProfile } from "./cpmai/validate.js";
+import { AIPO_PLAN_ID, AIPO_PLAN_VERSION, buildNewAipoProject } from "./aipo-governance/index.js";
+import { validateAipoProfile } from "./aipo-governance/validate.js";
 import { loadPlanDefinition, getRegisteredPlanIds } from "./loader.js";
 import { validatePlan } from "./schema.js";
 
@@ -9,6 +11,12 @@ export const PLAN_REGISTRY = Object.freeze({
     version: CPMAI_PLAN_VERSION,
     buildNewProject: buildNewCpmaiProject,
     validateProfile: validateCpmaiProfile,
+  }),
+  [AIPO_PLAN_ID]: Object.freeze({
+    id: AIPO_PLAN_ID,
+    version: AIPO_PLAN_VERSION,
+    buildNewProject: buildNewAipoProject,
+    validateProfile: validateAipoProfile,
   }),
 });
 

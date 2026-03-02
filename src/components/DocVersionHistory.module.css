@@ -1,0 +1,137 @@
+.container {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-panel);
+  padding: 14px;
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.header {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-900);
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.statusBadge {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid;
+}
+
+.status_DRAFT {
+  color: #94a3b8;
+  border-color: #94a3b8;
+  background: rgba(148, 163, 184, 0.08);
+}
+
+.status_IN_REVIEW {
+  color: #fbbf24;
+  border-color: #fbbf24;
+  background: rgba(251, 191, 36, 0.08);
+}
+
+.status_APPROVED {
+  color: #4ade80;
+  border-color: #4ade80;
+  background: rgba(74, 222, 128, 0.08);
+}
+
+.status_HISTORICAL {
+  color: #a78bfa;
+  border-color: #a78bfa;
+  background: rgba(167, 139, 250, 0.08);
+}
+
+.transitions {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.transitionBtn {
+  font-size: 11px;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--ink-700);
+  font-weight: 600;
+  transition: background 180ms ease;
+}
+
+.transitionBtn:hover {
+  background: var(--bg-ghost-hover);
+}
+
+.versionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  padding: 5px 10px;
+  border: 1px solid var(--bg-brand-hover);
+  border-radius: var(--radius-sm);
+  background: var(--bg-brand);
+  color: var(--ink-900);
+  font-weight: 700;
+  align-self: flex-start;
+}
+
+.versionBtn:hover {
+  background: var(--bg-brand-hover);
+}
+
+.versionList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.versionLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-500);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+
+.versionItem {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 12px;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(232, 229, 220, 0.06);
+}
+
+.versionNumber {
+  font-weight: 700;
+  color: var(--ink-800);
+  min-width: 36px;
+}
+
+.versionDate {
+  color: var(--ink-500);
+  min-width: 80px;
+}
+
+.versionNotes {
+  color: var(--ink-600);
+}

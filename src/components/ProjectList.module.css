@@ -269,3 +269,47 @@
 .modalCancel:hover {
   background: var(--danger-bg);
 }
+
+.planCards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.planCard {
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-panel);
+  color: var(--ink-900);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.planCard:hover {
+  background: var(--bg-ghost-hover);
+  border-color: var(--line-strong);
+  transform: translateY(-1px);
+}
+
+.planCardTitle {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.planCardMeta {
+  font-size: 11px;
+  color: var(--ink-500);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.planCardDesc {
+  font-size: 12px;
+  color: var(--ink-600);
+  line-height: 1.4;
+}

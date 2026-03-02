@@ -1,0 +1,139 @@
+.container {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-panel);
+  padding: 14px;
+  margin-top: 12px;
+}
+
+.header {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-900);
+  margin-bottom: 10px;
+}
+
+.badge {
+  font-size: 11px;
+  background: rgba(232, 229, 220, 0.08);
+  border: 1px solid rgba(232, 229, 220, 0.12);
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-weight: 800;
+  color: var(--ink-600);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.table th {
+  text-align: left;
+  padding: 6px 8px;
+  font-weight: 700;
+  color: var(--ink-500);
+  border-bottom: 1px solid var(--line);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.table td {
+  padding: 7px 8px;
+  border-bottom: 1px solid rgba(232, 229, 220, 0.06);
+  color: var(--ink-700);
+}
+
+.signed {
+  background: rgba(79, 155, 116, 0.06);
+}
+
+.unsigned {}
+
+.roleCell {
+  font-weight: 600;
+  color: var(--ink-800);
+  white-space: nowrap;
+}
+
+.dateCell {
+  white-space: nowrap;
+  color: var(--ink-500);
+}
+
+.signerName {
+  font-weight: 600;
+  color: var(--ink-900);
+}
+
+.signerEmpty {
+  color: var(--ink-400);
+}
+
+.nameInput {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 4px 6px;
+  background: var(--bg-panel);
+  color: var(--ink-900);
+  font-size: 12px;
+  width: 100%;
+}
+
+.editActions {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.signBtn {
+  font-size: 11px;
+  padding: 3px 8px;
+  border: 1px solid var(--bg-brand-hover);
+  border-radius: var(--radius-sm);
+  background: var(--bg-brand);
+  color: var(--ink-900);
+  font-weight: 700;
+}
+
+.signBtn:hover {
+  background: var(--bg-brand-hover);
+}
+
+.unsignBtn {
+  font-size: 11px;
+  padding: 3px 8px;
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--ink-700);
+  font-weight: 600;
+}
+
+.unsignBtn:hover {
+  background: var(--danger-bg);
+}
+
+.confirmBtn {
+  font-size: 11px;
+  padding: 3px 8px;
+  border: 1px solid var(--bg-brand-hover);
+  border-radius: var(--radius-sm);
+  background: var(--bg-brand);
+  color: var(--ink-900);
+  font-weight: 700;
+}
+
+.cancelBtn {
+  font-size: 11px;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--ink-600);
+  font-weight: 600;
+}

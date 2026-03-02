@@ -1,0 +1,18 @@
+{
+  "id": "aipo-governance",
+  "version": "1.0.0",
+  "label": "AIPO AI Governance Lifecycle",
+  "description": "8-phase AI governance document lifecycle (P0\u2013P7) covering strategic initiation through controlled closure, with 39 structured governance document templates and risk-frequency color coding.",
+  "phaseCount": 8,
+  "gateModel": "sequential",
+  "phases": [
+    { "id": 1, "phaseNumber": 1, "name": "Strategic Initiation", "code": "P0", "description": "Initiative chartering, governance model declaration, and preliminary risk posture." },
+    { "id": 2, "phaseNumber": 2, "name": "Problem Definition", "code": "P1", "description": "Problem scoping, stakeholder ownership, and use-case impact assessment." },
+    { "id": 3, "phaseNumber": 3, "name": "Data Understanding", "code": "P2", "description": "Data inventory, classification, lineage, and quality/sensitivity assessment." },
+    { "id": 4, "phaseNumber": 4, "name": "Data Preparation", "code": "P3", "description": "Data preparation summary, bias assessment, and minimization/retention justification." },
+    { "id": 5, "phaseNumber": 5, "name": "Modeling", "code": "P4", "description": "Model architecture, training configuration, threat modeling, and explainability." },
+    { "id": 6, "phaseNumber": 6, "name": "Evaluation", "code": "P5", "description": "Performance validation, bias/fairness assessment, residual risk, and security verification." },
+    { "id": 7, "phaseNumber": 7, "name": "Deployment & Monitoring", "code": "P6", "description": "Deployment planning, operational RACI, drift monitoring, logging, and incident response." },
+    { "id": 8, "phaseNumber": 8, "name": "Controlled Closure & Stewardship", "code": "P7", "description": "Operational validation, decommission planning, governance transition, lessons learned, and archival." }
+  ]
+}

@@ -561,6 +561,80 @@ describe("projectReducer", () => {
     });
   });
 
+  describe("UPDATE_PROJECT_META", () => {
+    it("merges changes into currentProject and creates snapshot", () => {
+      const project = makeProject();
+      const state = makeState({
+        currentProject: project,
+        history: [project],
+        historyIndex: 0,
+      });
+      const next = reducer(state, {
+        type: "UPDATE_PROJECT_META",
+        payload: { changes: { classification_level: "CUI" } },
+      });
+      expect(next.currentProject.classification_level).toBe("CUI");
+      expect(next.isDirty).toBe(true);
+      expect(next.history.length).toBe(2);
+      expect(next.historyIndex).toBe(1);
+    });
+
+    it("preserves existing fields when merging", () => {
+      const project = makeProject({ classification_level: "INTERNAL", custom_field: "keep" });
+      const state = makeState({
+        currentProject: project,
+        history: [project],
+        historyIndex: 0,
+      });
+      const next = reducer(state, {
+        type: "UPDATE_PROJECT_META",
+        payload: { changes: { classification_level: "RESTRICTED" } },
+      });
+      expect(next.currentProject.classification_level).toBe("RESTRICTED");
+      expect(next.currentProject.custom_field).toBe("keep");
+      expect(next.currentProject.name).toBe("Test");
+    });
+
+    it("returns state unchanged when no current project", () => {
+      const next = reducer(initialState, {
+        type: "UPDATE_PROJECT_META",
+        payload: { changes: { classification_level: "CUI" } },
+      });
+      expect(next).toBe(initialState);
+    });
+
+    it("returns state unchanged when no changes provided", () => {
+      const project = makeProject();
+      const state = makeState({
+        currentProject: project,
+        history: [project],
+        historyIndex: 0,
+      });
+      const next = reducer(state, {
+        type: "UPDATE_PROJECT_META",
+        payload: {},
+      });
+      expect(next).toBe(state);
+    });
+
+    it("supports undo after meta update", () => {
+      const project = makeProject({ classification_level: "INTERNAL" });
+      const state = makeState({
+        currentProject: project,
+        history: [project],
+        historyIndex: 0,
+      });
+      const updated = reducer(state, {
+        type: "UPDATE_PROJECT_META",
+        payload: { changes: { classification_level: "RESTRICTED" } },
+      });
+      expect(updated.currentProject.classification_level).toBe("RESTRICTED");
+
+      const undone = reducer(updated, { type: "UNDO" });
+      expect(undone.currentProject.classification_level).toBe("INTERNAL");
+    });
+  });
+
   describe("default", () => {
     it("returns state for unknown action types", () => {
       const state = makeState();

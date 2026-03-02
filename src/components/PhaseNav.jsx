@@ -94,6 +94,15 @@ export default function PhaseNav({ currentPhaseId, onSelectPhase }) {
         {phases.map((phase) => {
           const metrics = phaseMetrics(phase);
           const isActive = phase.id === currentPhaseId;
+          const phaseColor = phase.color;
+          const colorStyle = phaseColor && isActive
+            ? { background: phaseColor.bg, color: phaseColor.text, borderColor: phaseColor.bg }
+            : phaseColor
+              ? { borderLeftColor: phaseColor.bg, borderLeftWidth: 3 }
+              : undefined;
+          const phaseLabel = phase.code
+            ? `${phase.code} \u2014 Phase ${phase.id}`
+            : `Phase ${phase.id}`;
           return (
             <Motion.button
               key={phase.id}
@@ -104,13 +113,14 @@ export default function PhaseNav({ currentPhaseId, onSelectPhase }) {
               tabIndex={isActive ? 0 : -1}
               onClick={() => onSelectPhase(phase.id)}
               className={isActive ? styles.activeButton : styles.button}
+              style={colorStyle}
             >
               <span className={styles.phaseMeta}>
-                <span className={styles.phaseNumber}>
+                <span className={styles.phaseNumber} style={phaseColor && isActive ? { color: phaseColor.text, opacity: 0.78 } : undefined}>
                   <GlyphIcon name="phase" size={13} />
-                  Phase {phase.id}
+                  {phaseLabel}
                 </span>
-                <span className={styles.phaseName}>
+                <span className={styles.phaseName} style={phaseColor && isActive ? { color: phaseColor.text } : undefined}>
                   {phase.name || "Unnamed Phase"}
                 </span>
               </span>

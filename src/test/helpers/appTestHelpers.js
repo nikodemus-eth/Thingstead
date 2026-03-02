@@ -46,12 +46,14 @@ export function findFirstArtifactButton() {
   return artifactButtons[0];
 }
 
-export async function createProject(user, name = "Test Project") {
+export async function createProject(user, name = "Test Project", planLabel = /cpmai/i) {
   await user.click(screen.getByRole("button", { name: /new project/i }));
   const nameInput = await screen.findByLabelText(/project name/i);
   await user.clear(nameInput);
   await user.type(nameInput, name);
   await user.click(screen.getByRole("button", { name: /^next$/i }));
+  // Plan selection step
+  await user.click(screen.getByRole("button", { name: planLabel }));
   await user.click(screen.getByRole("button", { name: /team governance/i }));
   expect(await screen.findByRole("button", { name: new RegExp(name, "i") })).toBeInTheDocument();
 }

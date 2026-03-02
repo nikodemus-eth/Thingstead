@@ -347,6 +347,19 @@ export function reducer(state, action) {
         },
       };
     }
+    case "UPDATE_PROJECT_META": {
+      const { changes } = action.payload || {};
+      if (!state.currentProject || !changes) return state;
+      const updatedProject = { ...state.currentProject, ...changes };
+      const snapshot = createSnapshot(state, updatedProject);
+      return {
+        ...state,
+        currentProject: updatedProject,
+        history: snapshot.history,
+        historyIndex: snapshot.historyIndex,
+        isDirty: true,
+      };
+    }
     case "UPDATE_SETTINGS": {
       const settings = action.payload || {};
       return { ...state, settings: { ...state.settings, ...settings } };
