@@ -1,0 +1,257 @@
+{
+  "phases": [
+    {
+      "id": 1,
+      "name": "Initiation",
+      "code": "A1",
+      "color": { "bg": "#2D5016", "text": "#FFFFFF", "riskColor": "Green" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Initiation",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": null
+        },
+        {
+          "name": "Product Vision",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Funding Approval",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Sprint Planning",
+      "code": "A2",
+      "iterative": true,
+      "color": { "bg": "#3D6B1E", "text": "#FFFFFF", "riskColor": "Green" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Sprint Planning",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": null
+        },
+        {
+          "name": "Sprint Goal",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Sprint Backlog",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Definition of Done",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": null
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Sprint Execution",
+      "code": "A3",
+      "iterative": true,
+      "color": { "bg": "#4D8526", "text": "#FFFFFF", "riskColor": "Green" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Sprint Execution",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": null
+        },
+        {
+          "name": "Sprint Goal",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Sprint Backlog",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Test Coverage Report",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Demo Evidence",
+          "category": "supplemental",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Retrospective Summary",
+          "category": "supplemental",
+          "isGateBlocking": false,
+          "templateSlug": null
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Sprint Review",
+      "code": "A4",
+      "iterative": true,
+      "color": { "bg": "#5D9F2E", "text": "#FFFFFF", "riskColor": "Green" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Sprint Review",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": null
+        },
+        {
+          "name": "Sprint Goal",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Sprint Backlog",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Test Coverage Report",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Demo Evidence",
+          "category": "supplemental",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Retrospective Summary",
+          "category": "supplemental",
+          "isGateBlocking": false,
+          "templateSlug": null
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Release Gate",
+      "code": "A5",
+      "color": { "bg": "#6DB936", "text": "#1A1A1A", "riskColor": "Green" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Release Gate",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": null
+        },
+        {
+          "name": "Increment Review",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Compliance Snapshot",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Risk Delta Report",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": null
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Deployment",
+      "code": "A6",
+      "color": { "bg": "#80CC44", "text": "#1A1A1A", "riskColor": "Green" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Deployment",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": null
+        },
+        {
+          "name": "Deployment Checklist",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Production Readiness Review",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Rollback Strategy",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": null
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Monitoring",
+      "code": "A7",
+      "color": { "bg": "#93DF52", "text": "#1A1A1A", "riskColor": "Green" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Monitoring",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": null
+        },
+        {
+          "name": "Continuous Monitoring Plan",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Closure",
+      "code": "A8",
+      "color": { "bg": "#A6F260", "text": "#1A1A1A", "riskColor": "Green" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Closure",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": null
+        },
+        {
+          "name": "Release Retrospective",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        }
+      ]
+    }
+  ]
+}

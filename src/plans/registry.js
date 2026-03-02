@@ -2,6 +2,10 @@ import { CPMAI_PLAN_ID, CPMAI_PLAN_VERSION, buildNewCpmaiProject } from "./cpmai
 import { validateCpmaiProfile } from "./cpmai/validate.js";
 import { AIPO_PLAN_ID, AIPO_PLAN_VERSION, buildNewAipoProject } from "./aipo-governance/index.js";
 import { validateAipoProfile } from "./aipo-governance/validate.js";
+import { PMI_WATERFALL_PLAN_ID, PMI_WATERFALL_PLAN_VERSION, buildNewWaterfallProject } from "./pmi-waterfall/index.js";
+import { validateWaterfallProfile } from "./pmi-waterfall/validate.js";
+import { PMI_AGILE_PLAN_ID, PMI_AGILE_PLAN_VERSION, buildNewAgileProject } from "./pmi-agile/index.js";
+import { validateAgileProfile } from "./pmi-agile/validate.js";
 import { loadPlanDefinition, getRegisteredPlanIds } from "./loader.js";
 import { validatePlan } from "./schema.js";
 
@@ -17,6 +21,18 @@ export const PLAN_REGISTRY = Object.freeze({
     version: AIPO_PLAN_VERSION,
     buildNewProject: buildNewAipoProject,
     validateProfile: validateAipoProfile,
+  }),
+  [PMI_WATERFALL_PLAN_ID]: Object.freeze({
+    id: PMI_WATERFALL_PLAN_ID,
+    version: PMI_WATERFALL_PLAN_VERSION,
+    buildNewProject: buildNewWaterfallProject,
+    validateProfile: validateWaterfallProfile,
+  }),
+  [PMI_AGILE_PLAN_ID]: Object.freeze({
+    id: PMI_AGILE_PLAN_ID,
+    version: PMI_AGILE_PLAN_VERSION,
+    buildNewProject: buildNewAgileProject,
+    validateProfile: validateAgileProfile,
   }),
 });
 

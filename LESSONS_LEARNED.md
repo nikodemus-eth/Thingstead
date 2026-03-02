@@ -1,4 +1,4 @@
-# Lessons Learned — Thingstead+ (AIPO Governance Track Integration)
+# Lessons Learned — Thingstead+
 
 ## Inherited from AIPO Document Creator
 
@@ -48,3 +48,31 @@
 ### Reducer Design for Plan Extensions
 - A generic `UPDATE_PROJECT_META` action handles project-level field changes without needing plan-specific actions
 - The snapshot-push pattern for undo/redo must be followed by ALL mutations — classification level changes are undoable just like artifact edits
+
+## Track-Aware Kernel Design (TS-FEAT-004)
+
+### Optional Trailing Parameters for Backward Compatibility
+- Extending function signatures with optional trailing parameters (`isGateReady(phase, resolver, policy, trackPolicy)`) preserves all existing call sites without changes
+- This works because JavaScript passes `undefined` for missing arguments, and the new code checks for `undefined` before branching
+- Same pattern applied to ledger functions (`createGenesisEntry`, `appendEntry`) — existing callers pass fewer args, new code handles `undefined` gracefully
+
+### Conditional Hash Computation
+- Ledger hashes must be backward-compatible: existing chains must produce identical hashes after the code change
+- Solution: only include new fields in hash computation when they are defined (`if (entry.track !== undefined)`)
+- `stableStringify` already skips `undefined` values, so omitting the field entirely preserves the hash input
+
+### Track Policy Layering
+- Three-layer policy merge (DEFAULT ← track ← user) gives clear precedence without complex inheritance
+- Track overrides are declarative data in `trackPolicies.js`, not scattered conditionals
+- `deepMerge` (already in the codebase) handles nested policy objects correctly
+
+### Template Data Counts vs Plan Estimates
+- Template JSON files are the canonical source of truth for artifact counts — plan documentation is an approximation
+- Tests should assert against what the builder actually produces (from template data), not what the design doc estimated
+- The waterfall plan estimated 32 artifacts but the template has 34; the test should match reality
+
+### Iterative Gate Bypass Pattern
+- Agile sprint-loop phases need different gate semantics than waterfall phases
+- The cleanest approach: check track policy at the top of `isGateReady()` and return early for iterative phases
+- This keeps the core sequential logic untouched — no mode flags threading through the evaluation pipeline
+- Release gates (non-iterative phases) still enforce full completeness even in agile tracks

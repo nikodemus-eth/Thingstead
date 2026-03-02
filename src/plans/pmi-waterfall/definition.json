@@ -1,0 +1,19 @@
+{
+  "id": "pmi-waterfall",
+  "version": "1.0.0",
+  "label": "PMI Waterfall Project Lifecycle",
+  "description": "8-phase sequential waterfall lifecycle (W1–W8) with formal change control, baseline locking, and strict gate enforcement. Covers initiation through closure with 32 governance artifacts.",
+  "phaseCount": 8,
+  "gateModel": "sequential",
+  "track": "PMI_WATERFALL",
+  "phases": [
+    { "id": 1, "phaseNumber": 1, "name": "Initiation", "code": "W1", "description": "Business case approval, project chartering, and governance authority establishment." },
+    { "id": 2, "phaseNumber": 2, "name": "Planning", "code": "W2", "description": "Work breakdown, project management plan, risk management, and procurement planning." },
+    { "id": 3, "phaseNumber": 3, "name": "Requirements", "code": "W3", "description": "Requirements traceability, system design specification, and security control mapping." },
+    { "id": 4, "phaseNumber": 4, "name": "Build", "code": "W4", "description": "Build documentation, configuration management, and code review records." },
+    { "id": 5, "phaseNumber": 5, "name": "Verification", "code": "W5", "description": "Verification test planning, validation reporting, and QA sign-off." },
+    { "id": 6, "phaseNumber": 6, "name": "Deployment", "code": "W6", "description": "Deployment checklist, production readiness review, and rollback strategy." },
+    { "id": 7, "phaseNumber": 7, "name": "Operations", "code": "W7", "description": "Operations monitoring, performance baselining, and incident logging." },
+    { "id": 8, "phaseNumber": 8, "name": "Closure", "code": "W8", "description": "Lessons learned, final audit report, and financial close-out." }
+  ]
+}

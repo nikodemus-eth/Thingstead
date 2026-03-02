@@ -65,6 +65,8 @@ test("Plan selection modal shows both CPMAI and AIPO plans", async ({ page }) =>
   await expect(page.getByRole("button", { name: /aipo/i })).toBeVisible();
 
   // Back button should return to name step.
-  await page.getByRole("button", { name: /back/i }).click();
+  const backBtn = page.getByRole("button", { name: "Back", exact: true });
+  await backBtn.scrollIntoViewIfNeeded();
+  await backBtn.click();
   await expect(nameInput).toBeVisible();
 });

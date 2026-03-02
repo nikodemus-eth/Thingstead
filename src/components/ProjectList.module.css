@@ -199,6 +199,8 @@
   box-shadow: var(--shadow-card);
   padding: 18px;
   width: min(420px, 90vw);
+  max-height: 90vh;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 14px;

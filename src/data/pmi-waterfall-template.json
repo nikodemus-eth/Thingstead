@@ -1,0 +1,272 @@
+{
+  "phases": [
+    {
+      "id": 1,
+      "name": "Initiation",
+      "code": "W1",
+      "color": { "bg": "#1B3A5C", "text": "#FFFFFF", "riskColor": "Blue" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Initiation",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": null
+        },
+        {
+          "name": "Business Case",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Project Charter",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Governance Authority Matrix",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Planning",
+      "code": "W2",
+      "color": { "bg": "#2E5E8E", "text": "#FFFFFF", "riskColor": "Blue" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Planning",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": null
+        },
+        {
+          "name": "Work Breakdown Structure",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Project Management Plan",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Risk Management Plan",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Communication Plan",
+          "category": "supplemental",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Procurement Plan",
+          "category": "supplemental",
+          "isGateBlocking": false,
+          "templateSlug": null
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Requirements",
+      "code": "W3",
+      "color": { "bg": "#4A7FB5", "text": "#FFFFFF", "riskColor": "Blue" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Requirements",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": null
+        },
+        {
+          "name": "Requirements Traceability Matrix",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "System Design Specification",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Security Control Mapping",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": null
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Build",
+      "code": "W4",
+      "color": { "bg": "#3B6E9E", "text": "#FFFFFF", "riskColor": "Blue" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Build",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": null
+        },
+        {
+          "name": "Build Documentation",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Configuration Management Plan",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Code Review Record",
+          "category": "supplemental",
+          "isGateBlocking": false,
+          "templateSlug": null
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Verification",
+      "code": "W5",
+      "color": { "bg": "#5A8FBA", "text": "#FFFFFF", "riskColor": "Blue" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Verification",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": null
+        },
+        {
+          "name": "Verification Test Plan",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Validation Report",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "QA Sign-Off",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": null
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Deployment",
+      "code": "W6",
+      "color": { "bg": "#6DA0C5", "text": "#1A1A1A", "riskColor": "Blue" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Deployment",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": null
+        },
+        {
+          "name": "Deployment Checklist",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Production Readiness Review",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Rollback Strategy",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": null
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Operations",
+      "code": "W7",
+      "color": { "bg": "#80B0D0", "text": "#1A1A1A", "riskColor": "Blue" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Operations",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": null
+        },
+        {
+          "name": "Operations Monitoring Plan",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Performance Baseline",
+          "category": "conditional",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Incident Log",
+          "category": "supplemental",
+          "isGateBlocking": false,
+          "templateSlug": null
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Closure",
+      "code": "W8",
+      "color": { "bg": "#95C0DA", "text": "#1A1A1A", "riskColor": "Blue" },
+      "artifacts": [
+        {
+          "name": "Gate Record — Closure",
+          "category": "core",
+          "isGateBlocking": true,
+          "templateSlug": null
+        },
+        {
+          "name": "Lessons Learned Register",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Final Audit Report",
+          "category": "core",
+          "isGateBlocking": false,
+          "templateSlug": null
+        },
+        {
+          "name": "Financial Close-Out",
+          "category": "supplemental",
+          "isGateBlocking": false,
+          "templateSlug": null
+        }
+      ]
+    }
+  ]
+}

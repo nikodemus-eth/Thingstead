@@ -1,0 +1,19 @@
+{
+  "id": "pmi-agile",
+  "version": "1.0.0",
+  "label": "PMI Agile Project Lifecycle",
+  "description": "8-phase iterative agile lifecycle (A1–A8) with sprint loops (phases 2–4), backlog-governed change control, and release-based gate enforcement. Covers initiation through closure with governed sprint ceremonies.",
+  "phaseCount": 8,
+  "gateModel": "iterative",
+  "track": "PMI_AGILE",
+  "phases": [
+    { "id": 1, "phaseNumber": 1, "name": "Initiation", "code": "A1", "description": "Product vision definition and funding approval." },
+    { "id": 2, "phaseNumber": 2, "name": "Sprint Planning", "code": "A2", "description": "Sprint goal setting, backlog prioritization, and definition of done.", "iterative": true },
+    { "id": 3, "phaseNumber": 3, "name": "Sprint Execution", "code": "A3", "description": "Sprint work, testing, demo evidence, and retrospective.", "iterative": true },
+    { "id": 4, "phaseNumber": 4, "name": "Sprint Review", "code": "A4", "description": "Sprint review, demo evidence, and retrospective summary.", "iterative": true },
+    { "id": 5, "phaseNumber": 5, "name": "Release Gate", "code": "A5", "description": "Increment review, compliance snapshot, and risk delta assessment." },
+    { "id": 6, "phaseNumber": 6, "name": "Deployment", "code": "A6", "description": "Deployment checklist, production readiness, and rollback strategy." },
+    { "id": 7, "phaseNumber": 7, "name": "Monitoring", "code": "A7", "description": "Continuous monitoring plan and operational oversight." },
+    { "id": 8, "phaseNumber": 8, "name": "Closure", "code": "A8", "description": "Release retrospective and project closure." }
+  ]
+}

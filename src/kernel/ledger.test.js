@@ -192,6 +192,43 @@ describe("findDuplicateSequences", () => {
   });
 });
 
+// ---------------------------------------------------------------------------
+// Track-aware ledger entries
+// ---------------------------------------------------------------------------
+
+describe("ledger track support", () => {
+  it("genesis entry includes track field when provided", () => {
+    const entry = createGenesisEntry(LedgerEventType.PROJECT_CREATED, {}, ACTOR, TS1, "PMI_WATERFALL");
+    expect(entry.track).toBe("PMI_WATERFALL");
+    expect(entry.hash).toMatch(/^[0-9a-f]{64}$/);
+  });
+
+  it("genesis entry omits track field when not provided", () => {
+    const entry = createGenesisEntry(LedgerEventType.PROJECT_CREATED, {}, ACTOR, TS1);
+    expect(entry.track).toBeUndefined();
+  });
+
+  it("different tracks produce different hashes", () => {
+    const a = createGenesisEntry(LedgerEventType.PROJECT_CREATED, {}, ACTOR, TS1, "PMI_WATERFALL");
+    const b = createGenesisEntry(LedgerEventType.PROJECT_CREATED, {}, ACTOR, TS1, "PMI_AGILE");
+    const c = createGenesisEntry(LedgerEventType.PROJECT_CREATED, {}, ACTOR, TS1);
+    expect(a.hash).not.toBe(b.hash);
+    expect(a.hash).not.toBe(c.hash);
+  });
+
+  it("chain with track entries passes integrity verification", () => {
+    let ledger = [];
+    ledger = appendEntry(ledger, LedgerEventType.PROJECT_CREATED, {}, ACTOR, TS1, "PMI_WATERFALL").ledger;
+    ledger = appendEntry(ledger, LedgerEventType.GATE_DECIDED, { phase: 1 }, ACTOR, TS2, "PMI_WATERFALL").ledger;
+
+    const result = verifyLedgerIntegrity(ledger);
+    expect(result.valid).toBe(true);
+    expect(result.entries).toBe(2);
+    expect(ledger[0].track).toBe("PMI_WATERFALL");
+    expect(ledger[1].track).toBe("PMI_WATERFALL");
+  });
+});
+
 describe("LedgerEventType", () => {
   it("contains all expected event types", () => {
     expect(LedgerEventType.PROJECT_CREATED).toBe("PROJECT_CREATED");

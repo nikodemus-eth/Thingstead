@@ -13,6 +13,7 @@
  */
 
 import { DEFAULT_POLICY, validatePolicy, hashPolicy } from "./policySchema.js";
+import { getTrackPolicy } from "./trackPolicies.js";
 
 // ---------------------------------------------------------------------------
 // Deep merge (two levels — policy objects are shallow enough)
@@ -61,6 +62,30 @@ export function compilePolicy(overrides) {
     valid: validation.valid,
     errors: validation.errors,
   };
+}
+
+/**
+ * Compiles a track-aware policy by layering:
+ *   DEFAULT_POLICY ← trackOverrides ← userOverrides
+ *
+ * Merges track and user overrides, then delegates to compilePolicy.
+ *
+ * @param {string} trackName - A GovernanceTrack value (e.g., "PMI_WATERFALL").
+ * @param {Object} [userOverrides] - Additional user-specified policy overrides.
+ * @returns {{ policy: Object, hash: string, valid: boolean, errors: string[] }}
+ */
+export function compilePolicyForTrack(trackName, userOverrides) {
+  const trackConfig = getTrackPolicy(trackName);
+  const trackOverrides = trackConfig?.policyOverrides || null;
+
+  let combined = trackOverrides;
+  if (trackOverrides && userOverrides) {
+    combined = deepMerge(trackOverrides, userOverrides);
+  } else if (userOverrides) {
+    combined = userOverrides;
+  }
+
+  return compilePolicy(combined);
 }
 
 // ---------------------------------------------------------------------------

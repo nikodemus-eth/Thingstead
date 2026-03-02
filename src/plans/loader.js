@@ -7,11 +7,15 @@
 import cpmaiDef from "./cpmai/definition.json";
 import agentLifecycleDef from "./openclaws-agent-lifecycle/definition.json";
 import aipoGovernanceDef from "./aipo-governance/definition.json";
+import pmiWaterfallDef from "./pmi-waterfall/definition.json";
+import pmiAgileDef from "./pmi-agile/definition.json";
 
 const PLAN_DEFINITIONS = {
   cpmai: cpmaiDef,
   "openclaws-agent-lifecycle": agentLifecycleDef,
   "aipo-governance": aipoGovernanceDef,
+  "pmi-waterfall": pmiWaterfallDef,
+  "pmi-agile": pmiAgileDef,
 };
 
 /**

@@ -60,6 +60,10 @@ function computeEntryHash(entry) {
     actor_id: entry.actor_id,
     prev_hash: entry.prev_hash,
   };
+  // Conditionally include track only when defined (backward-compatible).
+  if (entry.track !== undefined) {
+    hashable.track = entry.track;
+  }
   return sha256HexFromString(stableStringify(hashable));
 }
 
@@ -74,9 +78,10 @@ function computeEntryHash(entry) {
  * @param {Object} payload - Event-specific data.
  * @param {string} actorId - The actor creating this entry.
  * @param {string} [timestamp] - ISO8601 timestamp (defaults to now).
+ * @param {string} [track] - Governance track name (e.g., "PMI_WATERFALL"). Optional.
  * @returns {Object} The genesis ledger entry.
  */
-export function createGenesisEntry(type, payload, actorId, timestamp) {
+export function createGenesisEntry(type, payload, actorId, timestamp, track) {
   const entry = {
     sequence: 0,
     type,
@@ -85,6 +90,9 @@ export function createGenesisEntry(type, payload, actorId, timestamp) {
     actor_id: actorId || "unknown",
     prev_hash: GENESIS_HASH,
   };
+  if (track !== undefined) {
+    entry.track = track;
+  }
   entry.hash = computeEntryHash(entry);
   return entry;
 }
@@ -97,15 +105,16 @@ export function createGenesisEntry(type, payload, actorId, timestamp) {
  * @param {Object} payload - Event-specific data.
  * @param {string} actorId - The actor creating this entry.
  * @param {string} [timestamp] - ISO8601 timestamp (defaults to now).
+ * @param {string} [track] - Governance track name (e.g., "PMI_WATERFALL"). Optional.
  * @returns {{ ledger: Array, entry: Object }} New ledger array and the appended entry.
  * @throws {Error} If sequence or timestamp invariants are violated.
  */
-export function appendEntry(ledger, type, payload, actorId, timestamp) {
+export function appendEntry(ledger, type, payload, actorId, timestamp, track) {
   const entries = ledger || [];
   const ts = timestamp || new Date().toISOString();
 
   if (entries.length === 0) {
-    const entry = createGenesisEntry(type, payload, actorId, ts);
+    const entry = createGenesisEntry(type, payload, actorId, ts, track);
     return { ledger: [entry], entry };
   }
 
@@ -127,6 +136,9 @@ export function appendEntry(ledger, type, payload, actorId, timestamp) {
     actor_id: actorId || "unknown",
     prev_hash: prev.hash,
   };
+  if (track !== undefined) {
+    entry.track = track;
+  }
   entry.hash = computeEntryHash(entry);
 
   return { ledger: entries.concat(entry), entry };

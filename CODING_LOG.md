@@ -1,4 +1,4 @@
-# Coding Log — Thingstead+ (AIPO Governance Track Integration)
+# Coding Log — Thingstead+
 
 ## 2026-03-01: Step 0 — Repository Setup
 
@@ -105,3 +105,45 @@ P0(5), P1(4), P2(4), P3(4), P4(5), P5(5), P6(6), P7(7) = 40 artifacts total (39 
 
 ### Deviation from plan
 - Integration tests needed updating because the create flow now has a plan selection step. The fix was minimal: one extra click in the test helper to select CPMAI plan.
+
+---
+
+## 2026-03-02: TS-FEAT-004 — PMI Waterfall & PMI Agile Governance Tracks
+
+### What was done
+
+**Kernel layer** — Track-aware governance infrastructure:
+- Created `src/kernel/governanceTracks.js` — four frozen enums: GovernanceTrack (CPMAI, CPMAI_PLUS, PMI_WATERFALL, PMI_AGILE), GateMode (SEQUENTIAL, ITERATIVE), ChangeControlMode (INFORMAL, FORMAL_CCB, BACKLOG_GOVERNED), GateEnforcementLevel (STRICT, RELEASE_BASED)
+- Created `src/kernel/trackPolicies.js` — maps each track to behavioral config (gateMode, changeControlMode, baselineLocking, enforcementLevel, iterativePhaseIds, policyOverrides)
+- Modified `src/kernel/policy.js` — added `compilePolicyForTrack(trackName, userOverrides)` for three-layer policy merging: DEFAULT_POLICY ← trackOverrides ← userOverrides
+- Modified `src/kernel/gateEvaluator.js` — added optional 4th `trackPolicy` parameter to `isGateReady()`. Agile iterative phases (2-4) return ready immediately under ITERATIVE + RELEASE_BASED mode
+- Modified `src/kernel/ledger.js` — added optional `track` parameter to `createGenesisEntry` and `appendEntry`, conditionally included in hash computation
+- Modified `src/kernel/index.js` — exported all new public APIs
+
+**Plan layer** — Two new 8-phase plans:
+- Created `src/data/pmi-waterfall-template.json` — 8 phases (W1–W8), 34 artifacts, blue color scheme
+- Created `src/data/pmi-agile-template.json` — 8 phases (A1–A8), phases 2-4 iterative, green color scheme
+- Created `src/plans/pmi-waterfall/` — definition.json, index.js (builder), validate.js (validator)
+- Created `src/plans/pmi-agile/` — definition.json, index.js (builder), validate.js (validator)
+- Modified `src/plans/loader.js` and `src/plans/registry.js` — registered both new plans
+
+**Tests** — 59 new tests across 8 files:
+- `governanceTracks.test.js` (6), `trackPolicies.test.js` (6), `gateEvaluator.test.js` (10)
+- Extended `policy.test.js` (+3), `ledger.test.js` (+4)
+- `pmi-waterfall/index.test.js` (12), `pmi-waterfall/validate.test.js` (3)
+- `pmi-agile/index.test.js` (12), `pmi-agile/validate.test.js` (3)
+
+**Docs & version**:
+- Bumped package.json from 0.9.0 → 0.10.0
+- Added "Supported Governance Tracks" section to README.md
+
+### Key decisions
+- **Backward compatibility via optional trailing parameters**: `isGateReady(phase, resolver, policy, trackPolicy)` — existing 2-3 arg callers unchanged. Same pattern for ledger functions.
+- **Conditional hash inclusion**: `track` field in ledger entries only included in hash computation when defined. Existing chains verify identically.
+- **Template data is source of truth**: Waterfall has 34 artifacts (not the plan's estimate of 32) because the Planning phase has 5 non-gate artifacts.
+- **CPMAI_PLUS as forward-compatible entry**: Maps to CPMAI behavior for now; included per contract requirements.
+- **Agile iterative gate bypass**: Sprint-loop phases (2-4) skip completeness checks under ITERATIVE + RELEASE_BASED mode. Release gates (phase 5+) still enforce full completeness.
+
+### Test results
+- 505 unit tests pass (446 existing + 59 new), 0 failures
+- All backward compatibility verified: existing CPMAI/AIPO callers unaffected

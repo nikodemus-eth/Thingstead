@@ -45,6 +45,15 @@ export {
   AttestationType,
 } from "./types.js";
 
+// Governance tracks and track policies
+export {
+  GovernanceTrack,
+  GateMode,
+  ChangeControlMode,
+  GateEnforcementLevel,
+} from "./governanceTracks.js";
+export { getTrackPolicy, getRegisteredTracks } from "./trackPolicies.js";
+
 // Hash primitives (read-only analysis)
 export {
   stableStringify,
@@ -75,7 +84,7 @@ export {
 
 // Policy schema (read-only)
 export { DEFAULT_POLICY, validatePolicy, hashPolicy } from "./policySchema.js";
-export { compilePolicy } from "./policy.js";
+export { compilePolicy, compilePolicyForTrack } from "./policy.js";
 
 // Policy enforcement (read-only check)
 export { enforcePolicy, PolicyAction } from "./policyEnforcer.js";

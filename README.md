@@ -13,6 +13,19 @@ The AGPL ensures that anyone deploying Thingstead — including over a network �
 
 The governance kernel (`src/kernel/`) is architecturally isolated and may be independently licensed in the future.
 
+## Supported Governance Tracks
+
+Thingstead ships with four governance tracks, each encoding a distinct lifecycle methodology:
+
+| Track | Phases | Gate Model | Description |
+|-------|--------|------------|-------------|
+| **CPMAI** | 6 (sequential) | Sequential / Strict | Cross-industry Process Model for AI — the original Thingstead lifecycle |
+| **AIPO** | 8 (sequential) | Sequential / Strict | AI Project Office governance with classification levels and approval signatures |
+| **PMI Waterfall** | 8 (W1–W8) | Sequential / Strict | Traditional PMI waterfall with formal change control, baseline locking, and tiered waiver friction |
+| **PMI Agile** | 8 (A1–A8) | Iterative / Release-based | Sprint-loop agile with backlog-governed change control; phases 2–4 (Sprint Planning, Execution, Review) are iterative |
+
+Tracks are defined in the governance kernel (`src/kernel/governanceTracks.js`) and each maps to a specific gate mode, enforcement level, and change control strategy via `src/kernel/trackPolicies.js`.
+
 ## Build & Test
 
 ```sh

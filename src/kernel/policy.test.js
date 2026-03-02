@@ -1,7 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { compilePolicy, resolveConstraint, resolveWaiverMinLength, revisePolicy } from "./policy.js";
+import { compilePolicy, compilePolicyForTrack, resolveConstraint, resolveWaiverMinLength, revisePolicy } from "./policy.js";
 import { DEFAULT_POLICY, validatePolicy, hashPolicy } from "./policySchema.js";
 import { enforcePolicy, PolicyAction } from "./policyEnforcer.js";
+import { GovernanceTrack } from "./governanceTracks.js";
 
 // ---------------------------------------------------------------------------
 // Policy schema
@@ -126,6 +127,39 @@ describe("compilePolicy", () => {
   it("returns a hash with each compilation", () => {
     const { hash } = compilePolicy();
     expect(hash).toMatch(/^[0-9a-f]{64}$/);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Track-aware policy compilation
+// ---------------------------------------------------------------------------
+
+describe("compilePolicyForTrack", () => {
+  it("returns default policy for null/unknown track", () => {
+    const { policy, valid } = compilePolicyForTrack(null);
+    expect(valid).toBe(true);
+    expect(policy.waiver.rationale_min_length).toBe(20);
+    expect(policy.gate.allow_no_go_continue).toBe(true);
+  });
+
+  it("applies PMI_WATERFALL tiered friction overrides", () => {
+    const { policy, valid } = compilePolicyForTrack(GovernanceTrack.PMI_WATERFALL);
+    expect(valid).toBe(true);
+    expect(policy.waiver.friction.core.rationale_min_length).toBe(80);
+    expect(policy.waiver.friction.conditional.rationale_min_length).toBe(40);
+    expect(policy.waiver.friction.supplemental.rationale_min_length).toBe(20);
+    expect(policy.gate.allow_no_go_continue).toBe(false);
+  });
+
+  it("layers user overrides on top of track overrides", () => {
+    const { policy } = compilePolicyForTrack(GovernanceTrack.PMI_WATERFALL, {
+      waiver: { friction: { core: { rationale_min_length: 100 } } },
+    });
+    // User override takes precedence over track's 80.
+    expect(policy.waiver.friction.core.rationale_min_length).toBe(100);
+    // Track's other overrides preserved.
+    expect(policy.waiver.friction.conditional.rationale_min_length).toBe(40);
+    expect(policy.gate.allow_no_go_continue).toBe(false);
   });
 });
 
