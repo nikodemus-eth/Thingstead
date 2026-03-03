@@ -2,7 +2,7 @@
   "id": "cpmai",
   "version": "1.0.0",
   "label": "CPMAI AI Project Lifecycle",
-  "description": "Cross-Industry Standard Process for Machine Learning (CPMAI) — 6-phase methodology for governing AI projects from business understanding through model deployment.",
+  "description": "Cognitive Project Management for AI (CPMAI) — 6-phase methodology for governing AI projects from business understanding through model deployment.",
   "phaseCount": 6,
   "gateModel": "sequential"
 }
