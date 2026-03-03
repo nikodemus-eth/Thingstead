@@ -10,6 +10,7 @@
     "dev:lan:frontend": "vite --host 0.0.0.0 --strictPort",
     "build": "vite build",
     "lint": "eslint .",
+    "lint:docs": "node scripts/verify-doc-terms.mjs",
     "preview": "vite preview",
     "preview:lan": "vite preview --host 0.0.0.0 --strictPort",
     "test": "vitest",
