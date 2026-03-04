@@ -1,11 +1,11 @@
 {
   "name": "cpmai-tracker",
   "private": true,
-  "version": "0.10.0",
+  "version": "0.10.1",
   "license": "AGPL-3.0-only",
   "type": "module",
   "scripts": {
-    "dev": "npm run build && node server/server.mjs --host 0.0.0.0 --port 4173 --strictPort",
+    "dev": "npm run build && node server/server.mjs --host 127.0.0.1 --port 4173 --strictPort",
     "dev:lan": "node scripts/dev-lan.mjs",
     "dev:lan:frontend": "vite --host 0.0.0.0 --strictPort",
     "build": "vite build",

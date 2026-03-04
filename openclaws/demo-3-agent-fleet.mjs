@@ -23,6 +23,8 @@ function parseArgs(argv) {
 
 const { baseUrl } = parseArgs(process.argv.slice(2));
 const API = `${baseUrl}/api/openclaw`;
+const WRITE_INTENT_HEADER = "X-Thingstead-Write-Intent";
+const WRITE_INTENT_VALUE = "thingstead-ui";
 
 const AGENTS = [
   { id: "agent-alpha", role: "Researcher" },
@@ -33,7 +35,10 @@ const AGENTS = [
 async function post(path, body) {
   const res = await fetch(`${API}${path}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      [WRITE_INTENT_HEADER]: WRITE_INTENT_VALUE,
+    },
     body: JSON.stringify(body),
   });
   return res.json();

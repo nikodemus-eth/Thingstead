@@ -7,6 +7,16 @@ import os from "node:os";
 import path from "node:path";
 import process from "node:process";
 
+const WRITE_INTENT_HEADER = "X-Thingstead-Write-Intent";
+const WRITE_INTENT_VALUE = "thingstead-ui";
+const JSON_WRITE_HEADERS = {
+  "Content-Type": "application/json",
+  [WRITE_INTENT_HEADER]: WRITE_INTENT_VALUE,
+};
+const DELETE_WRITE_HEADERS = {
+  [WRITE_INTENT_HEADER]: WRITE_INTENT_VALUE,
+};
+
 async function getFreePort() {
   return await new Promise((resolve, reject) => {
     const srv = net.createServer();
@@ -92,7 +102,7 @@ describe.sequential("server API", () => {
 
     const putRes = await fetch(`${baseUrl}/api/projects/p1`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: JSON_WRITE_HEADERS,
       body: JSON.stringify({ project: { name: "One", phases: [] } }),
     });
     expect(putRes.status).toBe(200);
@@ -110,7 +120,10 @@ describe.sequential("server API", () => {
     expect(getRes.status).toBe(200);
     expect((await getRes.json()).project.name).toBe("One");
 
-    const delRes = await fetch(`${baseUrl}/api/projects/p1`, { method: "DELETE" });
+    const delRes = await fetch(`${baseUrl}/api/projects/p1`, {
+      method: "DELETE",
+      headers: DELETE_WRITE_HEADERS,
+    });
     expect(delRes.status).toBe(200);
     const delBody = await delRes.json();
     expect(delBody.ok).toBe(true);
@@ -120,7 +133,7 @@ describe.sequential("server API", () => {
   it("validates project id and rejects ID mismatch", async () => {
     const badIdRes = await fetch(`${baseUrl}/api/projects/bad%20id`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: JSON_WRITE_HEADERS,
       body: JSON.stringify({ project: { name: "X" } }),
     });
     expect(badIdRes.status).toBe(400);
@@ -128,10 +141,33 @@ describe.sequential("server API", () => {
 
     const mismatchRes = await fetch(`${baseUrl}/api/projects/p2`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: JSON_WRITE_HEADERS,
       body: JSON.stringify({ project: { id: "p3", name: "Mismatch" } }),
     });
     expect(mismatchRes.status).toBe(400);
     expect(await mismatchRes.json()).toEqual({ error: "ID_MISMATCH" });
+  });
+
+  it("rejects write requests without trusted write-intent header", async () => {
+    const res = await fetch(`${baseUrl}/api/projects/p1`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ project: { name: "Blocked", phases: [] } }),
+    });
+    expect(res.status).toBe(403);
+    expect(await res.json()).toEqual({ error: "WRITE_INTENT_REQUIRED" });
+  });
+
+  it("rejects write requests from untrusted origins", async () => {
+    const res = await fetch(`${baseUrl}/api/projects/p1`, {
+      method: "PUT",
+      headers: {
+        ...JSON_WRITE_HEADERS,
+        Origin: "https://evil.example",
+      },
+      body: JSON.stringify({ project: { name: "Blocked", phases: [] } }),
+    });
+    expect(res.status).toBe(403);
+    expect(await res.json()).toEqual({ error: "ORIGIN_NOT_ALLOWED" });
   });
 });

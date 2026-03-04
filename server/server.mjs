@@ -37,6 +37,9 @@ function resolveDir(maybePath, fallback) {
 const DIST_DIR = resolveDir(args.distDir || process.env.DIST_DIR, path.join(ROOT, "dist"));
 const DATA_DIR = resolveDir(args.dataDir || process.env.DATA_DIR, path.join(ROOT, ".openclaw-data"));
 const PROJECTS_DIR = path.join(DATA_DIR, "projects");
+const WRITE_METHODS = new Set(["POST", "PUT", "PATCH", "DELETE"]);
+const WRITE_INTENT_HEADER = "x-thingstead-write-intent";
+const WRITE_INTENT_VALUE = "thingstead-ui";
 
 const MIME = new Map([
   [".html", "text/html; charset=utf-8"],
@@ -61,6 +64,72 @@ function send(res, status, headers, body) {
 
 function sendJson(res, status, obj) {
   send(res, status, { "Content-Type": "application/json; charset=utf-8" }, JSON.stringify(obj));
+}
+
+function getAllowedOrigins(req) {
+  const allowed = new Set();
+  const host = typeof req.headers.host === "string" && req.headers.host.trim().length > 0
+    ? req.headers.host.trim()
+    : `127.0.0.1:${PORT}`;
+  const proto = typeof req.headers["x-forwarded-proto"] === "string" && req.headers["x-forwarded-proto"].trim().length > 0
+    ? req.headers["x-forwarded-proto"].split(",")[0].trim().toLowerCase()
+    : "http";
+  allowed.add(`${proto}://${host}`);
+
+  const extra = process.env.THINGSTEAD_ALLOWED_ORIGINS;
+  if (typeof extra === "string" && extra.trim().length > 0) {
+    for (const raw of extra.split(",")) {
+      const value = raw.trim();
+      if (!value) continue;
+      try {
+        const parsed = new URL(value);
+        allowed.add(`${parsed.protocol}//${parsed.host}`);
+      } catch {
+        // Ignore malformed origins.
+      }
+    }
+  }
+
+  return allowed;
+}
+
+function validateWriteRequest(req, url) {
+  if (!url.pathname.startsWith("/api/")) return null;
+  if (!WRITE_METHODS.has(req.method || "")) return null;
+
+  const intent = req.headers[WRITE_INTENT_HEADER];
+  if (intent !== WRITE_INTENT_VALUE) {
+    return {
+      status: 403,
+      body: { error: "WRITE_INTENT_REQUIRED" },
+    };
+  }
+
+  const originHeader = req.headers.origin;
+  if (typeof originHeader !== "string" || originHeader.trim().length === 0) {
+    return null;
+  }
+
+  let canonicalOrigin = "";
+  try {
+    const parsed = new URL(originHeader);
+    canonicalOrigin = `${parsed.protocol}//${parsed.host}`;
+  } catch {
+    return {
+      status: 403,
+      body: { error: "BAD_ORIGIN" },
+    };
+  }
+
+  const allowedOrigins = getAllowedOrigins(req);
+  if (!allowedOrigins.has(canonicalOrigin)) {
+    return {
+      status: 403,
+      body: { error: "ORIGIN_NOT_ALLOWED" },
+    };
+  }
+
+  return null;
 }
 
 async function readJsonBody(req, maxBytes = 2 * 1024 * 1024) {
@@ -414,6 +483,10 @@ async function main() {
     const url = new URL(req.url || "/", `http://${req.headers.host || "localhost"}`);
 
     try {
+      const writeValidation = validateWriteRequest(req, url);
+      if (writeValidation) {
+        return sendJson(res, writeValidation.status, writeValidation.body);
+      }
       if (url.pathname.startsWith("/api/")) {
         return await handleApi(req, res, url);
       }

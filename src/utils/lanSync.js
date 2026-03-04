@@ -1,3 +1,4 @@
+import { buildWriteIntentHeaders } from "./writeIntent.js";
 let cachedAvailable = null;
 let cachedAt = 0;
 
@@ -69,7 +70,7 @@ export async function upsertRemoteProject(project) {
   try {
     const res = await fetch(`/api/projects/${encodeURIComponent(id)}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: buildWriteIntentHeaders({ "Content-Type": "application/json" }),
       body: JSON.stringify({ project }),
     });
     if (res.status === 409) {
@@ -89,6 +90,7 @@ export async function deleteRemoteProject(projectId) {
   try {
     const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}`, {
       method: "DELETE",
+      headers: buildWriteIntentHeaders(),
     });
     if (!res.ok) return null;
     return await res.json();

@@ -7,6 +7,13 @@ import os from "node:os";
 import path from "node:path";
 import process from "node:process";
 
+const WRITE_INTENT_HEADER = "X-Thingstead-Write-Intent";
+const WRITE_INTENT_VALUE = "thingstead-ui";
+const JSON_WRITE_HEADERS = {
+  "Content-Type": "application/json",
+  [WRITE_INTENT_HEADER]: WRITE_INTENT_VALUE,
+};
+
 async function getFreePort() {
   return await new Promise((resolve, reject) => {
     const srv = net.createServer();
@@ -105,7 +112,7 @@ describe.sequential("OpenClaw API", () => {
   it("POST /api/openclaw/projects creates a project and returns 201", async () => {
     const res = await fetch(`${baseUrl}/api/openclaw/projects`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: JSON_WRITE_HEADERS,
       body: JSON.stringify({ name: "Test Fleet", planId: "openclaws-agent-lifecycle" }),
     });
     expect(res.status).toBe(201);
@@ -121,7 +128,7 @@ describe.sequential("OpenClaw API", () => {
   it("POST /api/openclaw/projects returns 400 when name is missing", async () => {
     const res = await fetch(`${baseUrl}/api/openclaw/projects`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: JSON_WRITE_HEADERS,
       body: JSON.stringify({ planId: "cpmai" }),
     });
     expect(res.status).toBe(400);
@@ -132,7 +139,7 @@ describe.sequential("OpenClaw API", () => {
   it("POST /api/openclaw/projects returns 400 when planId is missing", async () => {
     const res = await fetch(`${baseUrl}/api/openclaw/projects`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: JSON_WRITE_HEADERS,
       body: JSON.stringify({ name: "No Plan" }),
     });
     expect(res.status).toBe(400);
@@ -144,7 +151,7 @@ describe.sequential("OpenClaw API", () => {
     // Create a project first
     const createRes = await fetch(`${baseUrl}/api/openclaw/projects`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: JSON_WRITE_HEADERS,
       body: JSON.stringify({ name: "Retrieve Me", planId: "cpmai", linkedAgentIds: ["seed-agent"] }),
     });
     const { project } = await createRes.json();
@@ -179,14 +186,14 @@ describe.sequential("OpenClaw API", () => {
   it("POST /api/openclaw/heartbeat registers agentId and sets timestamp", async () => {
     const createRes = await fetch(`${baseUrl}/api/openclaw/projects`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: JSON_WRITE_HEADERS,
       body: JSON.stringify({ name: "Heartbeat Project", planId: "cpmai" }),
     });
     const { project } = await createRes.json();
 
     const hbRes = await fetch(`${baseUrl}/api/openclaw/heartbeat`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: JSON_WRITE_HEADERS,
       body: JSON.stringify({ projectId: project.id, agentId: "agent-007" }),
     });
     expect(hbRes.status).toBe(200);
@@ -206,7 +213,7 @@ describe.sequential("OpenClaw API", () => {
   it("POST /api/openclaw/heartbeat is idempotent (same agentId twice not duplicated)", async () => {
     const createRes = await fetch(`${baseUrl}/api/openclaw/projects`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: JSON_WRITE_HEADERS,
       body: JSON.stringify({ name: "Idempotent Project", planId: "cpmai" }),
     });
     const { project } = await createRes.json();
@@ -214,7 +221,7 @@ describe.sequential("OpenClaw API", () => {
     for (let i = 0; i < 2; i++) {
       await fetch(`${baseUrl}/api/openclaw/heartbeat`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: JSON_WRITE_HEADERS,
         body: JSON.stringify({ projectId: project.id, agentId: "agent-idempotent" }),
       });
     }
@@ -228,7 +235,7 @@ describe.sequential("OpenClaw API", () => {
   it("POST /api/openclaw/heartbeat returns 404 for unknown project", async () => {
     const res = await fetch(`${baseUrl}/api/openclaw/heartbeat`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: JSON_WRITE_HEADERS,
       body: JSON.stringify({ projectId: "nonexistent-xyz", agentId: "agent-x" }),
     });
     expect(res.status).toBe(404);
@@ -239,14 +246,14 @@ describe.sequential("OpenClaw API", () => {
   it("POST /api/openclaw/proposals stores draft in advisoryDrafts only (never touches phases)", async () => {
     const createRes = await fetch(`${baseUrl}/api/openclaw/projects`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: JSON_WRITE_HEADERS,
       body: JSON.stringify({ name: "Proposal Project", planId: "cpmai" }),
     });
     const { project } = await createRes.json();
 
     const propRes = await fetch(`${baseUrl}/api/openclaw/proposals`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: JSON_WRITE_HEADERS,
       body: JSON.stringify({ projectId: project.id, draftId: "draft-1", content: "Agent draft content" }),
     });
     expect(propRes.status).toBe(200);
@@ -266,7 +273,7 @@ describe.sequential("OpenClaw API", () => {
   it("POST /api/openclaw/proposals returns 404 for unknown project", async () => {
     const res = await fetch(`${baseUrl}/api/openclaw/proposals`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: JSON_WRITE_HEADERS,
       body: JSON.stringify({ projectId: "nonexistent-xyz", draftId: "d1", content: "hello" }),
     });
     expect(res.status).toBe(404);
@@ -277,7 +284,7 @@ describe.sequential("OpenClaw API", () => {
   it("GET /api/openclaw/gate/:id/:phase returns advisory stub", async () => {
     const createRes = await fetch(`${baseUrl}/api/openclaw/projects`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: JSON_WRITE_HEADERS,
       body: JSON.stringify({ name: "Gate Project", planId: "cpmai" }),
     });
     const { project } = await createRes.json();
@@ -294,5 +301,15 @@ describe.sequential("OpenClaw API", () => {
   it("GET /api/openclaw/gate/:id/:phase returns 404 for unknown project", async () => {
     const res = await fetch(`${baseUrl}/api/openclaw/gate/nonexistent-xyz/1`);
     expect(res.status).toBe(404);
+  });
+
+  it("rejects OpenClaw writes without trusted write-intent header", async () => {
+    const res = await fetch(`${baseUrl}/api/openclaw/projects`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: "Blocked Fleet", planId: "cpmai" }),
+    });
+    expect(res.status).toBe(403);
+    expect(await res.json()).toEqual({ error: "WRITE_INTENT_REQUIRED" });
   });
 });

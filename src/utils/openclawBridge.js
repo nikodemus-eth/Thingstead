@@ -1,3 +1,5 @@
+import { buildWriteIntentHeaders } from "./writeIntent.js";
+
 /**
  * OpenClaw × Thingstead bridge utilities.
  * Thin fetch wrappers for the /api/openclaw/* routes.
@@ -32,7 +34,7 @@ export async function quickPropose({ projectId, draftId, content }) {
   try {
     const res = await fetch(`${API}/proposals`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: buildWriteIntentHeaders({ "Content-Type": "application/json" }),
       body: JSON.stringify({ projectId, draftId, content }),
     });
     if (!res.ok) return { ok: false };
